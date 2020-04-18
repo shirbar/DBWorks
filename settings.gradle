@@ -1,0 +1,2 @@
+rootProject.name='FieldsBS'
+include ':app'

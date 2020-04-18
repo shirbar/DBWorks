@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "834364212982",
+    "firebase_url": "https://sportsfieldbs.firebaseio.com",
+    "project_id": "sportsfieldbs",
+    "storage_bucket": "sportsfieldbs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834364212982:android:3c93dad029b30a261d0ed7",
+        "android_client_info": {
+          "package_name": "com.myapp.fieldsbs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834364212982-7oemba39ae1h4p3fec1ci1k72kh85tvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_7RH4J696iB4K88dgn0SfMR6X3IIO4lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834364212982-7oemba39ae1h4p3fec1ci1k72kh85tvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
