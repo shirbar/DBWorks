@@ -97,20 +97,20 @@ public class RegisterActivity extends AppCompatActivity {
         fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
                     String fullName = mFullName.getText().toString().trim();
                     String phone = mPhone.getText().toString().trim();
                     String email = mEmail.getText().toString().trim();
                     String id= fireBaseAuth.getUid();
-                    User user= new User (fullName, email, phone, "true");
+                    User user= new User (fullName, email, id, phone, "false");
                     myDbRef.child(id).setValue(user);
                     Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
                 else{
                     Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
