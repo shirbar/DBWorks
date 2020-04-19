@@ -5,10 +5,10 @@ import android.text.TextWatcher;
 
 import java.util.regex.Pattern;
 
-public class PhoneValidator implements TextWatcher {
+public class PasswordValidator implements TextWatcher{
 
-    private static final Pattern PHONE_PATTERN = Pattern.compile(
-            "^[+]?[0-9]{10,13}$"
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[a-zA-Z0-9])(?=\\S+$).{6,}$"
     );
 
     private boolean mIsValid = false;
@@ -16,13 +16,14 @@ public class PhoneValidator implements TextWatcher {
         return mIsValid;
     }
 
-    static boolean isValidPhone(CharSequence phone) {
-        return phone != null && PHONE_PATTERN.matcher(phone).matches();
+
+    static boolean isValidPassword(CharSequence password) {
+        return password != null && PASSWORD_PATTERN.matcher(password).matches();
     }
 
     @Override
     final public void afterTextChanged(Editable editableText) {
-        mIsValid = isValidPhone(editableText);
+        mIsValid = isValidPassword(editableText);
     }
 
     @Override
