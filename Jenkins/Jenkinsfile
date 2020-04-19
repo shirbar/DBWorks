@@ -5,19 +5,13 @@ stages{
         stage("build") {
             steps{
                 sh "chmod +x gradlew"
-                "javac main.java"
+                junit '**/TEST-*.xml'
                 echo "The build test stage passed"
             }
         }
         stage("test") {
             steps{
                 echo "The test stage passed 2"
-            }
-            steps{
-                echo "The test stage passed 3"
-            }
-            steps{
-                echo "The test stage passed 4"
             }
         }
     }
