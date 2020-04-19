@@ -5,6 +5,7 @@ stages{
         stage("build") {
             steps{
                 sh "chmod +x gradlew"
+                "javac main.java"
                 echo "The build test stage passed"
             }
         }
