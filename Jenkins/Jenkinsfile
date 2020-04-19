@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    
+stages{
+        stage("build") {
+            steps{
+                sh "chmod +x gradlew"
+                echo "The build test stage passed"
+            }
+        }
+        stage("test") {
+            steps{
+                echo "The test stage passed 2"
+            }
+            steps{
+                echo "The test stage passed 3"
+            }
+            steps{
+                echo "The test stage passed 4"
+            }
+        }
+    }
+post{
+        always{
+            echo "Post build testing echo"
+            // Clear
+            cleanWs()  
+        }
+    }
+}

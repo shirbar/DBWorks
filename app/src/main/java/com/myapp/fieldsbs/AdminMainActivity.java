@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class AdminMainActivity extends AppCompatActivity {
 
     TextView mainTxt;
     FirebaseUser user;
@@ -24,40 +24,47 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userRef;
     static final String USERS = "Users";
-
+    String email;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_admin_main);
 
         fAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null){
+        if (user == null) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         InitializeFields();
+
 
         database = FirebaseDatabase.getInstance();
         userRef = database.getReference(USERS);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String id= fAuth.getUid();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (ds.child("id").getValue().toString().equals(id)){
-                        mainTxt.setText("Welcome " + ds.child("name").getValue().toString() + "!");
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String id = fAuth.getUid();
+                    if (ds.child("id").getValue().toString().equals(id)) {
+                        mainTxt.setText("Welcome Admin " + ds.child("name").getValue().toString() + "!");
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
+
+        String name = user.getEmail();
+        String name2 = user.getProviderId();
+        mainTxt.setText("Welcome " + name);
 
     }
 
@@ -66,21 +73,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void logout(View view){
+    public void manageFieldsClick(View view) {
+        startActivity(new Intent(getApplicationContext(), ManageFieldsActivity.class));
+    }
+
+    public void removeFieldsClick(View view) {
+        startActivity(new Intent(getApplicationContext(), RemoveFieldsActivity.class));
+    }
+
+
+    public void logout(View view) {
+
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
+
+
     }
-
-/*
-    @Override
-    public void onBackPressed() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("hasBackPressed",true);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();
-    }
-*/
-
-
 }
