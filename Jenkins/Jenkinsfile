@@ -5,19 +5,25 @@ stages{
         stage("build") {
             steps{
                 sh "chmod +x gradlew"
-                echo "The build stage passed..."
+                echo "The build test stage passed"
             }
         }
         stage("test") {
             steps{
-                echo "The test stage passed..."
+                echo "The test stage passed 2"
+            }
+            steps{
+                echo "The test stage passed 3"
+            }
+            steps{
+                echo "The test stage passed 4"
             }
         }
     }
 post{
         always{
-            echo "post-build will always run after build completed"
-            // Jenkins cleans the workspace
+            echo "Post build testing echo"
+            // Clear
             cleanWs()  
         }
     }
