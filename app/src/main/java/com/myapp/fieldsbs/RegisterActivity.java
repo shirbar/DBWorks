@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,6 +28,10 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     DatabaseReference myDbRef;
     FirebaseAuth fireBaseAuth;
+    private FullNameValidator mFullNameValidator;
+    private EmailValidator mEmailValidator;
+    private PasswordValidator mPasswordValidator;
+    private PhoneValidator mPhoneValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,15 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         InitializeFields();
+
+        mFullNameValidator = new FullNameValidator();
+        mFullName.addTextChangedListener(mFullNameValidator);
+        mEmailValidator = new EmailValidator();
+        mEmail.addTextChangedListener(mEmailValidator);
+        mPasswordValidator = new PasswordValidator();
+        mPassword.addTextChangedListener(mPasswordValidator);
+        mPhoneValidator = new PhoneValidator();
+        mPhone.addTextChangedListener(mPhoneValidator);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,26 +82,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public boolean test(){
-        return true;
-    }
 
     public void addUser() {
-        String fullName = mFullName.getText().toString().trim();
-        String phone = mPhone.getText().toString().trim();
         String email = mEmail.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)){
-            mEmail.setError("Email is Required.");
+        if (!mFullNameValidator.isValid()){
+            mFullName.setError("Full Name is not valid. (must contain of letters ONLY and at least 3 characters)");
             return;
         }
-        if (TextUtils.isEmpty(password)){
-            mPassword.setError("Email is Required.");
+        else if (!mEmailValidator.isValid()){
+            mEmail.setError("Email is not valid.");
             return;
         }
-        if(password.length() < 6){
-            mPassword.setError("Password must contain at least 6 characters.");
+        else if (!mPasswordValidator.isValid()){
+            mPassword.setError("Password is not valid. (must contain 6 characters or digits)");
+            return;
+        }
+        else if (!mPhoneValidator.isValid()){
+            mPhone.setError("Phone is not valid. (must contain 10-13 digits and numbers only.");
             return;
         }
 
@@ -104,12 +116,13 @@ public class RegisterActivity extends AppCompatActivity {
                     String email = mEmail.getText().toString().trim();
                     String id= fireBaseAuth.getUid();
                     User user= new User (fullName, email, id, phone, "false");
+                    assert id != null;
                     myDbRef.child(id).setValue(user);
                     Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
                 else{
-                    Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Error! " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }

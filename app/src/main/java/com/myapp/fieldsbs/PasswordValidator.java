@@ -7,16 +7,17 @@ import java.util.regex.Pattern;
 
 public class PasswordValidator implements TextWatcher{
 
-    public static final Pattern PASSWORD_PATTERN = Pattern.compile(
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
             "^(?=.*[a-zA-Z0-9])(?=\\S+$).{6,}$"
     );
 
     private boolean mIsValid = false;
-    public boolean isValid() {
+    boolean isValid() {
         return mIsValid;
     }
 
-    public static boolean isValidPassword(CharSequence password) {
+
+    static boolean isValidPassword(CharSequence password) {
         return password != null && PASSWORD_PATTERN.matcher(password).matches();
     }
 

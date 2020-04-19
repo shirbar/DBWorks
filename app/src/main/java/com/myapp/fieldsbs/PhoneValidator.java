@@ -7,16 +7,16 @@ import java.util.regex.Pattern;
 
 public class PhoneValidator implements TextWatcher {
 
-    public static final Pattern PHONE_PATTERN = Pattern.compile(
+    private static final Pattern PHONE_PATTERN = Pattern.compile(
             "^[+]?[0-9]{10,13}$"
     );
 
     private boolean mIsValid = false;
-    public boolean isValid() {
+    boolean isValid() {
         return mIsValid;
     }
 
-    public static boolean isValidPhone(CharSequence phone) {
+    static boolean isValidPhone(CharSequence phone) {
         return phone != null && PHONE_PATTERN.matcher(phone).matches();
     }
 

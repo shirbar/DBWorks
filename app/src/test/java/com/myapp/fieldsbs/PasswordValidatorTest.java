@@ -35,6 +35,4 @@ public class PasswordValidatorTest {
     public void emailValidator_EmptyPasswordCheck_ReturnsFalse() {
         assertFalse(PasswordValidator.isValidPassword(""));
     }
-
-
 }

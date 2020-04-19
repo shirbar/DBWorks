@@ -13,7 +13,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="150dp"
-        android:text="Sport Fields Management"
+        android:text="@string/sport_fields_management"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="150dp"
-        android:text="Register"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="150dp"
         android:ems="10"
-        android:hint="Full Name"
+        android:hint="@string/full_name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,11 +52,13 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="150dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fullName" />
+        app:layout_constraintTop_toBottomOf="@+id/fullName"
+        tools:ignore="TextFields"
+        android:autofillHints="@string/email" />
 
     <EditText
         android:id="@+id/password"
@@ -66,11 +68,12 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        android:autofillHints="@string/password" />
 
     <EditText
         android:id="@+id/phone"
@@ -80,12 +83,14 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
-        android:hint="Phone Number"
+        android:hint="@string/phone_number"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        tools:ignore="TextFields"
+        android:autofillHints="@string/phone_number" />
 
     <Button
         android:id="@+id/registerBtn"
@@ -94,7 +99,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:text="Register"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +125,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="150dp"
-        android:text="Already Registered? Login here"
+        android:text="@string/already_registered_login_here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerBtn" />

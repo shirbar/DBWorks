@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class AdminMainActivity extends AppCompatActivity {
 
     TextView mainTxt;
@@ -24,7 +26,6 @@ public class AdminMainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userRef;
     static final String USERS = "Users";
-    String email;
 
 
     @Override
@@ -33,7 +34,6 @@ public class AdminMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_main);
 
         fAuth = FirebaseAuth.getInstance();
-        Intent intent = getIntent();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -49,8 +49,8 @@ public class AdminMainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String id = fAuth.getUid();
-                    if (ds.child("id").getValue().toString().equals(id)) {
-                        mainTxt.setText("Welcome Admin " + ds.child("name").getValue().toString() + "!");
+                    if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)) {
+                        mainTxt.setText("Welcome Admin " + Objects.requireNonNull(ds.child("name").getValue()).toString() + "!");
                     }
                 }
             }
@@ -61,10 +61,6 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         });
 
-
-        String name = user.getEmail();
-        String name2 = user.getProviderId();
-        mainTxt.setText("Welcome " + name);
 
     }
 

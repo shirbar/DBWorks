@@ -7,16 +7,16 @@ import java.util.regex.Pattern;
 
 public class FullNameValidator implements TextWatcher {
 
-    public static final Pattern FULLNAME_PATTERN = Pattern.compile(
+    private static final Pattern FULLNAME_PATTERN = Pattern.compile(
             "^[a-zA-z\\s]{3,}$"
     );
     private boolean mIsValid = false;
 
-    public boolean isValid() {
+    boolean isValid() {
         return mIsValid;
     }
 
-    public static boolean isValidFullName(CharSequence fullName) {
+    static boolean isValidFullName(CharSequence fullName) {
         return fullName != null && FULLNAME_PATTERN.matcher(fullName).matches();
     }
 

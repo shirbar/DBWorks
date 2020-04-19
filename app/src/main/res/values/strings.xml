@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">FieldsBS</string>
+    <string name="welcome_to_sport_fields_management">Welcome to Sport Fields Management</string>
+    <string name="logout">Logout</string>
+    <string name="manage_fields">Manage Fields</string>
+    <string name="remove_fields">Remove Fields</string>
+    <string name="sport_fields_management">Sport Fields Management</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="doesn_t_have_an_account_register_here">Doesn\'t have an account? Register here</string>
+    <string name="select_a_field_to_manage">Select a Field to Manage</string>
+    <string name="soccer_fields">Soccer Fields</string>
+    <string name="basketball_fields">Basketball Fields</string>
+    <string name="gym_fields">GYM Fields</string>
+    <string name="back">Back</string>
+    <string name="register">Register</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="already_registered_login_here">Already Registered? Login here</string>
+    <string name="select_type_of_field_to_remove">Select type of Field to remove</string>
 </resources>

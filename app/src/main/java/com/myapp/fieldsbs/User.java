@@ -1,17 +1,13 @@
 package com.myapp.fieldsbs;
 
 public class User {
-    String name;
-    String email;
-    String id;
-    String phone;
-    String isAdmin;
+    private String name;
+    private String email;
+    private String id;
+    private String phone;
+    private String isAdmin;
 
-    public User() {
-
-    }
-
-    public User(String name, String email,String id, String phone, String isAdmin) {
+    User(String name, String email, String id, String phone, String isAdmin) {
         this.name = name;
         this.email = email;
         this.id = id;
@@ -23,16 +19,8 @@ public class User {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getId(){
         return id;
     }
-
-    public String getIsAdmin() { return isAdmin; }
-
-    public String getPhone() { return phone; }
 
 }

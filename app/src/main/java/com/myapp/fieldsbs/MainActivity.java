@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView mainTxt;
@@ -33,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fAuth = FirebaseAuth.getInstance();
-        Intent intent = getIntent();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null){
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -48,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String id= fAuth.getUid();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (ds.child("id").getValue().toString().equals(id)){
-                        mainTxt.setText("Welcome " + ds.child("name").getValue().toString() + "!");
+                    if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
+                        mainTxt.setText("Welcome " + Objects.requireNonNull(ds.child("name").getValue()).toString() + "!");
                     }
                 }
             }

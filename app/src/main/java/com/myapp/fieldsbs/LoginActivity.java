@@ -3,10 +3,8 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,32 +16,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText mEmail, mPassword;
+    private EditText mEmail, mPassword;
     Button loginBtn;
     TextView registerTxt;
+    private EmailValidator mEmailValidator;
+    private PasswordValidator mPasswordValidator;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
     FirebaseDatabase database;
     DatabaseReference userRef;
     static final String USERS = "Users";
-
-
-    /*public LoginActivity(Context mMockContext) {
-
-    }*/
 
 
     @Override
@@ -52,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         fAuth = FirebaseAuth.getInstance();
         InitializeFields();
+
+        mEmailValidator = new EmailValidator();
+        mEmail.addTextChangedListener(mEmailValidator);
+        mPasswordValidator = new PasswordValidator();
+        mPassword.addTextChangedListener(mPasswordValidator);
 
 
     }
@@ -74,12 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmail.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)){
-            mEmail.setError("Email is Required.");
+        if (!mEmailValidator.isValid()){
+            mEmail.setError("Email is not valid.");
             return;
         }
-        if (TextUtils.isEmpty(password)){
-            mPassword.setError("Email is Required.");
+        else if (!mPasswordValidator.isValid()){
+            mPassword.setError("Password is not valid. (must contain 6 characters or digits)");
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -87,12 +85,6 @@ public class LoginActivity extends AppCompatActivity {
 
         loginAction(email, password);
     }
-
-
-    public boolean test(){
-        return true;
-    }
-
 
 
     public void loginAction(String email, String password) {
@@ -114,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                if (ds.child("id").getValue().toString().equals(id)){
-                                    if(ds.child("isAdmin").getValue().toString().equals("true")) {
+                                if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
+                                    if(Objects.requireNonNull(ds.child("isAdmin").getValue()).toString().equals("true")) {
                                         redirectAdmin();
                                     }
                                     else{
@@ -133,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(LoginActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error! " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
 
                 }
