@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    
+stages{
+        stage("build") {
+            steps{
+                sh "chmod +x gradlew"
+                echo "The build stage passed..."
+            }
+        }
+        stage("test") {
+            steps{
+                echo "The test stage passed..."
+            }
+        }
+    }
+post{
+        always{
+            echo "post-build will always run after build completed"
+            // Jenkins cleans the workspace
+            cleanWs()  
+        }
+    }
+}
