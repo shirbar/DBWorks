@@ -1,29 +1,16 @@
 pipeline {
-    //agent any
-    agent{
-        docker {
-            image 'windsekirun/jenkins-android-docker:1.1.1'
-        }
-    }
-stages{
-        stage("build") {
-            steps{
-                sh "chmod +x gradlew"
-                junit '**/TEST-*.xml'
-                echo "The build test stage passed"
-            }
-        }
-        stage("test") {
-            steps{
-                echo "The test stage passed 2"
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                sh './gradlew check'
             }
         }
     }
-post{
-        always{
-            echo "Post build testing echo"
-            // Clear
-            cleanWs()  
+    post {
+        always {
+            junit 'build/reports/**/*.xml'
+            echo "Post: build testing finished"
         }
     }
 }
