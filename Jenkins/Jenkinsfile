@@ -6,30 +6,32 @@ pipeline {
         }
     }
 options {
-    skipStagesAfterUnstable()
+	echo "Application compile or testing crashed."
+	skipStagesAfterUnstable()
 }
 stages{
-        stage("Prepare") {
+        stage("Pre build stage:") {
             steps{
                 sh "chmod +x ./gradlew"
-                //junit '**/TEST-*.xml'
+		echo "grant permission gradle."
             }
         }
-        stage('Compile') {
+        stage('Compiling stage:') {
           steps {
             sh './gradlew compileDebugSources'
+	    echo "compiling succeed."
           }
         }
         stage('Unit test') {
           steps {
             sh './gradlew testDebugUnitTest testDebugUnitTest' 
-
+	    echo "unitTesting succeed."
           }
         }
-        stage('Build APK') {
-			steps {
-				sh './gradlew assembleDebug'
-			}
-		}
-	}
+        //stage('Build APK') {
+	//		steps {
+	//			sh './gradlew assembleDebug'
+	//		}
+	//	}
+	//}
 }
