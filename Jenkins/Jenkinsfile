@@ -29,11 +29,6 @@ pipeline {
         }
         stage('Finished'){
             steps {
-                clea
-            }
-        }
-        stage('Finished'){
-            steps {
                 echo 'Jenkins tests on the Git project finished running succesfully!'
             }
         }
