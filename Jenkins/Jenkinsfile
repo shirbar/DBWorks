@@ -33,10 +33,3 @@ stages{
 		}
 	}
 }
-post{
-	always{
-		echo "Post build testing echo"
-		// Clear
-		//cleanWs()  
-	}
-}
