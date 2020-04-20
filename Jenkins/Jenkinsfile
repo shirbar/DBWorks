@@ -28,11 +28,7 @@ stages{
 	    echo "unitTesting succeed."
           }
         }
-	stage('test'){
-		steps {
-			sdsdaf	
-		}
-	}
+	
 	stage('Finished'){
 		steps {
 			echo 'Jenkins tests on the Git project finished running succesfully!'
