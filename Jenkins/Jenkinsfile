@@ -1,16 +1,43 @@
 pipeline {
-    agent any
-    stages {
-        stage('Test') {
-            steps {
-                sh './gradlew check'
-            }
+    //agent any
+    agent{
+        docker {
+            image 'windsekirun/jenkins-android-docker:1.1.1'
         }
     }
-    post {
-        always {
-            junit 'build/reports/**/*.xml'
-            echo "Post: build testing finished"
+options {
+    skipStagesAfterUnstable()
+}
+stages{
+        stage("Prepare") {
+            steps{
+                sh "chmod +x ./gradlew"
+                //junit '**/TEST-*.xml'
+            }
+        }
+        stage('Compile') {
+          steps {
+            sh './gradlew compileDebugSources'
+          }
+        }
+        stage('Unit test') {
+          steps {
+            sh './gradlew testDebugUnitTest testDebugUnitTest' 
+
+          }
+        }
+        stage('Build APK') {
+			steps {
+				sh './gradlew assembleDebug'
+			}
+		}
+	}
+}
+post{
+        always{
+            echo "Post build testing echo"
+            // Clear
+            cleanWs()  
         }
     }
 }
