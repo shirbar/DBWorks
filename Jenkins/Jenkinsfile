@@ -7,7 +7,6 @@ pipeline {
     }
     options {
         skipStagesAfterUnstable()
-        echo "Application compile or testing crashed."
     }
     stages{
         stage("Pre build stage:") {
