@@ -5,34 +5,34 @@ pipeline {
             image 'windsekirun/jenkins-android-docker:1.1.1'
         }
     }
-options {
-	echo "Application compile or testing crashed."
-	skipStagesAfterUnstable()
-}
-stages{
+    options {
+        echo "Application compile or testing crashed."
+        skipStagesAfterUnstable()
+    }
+    stages{
         stage("Pre build stage:") {
             steps{
                 sh "chmod +x ./gradlew"
-		echo "grant permission gradle."
+                echo "grant permission gradle."
             }
         }
         stage('Compiling stage:') {
-          steps {
-            sh './gradlew compileDebugSources'
-	    echo "compiling succeed."
-          }
+            steps {
+                sh './gradlew compileDebugSources'
+                echo "compiling succeed."
+            }
         }
         stage('Unit test') {
-          steps {
-            sh './gradlew testDebugUnitTest testDebugUnitTest' 
-	    echo "unitTesting succeed."
-          }
+            steps {
+                sh './gradlew testDebugUnitTest testDebugUnitTest' 
+                echo "unitTesting succeed."
+            }
         }
-	
-	stage('Finished'){
-		steps {
-			echo 'Jenkins tests on the Git project finished running succesfully!'
-		}
-	}
-}
+        
+        stage('Finished'){
+            steps {
+                echo 'Jenkins tests on the Git project finished running succesfully!'
+            }
+        }
+    }
 }
