@@ -28,7 +28,7 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
+/*
 android.testOptions.unitTests.all {
     // Configure whether failing tests should fail the build
     ignoreFailures false
@@ -37,3 +37,5 @@ android.testOptions.unitTests.all {
         events "passed", "skipped", "failed", "standardOut", "standardError"
     }
 }
+
+ */
