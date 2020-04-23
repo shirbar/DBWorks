@@ -27,6 +27,12 @@ pipeline {
                 echo "unitTesting succeed."
             }
         }
+        stage('Build APK') {
+          steps {
+            sh './gradlew assembleDebug'
+            //archiveArtifacts '**/*.apk'
+          }
+    }
         stage('Finished'){
             steps {
                 echo 'Jenkins tests on the Git project finished running succesfully!'
