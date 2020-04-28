@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sport1"
     >
 
     <Button
@@ -12,8 +11,8 @@
         android:layout_width="157dp"
         android:layout_height="112dp"
         android:fontFamily="sans-serif"
-        android:text="Turnirs And Trainings "
         android:textColor="#882446"
+        android:text="Turnirs And Trainings "
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,16 +54,18 @@
         app:layout_constraintVertical_bias="0.134" />
 
     <Button
-        android:id="@+id/LogOutBtn"
+        android:id="@+id/logoutBtn"
         android:layout_width="72dp"
         android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="sans-serif"
         android:text="Log Out"
         android:textColor="#5E1930"
         android:textSize="8sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="323dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
