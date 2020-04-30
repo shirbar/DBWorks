@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AviliableActivity"></activity>
-        <activity android:name=".CloseFieldActivity" />
+        <activity android:name=".FootballActivity"></activity>
+        <activity android:name=".BasketballActivity" />
+        <activity android:name=".TennisActivity" />
+        <activity android:name=".GymActivity" />
+        <activity android:name=".AviliableActivity" />
         <activity android:name=".TurnirsActivity" />
         <activity android:name=".AdminMainActivity" />
         <activity android:name=".RemoveFieldsActivity" />

@@ -6,4 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".AviliableActivity">
 
+    <Button
+        android:id="@+id/gymBtn"
+        android:layout_width="165dp"
+        android:layout_height="66dp"
+        android:text="Gym Areas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TennisBtn"
+        app:layout_constraintVertical_bias="0.229"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/TennisBtn"
+        android:layout_width="165dp"
+        android:layout_height="66dp"
+        android:text="Tennis fields"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footBtn"
+        app:layout_constraintVertical_bias="0.393" />
+
+    <Button
+        android:id="@+id/footBtn"
+        android:layout_width="165dp"
+        android:layout_height="66dp"
+        android:text="Football Fields"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="109dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/BasketballBtn"
+        android:layout_width="165dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="64dp"
+        android:text="Basketball fields"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

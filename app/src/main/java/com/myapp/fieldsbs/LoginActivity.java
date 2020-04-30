@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         loginAction(email, password);
     }
 
-
     public void loginAction(String email, String password) {
         fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -103,18 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(LoginActivity.this, "Logged in Successfully.", Toast.LENGTH_SHORT).show();
-
-                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
-                                    if(Objects.requireNonNull(ds.child("isAdmin").getValue()).toString().equals("true")) {
-                                        redirectAdmin();
-                                    }
-                                    else{
-                                        redirectUser();
-                                    }
-                                }
-                            }
+                            redirectUser();
                         }
 
                         @Override
@@ -134,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void redirectUser(){
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
     public void redirectAdmin(){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
