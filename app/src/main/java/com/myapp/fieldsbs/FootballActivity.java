@@ -3,36 +3,33 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.NameList;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class FootballActivity extends AppCompatActivity {
 
-    TextView a,b,c;
+    EditText userSelect;
     Button btn;
     DatabaseReference fieldRef;
     FirebaseAuth fAuth;
     String id;
-    int flag = 0;
     ArrayList<String> nameList, typeList, lightList, neighborhoodList, streetList, showList;
     ListView myList;
 
@@ -42,9 +39,10 @@ public class FootballActivity extends AppCompatActivity {
         setContentView(R.layout.activity_football);
         myList = findViewById(R.id.listView);
 
-
+        userSelect = findViewById(R.id.fieldName);
         btn = findViewById(R.id.btn1);
         fAuth = FirebaseAuth.getInstance();
+
 
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
@@ -62,41 +60,37 @@ public class FootballActivity extends AppCompatActivity {
                 int i = 0;
 
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if(Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("פתוח ללא הגבלה"))
-                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("פעיל"))
-                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("כן"))
-                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals(""))
-                    ){
-                        if (Objects.requireNonNull(ds.child("Type")).equals(" ")
-                        || Objects.requireNonNull(ds.child("street").equals(" "))
-                        || Objects.requireNonNull(ds.child("neighborho")).equals(" ")){
+                    if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
+                    || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
+                    || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
+                    || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
+
+                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
+                        || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
+                        || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
                             i++;
                         }
-                        else if (Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("כדורגל"))
-                        || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קטרגל"))
-                        || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קט רגל"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("כדורגל"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("ספורט משולב"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("מגרש משולב"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("אצטדיון"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("מיני פיץ"))
-                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("קט רגל"))
-                        ){
+                        else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
+                        || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
+                        || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
+                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
 
 
-
-                            nameList.add(ds.child("Name").getValue().toString());
-                            typeList.add(ds.child("Type").getValue().toString());
-                            lightList.add(ds.child("lighting").getValue().toString());
-                            neighborhoodList.add(ds.child("neighborho").getValue().toString());
-                            streetList.add(ds.child("street").getValue().toString());
-
+                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
+                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
+                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
                         }
                     }
                 }
                 //Check
                 System.out.println("we've got " + i + " fields.");
-
 
                 setView();
             }
@@ -107,25 +101,35 @@ public class FootballActivity extends AppCompatActivity {
             }
         });
 
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                view.setSelected(true);
+                userSelect.setText(nameList.get(position));
 
-
-
+            }
+        });
 
     }
 
     void setView(){
         for (int i = 0; i < nameList.size(); i++){
-            if (lightList.get(i).equals("כן")){
-                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + "קיימת תאורה");
+            if (nameList.get(i).equals("")){
+                nameList.set(i, typeList.get(i));
+                showList.add("| שם:       " + typeList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
+
+            }
+            else if (lightList.get(i).equals("כן")){
+                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
             }
             else if (lightList.get(i).equals("לא") || lightList.get(i).equals("")){
-                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + "אין תאורה");
+                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "אין תאורה");
             }
             else{
-                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + lightList.get(i));
+                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + lightList.get(i));
             }
         }
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, showList);
+        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
         myList.setAdapter(listAdapter);
     }
 
