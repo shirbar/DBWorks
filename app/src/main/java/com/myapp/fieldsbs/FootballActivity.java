@@ -56,23 +56,42 @@ public class FootballActivity extends AppCompatActivity {
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int i = 0;
+
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    System.out.println("starting");
-                    System.out.println("trying if");
-                    if(Objects.requireNonNull(ds.child("fencing").getValue().toString().equals("קיים גידור"))) {
+                    if(Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("פתוח ללא הגבלה"))
+                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("פעיל"))
+                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("כן"))
+                    || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals(""))
+                    ){
+                        if (Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("כדורגל"))
+                        || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קטרגל"))
+                        || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קט רגל"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("כדורגל"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("ספורט משולב"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("מגרש משולב"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("אצטדיון"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("מיני פיץ"))
+                        || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("קט רגל"))
+                        ){
+                            i++;
 
-                        activityList.add(ds.child("Activity").getValue().toString());
-                        houseNumberList.add(ds.child("HouseNumbe").getValue().toString());
-                        nameList.add(ds.child("Name").getValue().toString());
-                        operatorList.add(ds.child("Operator").getValue().toString());
-                        typeList.add(ds.child("Type").getValue().toString());
-                        lightList.add(ds.child("lighting").getValue().toString());
-                        neighborhoodList.add(ds.child("neighborho").getValue().toString());
-                        streetList.add(ds.child("street").getValue().toString());
 
+                            activityList.add(ds.child("Activity").getValue().toString());
+                            houseNumberList.add(ds.child("HouseNumbe").getValue().toString());
+                            nameList.add(ds.child("Name").getValue().toString());
+                            operatorList.add(ds.child("Operator").getValue().toString());
+                            typeList.add(ds.child("Type").getValue().toString());
+                            lightList.add(ds.child("lighting").getValue().toString());
+                            neighborhoodList.add(ds.child("neighborho").getValue().toString());
+                            streetList.add(ds.child("street").getValue().toString());
+
+                        }
                     }
-
                 }
+                System.out.println("we've got " + i + " fields.");
+
+
 
                 a.setText(activityList.get(0));
                 b.setText(nameList.get(0));
