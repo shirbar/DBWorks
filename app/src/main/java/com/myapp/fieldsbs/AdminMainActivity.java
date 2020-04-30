@@ -83,7 +83,5 @@ public class AdminMainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
-
-
     }
 }
