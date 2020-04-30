@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,27 +32,27 @@ public class FootballActivity extends AppCompatActivity {
     DatabaseReference fieldRef;
     FirebaseAuth fAuth;
     String id;
-    ArrayList<String> activityList = new ArrayList<>();
-    ArrayList<String> houseNumberList = new ArrayList<>();
-    ArrayList<String> nameList = new ArrayList<>();
-    ArrayList<String> operatorList = new ArrayList<>();
-    ArrayList<String> typeList = new ArrayList<>();
-    ArrayList<String> lightList = new ArrayList<>();
-    ArrayList<String> neighborhoodList = new ArrayList<>();
-    ArrayList<String> streetList = new ArrayList<>();
-
-
+    int flag = 0;
+    ArrayList<String> nameList, typeList, lightList, neighborhoodList, streetList, showList;
+    ListView myList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football);
+        myList = findViewById(R.id.listView);
 
-        a = findViewById(R.id.text1);
-        b = findViewById(R.id.text2);
-        c = findViewById(R.id.text3);
+
         btn = findViewById(R.id.btn1);
         fAuth = FirebaseAuth.getInstance();
+
+        nameList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        lightList = new ArrayList<>();
+        neighborhoodList = new ArrayList<>();
+        streetList = new ArrayList<>();
+        showList = new ArrayList<>();
+
         id= fAuth.getUid();
 
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
@@ -64,7 +67,12 @@ public class FootballActivity extends AppCompatActivity {
                     || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals("כן"))
                     || Objects.requireNonNull(ds.child("Activity").getValue().toString().equals(""))
                     ){
-                        if (Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("כדורגל"))
+                        if (Objects.requireNonNull(ds.child("Type")).equals(" ")
+                        || Objects.requireNonNull(ds.child("street").equals(" "))
+                        || Objects.requireNonNull(ds.child("neighborho")).equals(" ")){
+                            i++;
+                        }
+                        else if (Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("כדורגל"))
                         || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קטרגל"))
                         || Objects.requireNonNull(ds.child("SportType").getValue().toString().contains("קט רגל"))
                         || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("כדורגל"))
@@ -74,13 +82,10 @@ public class FootballActivity extends AppCompatActivity {
                         || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("מיני פיץ"))
                         || Objects.requireNonNull(ds.child("Type").getValue().toString().contains("קט רגל"))
                         ){
-                            i++;
 
 
-                            activityList.add(ds.child("Activity").getValue().toString());
-                            houseNumberList.add(ds.child("HouseNumbe").getValue().toString());
+
                             nameList.add(ds.child("Name").getValue().toString());
-                            operatorList.add(ds.child("Operator").getValue().toString());
                             typeList.add(ds.child("Type").getValue().toString());
                             lightList.add(ds.child("lighting").getValue().toString());
                             neighborhoodList.add(ds.child("neighborho").getValue().toString());
@@ -89,13 +94,11 @@ public class FootballActivity extends AppCompatActivity {
                         }
                     }
                 }
+                //Check
                 System.out.println("we've got " + i + " fields.");
 
 
-
-                a.setText(activityList.get(0));
-                b.setText(nameList.get(0));
-                c.setText(typeList.get(0));
+                setView();
             }
 
             @Override
@@ -106,6 +109,24 @@ public class FootballActivity extends AppCompatActivity {
 
 
 
+
+
+    }
+
+    void setView(){
+        for (int i = 0; i < nameList.size(); i++){
+            if (lightList.get(i).equals("כן")){
+                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + "קיימת תאורה");
+            }
+            else if (lightList.get(i).equals("לא") || lightList.get(i).equals("")){
+                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + "אין תאורה");
+            }
+            else{
+                showList.add(typeList.get(i) + "\n| שם: " + nameList.get(i) + "\n| שכונה: " + neighborhoodList.get(i) + "\n| רחוב: " + streetList.get(i) + "\n| " + lightList.get(i));
+            }
+        }
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, showList);
+        myList.setAdapter(listAdapter);
     }
 
 
