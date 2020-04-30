@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         TurnirsBtn = (Button)findViewById(R.id.TurnirsBtn);
         AviliableBtn = (Button)findViewById(R.id.AviliableBtn);
-        logOutBtn = (Button)findViewById(R.id.LogOutBtn);
+        logOutBtn = (Button)findViewById(R.id.logoutBtn);
 
 
         TurnirsBtn.setOnClickListener(new View.OnClickListener() {
