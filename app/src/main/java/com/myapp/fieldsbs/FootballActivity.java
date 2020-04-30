@@ -3,6 +3,7 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +17,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.NameList;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class FootballActivity extends AppCompatActivity {
 
     TextView a,b,c;
     Button btn;
-    DatabaseReference reff;
+    DatabaseReference fieldRef;
     FirebaseAuth fAuth;
-    public String id;
+    String id;
+    ArrayList<String> activityList = new ArrayList<>();
+    ArrayList<String> houseNumberList = new ArrayList<>();
+    ArrayList<String> nameList = new ArrayList<>();
+    ArrayList<String> operatorList = new ArrayList<>();
+    ArrayList<String> typeList = new ArrayList<>();
+    ArrayList<String> lightList = new ArrayList<>();
+    ArrayList<String> neighborhoodList = new ArrayList<>();
+    ArrayList<String> streetList = new ArrayList<>();
+
 
 
     @Override
@@ -37,17 +52,35 @@ public class FootballActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         id= fAuth.getUid();
 
-        reff = FirebaseDatabase.getInstance().getReference().child("Fields").child("0");
-        reff.addValueEventListener(new ValueEventListener() {
+        fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
+        fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int i = 0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    //if (Objects.requireNonNull(ds.child(Integer.toString(i)).child("Seats").getValue()).toString().equals("0.0")){
 
-                String name = dataSnapshot.child("Type").getValue().toString();
-                String email = dataSnapshot.child("condition").getValue().toString();
-                String phone = dataSnapshot.child("lighting").getValue().toString();
-                a.setText(name);
-                b.setText(email);
-                c.setText(phone);
+                    activityList.add(dataSnapshot.child(Integer.toString(i)).child("Activity").getValue().toString());
+                        /*houseNumberList.add(dataSnapshot.child(Integer.toString(i)).child("HouseNumbe").getValue().toString());
+                        nameList.add(dataSnapshot.child(Integer.toString(i)).child("Name").getValue().toString());
+                        operatorList.add(dataSnapshot.child(Integer.toString(i)).child("Operator").getValue().toString());
+                        typeList.add(dataSnapshot.child(Integer.toString(i)).child("Type").getValue().toString());
+                        lightList.add(dataSnapshot.child(Integer.toString(i)).child("lighting").getValue().toString());
+                        neighborhoodList.add(dataSnapshot.child(Integer.toString(i)).child("neighborho").getValue().toString());
+                        streetList.add(dataSnapshot.child(Integer.toString(i)).child("street").getValue().toString());
+                    */
+                //}
+                    if (i < 166) {
+                        i++;
+                    }
+                    else{
+                        break;
+                    }
+                }
+
+                a.setText(activityList.get(0));
+                b.setText(activityList.get(1));
+                c.setText(activityList.get(2));
             }
 
             @Override

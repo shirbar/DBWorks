@@ -99,15 +99,22 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String id= fAuth.getUid();
-
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(LoginActivity.this, "Logged in Successfully.", Toast.LENGTH_SHORT).show();
-                            redirectUser();
-                        }
 
+                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
+                                    if(Objects.requireNonNull(ds.child("isAdmin").getValue()).toString().equals("true")) {
+                                        redirectAdmin();
+                                    }
+                                    else{
+                                        redirectUser();
+                                    }
+                                }
+                            }
+                        }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
 
