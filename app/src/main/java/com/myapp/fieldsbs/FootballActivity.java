@@ -56,31 +56,27 @@ public class FootballActivity extends AppCompatActivity {
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    //if (Objects.requireNonNull(ds.child(Integer.toString(i)).child("Seats").getValue()).toString().equals("0.0")){
+                    System.out.println("starting");
+                    System.out.println("trying if");
+                    if(Objects.requireNonNull(ds.child("fencing").getValue().toString().equals("קיים גידור"))) {
 
-                    activityList.add(dataSnapshot.child(Integer.toString(i)).child("Activity").getValue().toString());
-                        /*houseNumberList.add(dataSnapshot.child(Integer.toString(i)).child("HouseNumbe").getValue().toString());
-                        nameList.add(dataSnapshot.child(Integer.toString(i)).child("Name").getValue().toString());
-                        operatorList.add(dataSnapshot.child(Integer.toString(i)).child("Operator").getValue().toString());
-                        typeList.add(dataSnapshot.child(Integer.toString(i)).child("Type").getValue().toString());
-                        lightList.add(dataSnapshot.child(Integer.toString(i)).child("lighting").getValue().toString());
-                        neighborhoodList.add(dataSnapshot.child(Integer.toString(i)).child("neighborho").getValue().toString());
-                        streetList.add(dataSnapshot.child(Integer.toString(i)).child("street").getValue().toString());
-                    */
-                //}
-                    if (i < 166) {
-                        i++;
+                        activityList.add(ds.child("Activity").getValue().toString());
+                        houseNumberList.add(ds.child("HouseNumbe").getValue().toString());
+                        nameList.add(ds.child("Name").getValue().toString());
+                        operatorList.add(ds.child("Operator").getValue().toString());
+                        typeList.add(ds.child("Type").getValue().toString());
+                        lightList.add(ds.child("lighting").getValue().toString());
+                        neighborhoodList.add(ds.child("neighborho").getValue().toString());
+                        streetList.add(ds.child("street").getValue().toString());
+
                     }
-                    else{
-                        break;
-                    }
+
                 }
 
                 a.setText(activityList.get(0));
-                b.setText(activityList.get(1));
-                c.setText(activityList.get(2));
+                b.setText(nameList.get(0));
+                c.setText(typeList.get(0));
             }
 
             @Override
