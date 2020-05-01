@@ -3,6 +3,7 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,11 +27,11 @@ import java.util.Objects;
 public class FootballActivity extends AppCompatActivity {
 
     EditText userSelect;
-    Button btn;
+    Button nextBtn;
     DatabaseReference fieldRef;
     FirebaseAuth fAuth;
-    String id;
-    ArrayList<String> nameList, typeList, lightList, neighborhoodList, streetList, showList;
+    String id, key;
+    ArrayList<String> keyList, nameList, typeList, lightList, neighborhoodList, streetList, showList;
     ListView myList;
 
     @Override
@@ -40,10 +41,11 @@ public class FootballActivity extends AppCompatActivity {
         myList = findViewById(R.id.listView);
 
         userSelect = findViewById(R.id.fieldName);
-        btn = findViewById(R.id.btn1);
+        nextBtn = findViewById(R.id.nextBtn);
         fAuth = FirebaseAuth.getInstance();
 
 
+        keyList = new ArrayList<>();
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
         lightList = new ArrayList<>();
@@ -80,12 +82,13 @@ public class FootballActivity extends AppCompatActivity {
                         || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
                         || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
 
-
+                            keyList.add(Objects.requireNonNull(ds.getKey().toString()));
                             typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
                             nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                             neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
                             streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
                             lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+
                         }
                     }
                 }
@@ -106,7 +109,18 @@ public class FootballActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
                 view.setSelected(true);
                 userSelect.setText(nameList.get(position));
+                key = keyList.get(position);
+            }
+        });
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
+                intent.putExtra("key", key);
+                intent.putExtra("type", "football");
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
 
