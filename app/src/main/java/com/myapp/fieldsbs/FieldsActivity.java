@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,8 +43,6 @@ public class FieldsActivity extends AppCompatActivity {
     ArrayList<String> showList, idList, hoursList, statusList, typeList, nameList;
 
 
-
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +72,18 @@ public class FieldsActivity extends AppCompatActivity {
         userName = getIntent().getStringExtra("userName");
         fieldTxt.setText( "שם המגרש: " + name);
 
-
         dateTxt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int thisYear = cal.get(Calendar.YEAR);
+                int thisMonth = cal.get(Calendar.MONTH);
+                int thisDay = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        FieldsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateListener, year, month, day);
+                        FieldsActivity.this, android.R.style.Theme_Holo_Light_Dialog,
+                        mDateListener, thisYear, thisMonth, thisDay);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -96,10 +92,16 @@ public class FieldsActivity extends AppCompatActivity {
         mDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                date = day + "-" + month + "-" + year;
-                dateTxt.setText(date);
-                checkEmptyDate();
+                Calendar cal = Calendar.getInstance();
+                if (year < cal.get(Calendar.YEAR) || (year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH)) || (year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH)) && day < cal.get(Calendar.DAY_OF_MONTH)){
+                    Toast.makeText(FieldsActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    month = month + 1;
+                    date = day + "-" + month + "-" + year;
+                    dateTxt.setText(date);
+                    checkEmptyDate();
+                }
             }
         };
 
@@ -124,21 +126,25 @@ public class FieldsActivity extends AppCompatActivity {
         assignBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String check = dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue().toString();
-                        if (check.equals("תפוס")){
-                            Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                if (userSelect.getText().toString().equals("בחר שעות")){
+                    Toast.makeText(FieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String check = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
+                            if (check.equals("תפוס")) {
+                                Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                assign();
+                            }
                         }
-                        else{
-                            assign();
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
+                    });
+                }
             }
         });
     }

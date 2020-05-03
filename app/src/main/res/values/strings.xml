@@ -5,7 +5,7 @@
     <string name="manage_fields">Manage Fields</string>
     <string name="remove_fields">Remove Fields</string>
     <string name="sport_fields_management">Sport Fields Management</string>
-    <string name="login">Login</string>
+    <string name="login">Login Page</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="doesn_t_have_an_account_register_here">Doesn\'t have an account? Register here</string>
@@ -13,10 +13,20 @@
     <string name="soccer_fields">Soccer Fields</string>
     <string name="basketball_fields">Basketball Fields</string>
     <string name="gym_fields">GYM Fields</string>
-    <string name="back">Back</string>
     <string name="register">Register</string>
     <string name="full_name">Full Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="already_registered_login_here">Already Registered? Login here</string>
     <string name="select_type_of_field_to_remove">Select type of Field to remove</string>
+    <string name="selectAfield">בחר מגרש</string>
+    <string name="soccerFieldsList">רשימת מגרשי הכדורגל</string>
+    <string name="back">חזור</string>
+    <string name="next">המשך</string>
+    <string name="gymAreas">אזורי כושר</string>
+    <string name="soccerFields">מגרשי כדורגל</string>
+    <string name="basketballFields">מגרשי כדורסל</string>
+    <string name="selectDate">בחר תאריך</string>
+    <string name="date">תאריך:</string>
+    <string name="reserveField">שריין מגרש</string>
+    <string name="selectHours">בחר שעות</string>
 </resources>

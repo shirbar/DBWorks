@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 public class FootballActivity extends AppCompatActivity {
 
-    EditText userSelect;
+    TextView userSelect;
     Button nextBtn, backBtn;
     DatabaseReference fieldRef, usersRef;
     FirebaseAuth fAuth;
@@ -42,7 +43,7 @@ public class FootballActivity extends AppCompatActivity {
 
         userSelect = findViewById(R.id.fieldName);
         nextBtn = findViewById(R.id.nextBtn);
-        backBtn = findViewById(R.id.backBtn);
+        backBtn = findViewById(R.id.goBackBtn);
         fAuth = FirebaseAuth.getInstance();
 
         keyList = new ArrayList<>();
@@ -92,7 +93,7 @@ public class FootballActivity extends AppCompatActivity {
                         || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
                         || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
 
-                            keyList.add(Objects.requireNonNull(ds.getKey().toString()));
+                            keyList.add(Objects.requireNonNull(ds.getKey()));
                             typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
                             nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                             neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
@@ -102,7 +103,8 @@ public class FootballActivity extends AppCompatActivity {
                     }
                 }
                 //Check
-                //System.out.println("we've got " + i + " fields.");
+                System.out.println("we've got " + i + " fields.");
+
                 setView();
             }
 
@@ -125,24 +127,30 @@ public class FootballActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (userSelect.getText().toString().equals("בחר מגרש")){
+                    Toast.makeText(FootballActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
-                intent.putExtra("key", key);
-                intent.putExtra("type", "כדורגל");
-                intent.putExtra("id", id);
-                intent.putExtra("name", name);
-                intent.putExtra("userName", userName);
-                startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
+                    intent.putExtra("key", key);
+                    intent.putExtra("type", "כדורגל");
+                    intent.putExtra("id", id);
+                    intent.putExtra("name", name);
+                    intent.putExtra("userName", userName);
+                    startActivity(intent);
+                }
             }
         });
-
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
+                Intent intent = new Intent(getBaseContext(), AviliableActivity.class);
+                startActivity(intent);
             }
         });
+
 
     }
 
@@ -169,10 +177,11 @@ public class FootballActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
 
-
-
-
+    }
 
 
 
