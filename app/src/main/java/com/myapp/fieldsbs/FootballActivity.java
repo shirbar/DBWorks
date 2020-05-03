@@ -27,10 +27,10 @@ import java.util.Objects;
 public class FootballActivity extends AppCompatActivity {
 
     EditText userSelect;
-    Button nextBtn;
-    DatabaseReference fieldRef;
+    Button nextBtn, backBtn;
+    DatabaseReference fieldRef, usersRef;
     FirebaseAuth fAuth;
-    String id, key;
+    String id, key, name, userName;
     ArrayList<String> keyList, nameList, typeList, lightList, neighborhoodList, streetList, showList;
     ListView myList;
 
@@ -42,8 +42,8 @@ public class FootballActivity extends AppCompatActivity {
 
         userSelect = findViewById(R.id.fieldName);
         nextBtn = findViewById(R.id.nextBtn);
+        backBtn = findViewById(R.id.backBtn);
         fAuth = FirebaseAuth.getInstance();
-
 
         keyList = new ArrayList<>();
         nameList = new ArrayList<>();
@@ -54,13 +54,23 @@ public class FootballActivity extends AppCompatActivity {
         showList = new ArrayList<>();
 
         id= fAuth.getUid();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userName = Objects.requireNonNull(dataSnapshot.child(id).child("name").getValue()).toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int i = 0;
-
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
@@ -88,13 +98,11 @@ public class FootballActivity extends AppCompatActivity {
                             neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
                             streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
                             lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
-
                         }
                     }
                 }
                 //Check
-                System.out.println("we've got " + i + " fields.");
-
+                //System.out.println("we've got " + i + " fields.");
                 setView();
             }
 
@@ -110,17 +118,29 @@ public class FootballActivity extends AppCompatActivity {
                 view.setSelected(true);
                 userSelect.setText(nameList.get(position));
                 key = keyList.get(position);
+                name = nameList.get(position);
             }
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
                 intent.putExtra("key", key);
-                intent.putExtra("type", "football");
+                intent.putExtra("type", "כדורגל");
                 intent.putExtra("id", id);
+                intent.putExtra("name", name);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
+            }
+        });
+
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
             }
         });
 

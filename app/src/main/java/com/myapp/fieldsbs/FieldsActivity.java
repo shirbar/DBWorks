@@ -1,23 +1,27 @@
 package com.myapp.fieldsbs;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,49 +34,46 @@ import java.util.Objects;
 
 public class FieldsActivity extends AppCompatActivity {
 
-    String key, id, type, date;
-    TextView dateTxt, hoursTxt, fieldTxt;
+
+    String key, id, type, date, name, userName;
+    TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
-    DatabaseReference dbRef;
-    DatabaseReference editRef;
+    DatabaseReference managementRef, rootRef;
+    Button backBtn, assignBtn;
     ListView myList;
-    ArrayList<String> showList;
+    ArrayList<String> showList, idList, hoursList, statusList, typeList, nameList;
 
 
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fields);
 
-        dbRef = FirebaseDatabase.getInstance().getReference();
-        editRef = FirebaseDatabase.getInstance().getReference();
+        managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
+        rootRef = FirebaseDatabase.getInstance().getReference();
         dateTxt = findViewById(R.id.dateTxt);
-        hoursTxt = findViewById(R.id.hoursTxt);
         fieldTxt = findViewById(R.id.fieldName);
         myList = findViewById(R.id.listView);
+        userSelect = findViewById(R.id.hoursSelect);
+        backBtn = findViewById(R.id.backBtn);
+        assignBtn = findViewById(R.id.assignBtn);
         showList = new ArrayList<>();
-
-
-
+        idList = new ArrayList<>();
+        hoursList = new ArrayList<>();
+        statusList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        nameList = new ArrayList<>();
 
         //getting the data from the previous intent with getStringExtra
         id = getIntent().getStringExtra("id");
         key = getIntent().getStringExtra("key");
         type = getIntent().getStringExtra("type");
-
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("Fields").child(key).child("Name").getValue().toString();
-                fieldTxt.setText( "שם המגרש: " + name);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-
+        name = getIntent().getStringExtra("name");
+        userName = getIntent().getStringExtra("userName");
+        fieldTxt.setText( "שם המגרש: " + name);
 
 
         dateTxt.setOnClickListener(new View.OnClickListener() {
@@ -99,35 +100,82 @@ public class FieldsActivity extends AppCompatActivity {
                 date = day + "-" + month + "-" + year;
                 dateTxt.setText(date);
                 checkEmptyDate();
-                setView();
             }
         };
 
+
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                view.setSelected(true);
+                userSelect.setText(hoursList.get(position));
+
+                //name = nameList.get(position);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FieldsActivity.this, FootballActivity.class));
+            }
+        });
+
+        assignBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String check = dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue().toString();
+                        if (check.equals("תפוס")){
+                            Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            assign();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
     }
 
     public void checkEmptyDate(){
-        dbRef.addValueEventListener(new ValueEventListener() {
+        managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("Management").child(key).hasChild(date)){
-                    //it enters here too many times for some reason after the "it does not have"
-                    System.out.println("it has");
+                if (dataSnapshot.child(key).hasChild(date)){
+                    System.out.println("inside has child");
+
                 }
                 else{
-                    System.out.println("it does not have");
+                    System.out.println("it does not have childs");
                     //if its empty we will make the date in the database with empty hours.
                     for (int i = 7; i < 24; i++){
                         if (i < 9){
-                            editRef.child("Management").child(key).child(date).child("0" + String.valueOf(i) + ":00-0" + String.valueOf(i+1) + ":00").child("id").setValue("empty");
+                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("id").setValue("ריק");
+                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("status").setValue("פנוי");
+                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("type").setValue("ריק");
+                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("name").setValue("ריק");
                         }
                         else if (i == 9){
-                            editRef.child("Management").child(key).child(date).child("0" + String.valueOf(i) + ":00-" + String.valueOf(i+1) + ":00").child("id").setValue("empty");
+                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
+                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
+                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
+                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("name").setValue("ריק");
                         }
                         else{
-                            editRef.child("Management").child(key).child(date).child(String.valueOf(i) + ":00-" + String.valueOf(i+1) + ":00").child("id").setValue("empty");
+                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
+                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
+                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
+                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("name").setValue("ריק");
                         }
                     }
                 }
+                setView();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -137,15 +185,60 @@ public class FieldsActivity extends AppCompatActivity {
 
 
     public void setView(){
-        //need to fix the view.
+        System.out.println("entering set view");
 
+        managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                clearLists();
+                System.out.println("inside set view");
+                for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
+                    hoursList.add(Objects.requireNonNull(ds.getKey()));
+                    statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
+                    nameList.add(Objects.requireNonNull(ds.child("name").getValue()).toString());
+                    typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
+                    idList.add(Objects.requireNonNull(ds.child("id").getValue()).toString());
+                }
+                for (int i = 0; i < statusList.size(); i++){
+                    if (statusList.get(i).equals("פנוי")){
+                        System.out.println("available");
+                        showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
+                    }
+                    else{
+                        System.out.println("not available");
+                        showList.add("|שעות:            " + hoursList.get(i) + "\n|זמינות:          " + statusList.get(i) + "\n|סוג:               " + typeList.get(i) + "\n|שם הנרשם: " + nameList.get(i));
+                        System.out.println(showList.get(i));
+                    }
+                }
+                showView();
+            }
 
-        for (int i = 7; i < 24; i++){
-            //showList.add()
-        }
-        //ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
-        //myList.setAdapter(listAdapter);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 
+    public void showView(){
+        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
+        myList.setAdapter(listAdapter);
+    }
 
+    public void assign(){
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("name").setValue(userName);
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("תפוס");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
+        setView();
+        Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void clearLists(){
+        showList.clear();
+        idList.clear();
+        hoursList.clear();
+        statusList.clear();
+        typeList.clear();
+        nameList.clear();
     }
 }

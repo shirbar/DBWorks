@@ -10,13 +10,11 @@
         android:id="@+id/nextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="40dp"
         android:text="המשך"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fieldName"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ListView
         android:id="@+id/listView"
@@ -33,16 +31,17 @@
 
     <EditText
         android:id="@+id/fieldName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="161dp"
+        android:layout_height="48dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/nextBtn" />
+        app:layout_constraintEnd_toStartOf="@+id/nextBtn"
+        app:layout_constraintStart_toEndOf="@+id/BackBtn" />
 
     <TextView
         android:id="@+id/textView5"
@@ -57,6 +56,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="40dp"
+        android:text="חזור"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
