@@ -71,17 +71,15 @@ public class FootballActivity extends AppCompatActivity {
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-
                         if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                        || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                        || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
-                            i++;
+                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
+                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
+                            //do nothing
                         }
                         else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
                         || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
@@ -99,12 +97,11 @@ public class FootballActivity extends AppCompatActivity {
                             neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
                             streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
                             lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+
+
                         }
                     }
                 }
-                //Check
-                System.out.println("we've got " + i + " fields.");
-
                 setView();
             }
 
@@ -175,17 +172,10 @@ public class FootballActivity extends AppCompatActivity {
         myList.setAdapter(listAdapter);
     }
 
-
-
     @Override
     public void onBackPressed() {
         startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
 
     }
-
-
-
-
-
 
 }
