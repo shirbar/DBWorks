@@ -133,7 +133,7 @@ public class FootballActivity extends AppCompatActivity {
                     intent.putExtra("key", key);
                     intent.putExtra("type", "כדורגל");
                     intent.putExtra("id", id);
-                    intent.putExtra("name", name);
+                    intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
                     startActivity(intent);
                 }

@@ -124,7 +124,7 @@ public class BasketballActivity extends AppCompatActivity {
                     intent.putExtra("key", key);
                     intent.putExtra("type", "כדורסל");
                     intent.putExtra("id", id);
-                    intent.putExtra("name", name);
+                    intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
                     startActivity(intent);
                 }

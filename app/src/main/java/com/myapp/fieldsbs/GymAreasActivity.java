@@ -1,5 +1,9 @@
 package com.myapp.fieldsbs;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,10 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,16 +31,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class FieldsActivity extends AppCompatActivity {
+public class GymAreasActivity extends AppCompatActivity {
 
 
     String key, id, type, date, fieldName, userName;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
     DatabaseReference managementRef, rootRef;
-    Button backBtn, fullAssignBtn, assignMyselfBtn;
+    Button backBtn, startGroupTrainingBtn, assignPlayerBtn;
     ListView myList;
-    ArrayList<String> showList, idList, hoursList, statusList, typeList, numofPlayersList, nameList;
+    ArrayList<String> showList, idList, hoursList, statusList, typeList, numofPlayersList, creatorList;
     //ArrayList<ArrayList<String>> namesList;
 
 
@@ -48,8 +48,7 @@ public class FieldsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fields);
-
+        setContentView(R.layout.activity_gym_areas);
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
         rootRef = FirebaseDatabase.getInstance().getReference();
         dateTxt = findViewById(R.id.dateTxt);
@@ -57,15 +56,15 @@ public class FieldsActivity extends AppCompatActivity {
         myList = findViewById(R.id.listView);
         userSelect = findViewById(R.id.hoursSelect);
         backBtn = findViewById(R.id.backBtn);
-        fullAssignBtn = findViewById(R.id.fullAssignBtn);
-        assignMyselfBtn = findViewById(R.id.assignMyselfBtn);
+        startGroupTrainingBtn = findViewById(R.id.fullAssignBtn);
+        assignPlayerBtn = findViewById(R.id.assignMyselfBtn);
 
         showList = new ArrayList<>();
         idList = new ArrayList<>();
         hoursList = new ArrayList<>();
         statusList = new ArrayList<>();
         typeList = new ArrayList<>();
-        nameList = new ArrayList<>();
+        creatorList = new ArrayList<>();
         numofPlayersList = new ArrayList<>();
         //namesList = new ArrayList<>();
 
@@ -75,7 +74,7 @@ public class FieldsActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
-        fieldTxt.setText( "שם המגרש: " + fieldName);
+        fieldTxt.setText( "שם האזור: " + fieldName);
 
         dateTxt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -87,7 +86,7 @@ public class FieldsActivity extends AppCompatActivity {
                 int thisDay = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        FieldsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        GymAreasActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateListener, thisYear, thisMonth, thisDay);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -99,7 +98,7 @@ public class FieldsActivity extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar cal = Calendar.getInstance();
                 if (year < cal.get(Calendar.YEAR) || (year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH)) || (year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH)) && day < cal.get(Calendar.DAY_OF_MONTH)){
-                    Toast.makeText(FieldsActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GymAreasActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     month = month + 1;
@@ -117,30 +116,30 @@ public class FieldsActivity extends AppCompatActivity {
                 view.setSelected(true);
                 userSelect.setText(hoursList.get(position));
 
-                //name = nameList.get(position);
+                //name = namesList.get(position);
             }
         });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FieldsActivity.this, FootballActivity.class));
+                startActivity(new Intent(GymAreasActivity.this, GymActivity.class));
             }
         });
 
-        fullAssignBtn.setOnClickListener(new View.OnClickListener(){
+        startGroupTrainingBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 if (userSelect.getText().toString().equals("בחר שעות")){
-                    Toast.makeText(FieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GymAreasActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String check = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
-                            if (check.equals("תפוס") || check.equals("מתקיים")) {
-                                Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                            if (check.equals("מתקיים")) {
+                                Toast.makeText(GymAreasActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 fullAssign();
@@ -154,11 +153,11 @@ public class FieldsActivity extends AppCompatActivity {
             }
         });
 
-        assignMyselfBtn.setOnClickListener(new View.OnClickListener() {
+        assignPlayerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (userSelect.getText().toString().equals("בחר שעות")){
-                    Toast.makeText(FieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GymAreasActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,20 +165,13 @@ public class FieldsActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String checkStatus = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
                             String checkType = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("type").getValue()).toString();
-                            if (checkStatus.equals("תפוס")) {
-                                Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
-                            }
-                            else if (checkStatus.equals("פנוי")){
+                            if (checkStatus.equals("פנוי")){
                                 assignPlayer();
                             }
                             else{
-                                if (checkType.equals(type)){
+                                //here we can check if we have maximum players or not.
                                     addPlayer();
                                 }
-                                else{
-                                    Toast.makeText(FieldsActivity.this, "בשעה הזאת משחקים במשחק אחר ממה שבחרת, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -239,42 +231,34 @@ public class FieldsActivity extends AppCompatActivity {
 
 
     public void setView(){
-        System.out.println("entering set view");
-
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clearLists();
-                System.out.println("inside set view");
                 for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
                     numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
                     idList.add(Objects.requireNonNull(ds.child("id").getValue()).toString());
-                    nameList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
+                    creatorList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
                     /*
                     int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     for (int i = 0; i < numberofPlayers; i++)
                         namesList[j].add(Objects.requireNonNull(ds.child("namesList").child(String.valueOf(i)).getValue()).toString());
-
                      */
-
                 }
                 for (int i = 0; i < statusList.size(); i++){
                     if (statusList.get(i).equals("פנוי")){
-                        System.out.println("available");
                         showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
                     }
                     else{
-                        System.out.println("not available");
-                        showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + nameList.get(i));
+                        showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + creatorList.get(i));
                         System.out.println(showList.get(i));
                     }
                 }
                 showView();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -293,7 +277,7 @@ public class FieldsActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
         setView();
-        Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(GymAreasActivity.this, "יצרת בההצלחה.", Toast.LENGTH_SHORT).show();
     }
     public void addPlayer(){
 
@@ -304,7 +288,7 @@ public class FieldsActivity extends AppCompatActivity {
                 number ++;
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(number));
                 setView();
-                Toast.makeText(FieldsActivity.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GymAreasActivity.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -315,11 +299,11 @@ public class FieldsActivity extends AppCompatActivity {
     public void fullAssign(){
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("תפוס");
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("מלא");
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue("אימון קבוצתי");
         setView();
-        Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(GymAreasActivity.this, "יצרת קבוצה בההצלחה.", Toast.LENGTH_SHORT).show();
     }
 
     public void clearLists(){
@@ -328,7 +312,7 @@ public class FieldsActivity extends AppCompatActivity {
         hoursList.clear();
         statusList.clear();
         typeList.clear();
-        nameList.clear();
+        creatorList.clear();
         numofPlayersList.clear();
     }
 }

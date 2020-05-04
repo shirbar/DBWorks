@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FieldsActivity">
+    tools:context=".GymAreasActivity">
 
     <TextView
         android:id="@+id/fieldName"
@@ -68,7 +68,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/reserveField"
+        android:text="@string/startGroupTraining"
         app:layout_constraintBottom_toTopOf="@+id/assignMyselfBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
@@ -94,7 +94,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fullAssignBtn"
+        app:layout_constraintEnd_toStartOf="@+id/assignMyselfBtn"
         app:layout_constraintStart_toEndOf="@+id/backBtn" />
 
     <Button
@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
-        android:text="@string/reserveSpot"
+        android:text="@string/joinTraining"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

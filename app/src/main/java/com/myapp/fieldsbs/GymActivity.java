@@ -118,11 +118,11 @@ public class GymActivity extends AppCompatActivity {
                     Toast.makeText(GymActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
+                    Intent intent = new Intent(getBaseContext(), GymAreasActivity.class);
                     intent.putExtra("key", key);
                     intent.putExtra("type", "כושר");
                     intent.putExtra("id", id);
-                    intent.putExtra("name", name);
+                    intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
                     startActivity(intent);
                 }

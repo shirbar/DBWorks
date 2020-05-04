@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class AviliableActivity extends AppCompatActivity {
 
-    private Button footballBtn, basketballBtn, GymBtn;
+    private Button footballBtn, basketballBtn, GymBtn, backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class AviliableActivity extends AppCompatActivity {
         footballBtn = findViewById(R.id.footBtn);
         basketballBtn = findViewById(R.id.BasketballBtn);
         GymBtn = findViewById(R.id.gymBtn);
+        backBtn = findViewById(R.id.backBtn);
 
         footballBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +47,21 @@ public class AviliableActivity extends AppCompatActivity {
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(AviliableActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(AviliableActivity.this, MainActivity.class));
     }
 
 }
