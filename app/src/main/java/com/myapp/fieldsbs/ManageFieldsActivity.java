@@ -11,12 +11,12 @@ public class ManageFieldsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_fields);
+        setContentView(R.layout.ctivity_manage_fields);
     }
 
-
+/*
     public void soccerFieldsClick(View view){
-        //startActivity(new Intent(getApplicationContext(), SoccerFieldsActivity.class));
+        startActivity(new Intent(getApplicationContext(), AdminManageActivity.class));
     }
 
     public void basketballFieldsClick(View view){
@@ -26,6 +26,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
     public void gymFieldsClick(View view){
         //startActivity(new Intent(getApplicationContext(), GymFieldsActivity.class));
     }
+*/
 
     public void backClick(View view){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));

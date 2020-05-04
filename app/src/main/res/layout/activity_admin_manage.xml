@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="20dp"
         android:text="@string/selectDate"
         android:textSize="30sp"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="50dp"
         android:text="@string/date"
         android:textSize="30sp"
@@ -49,8 +49,8 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="400dp"
-        android:layout_height="300dp"
+        android:layout_width="396dp"
+        android:layout_height="301dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="1dp"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="15dp"
         android:text="@string/reserveField"
         app:layout_constraintBottom_toTopOf="@+id/assignMyselfBtn"
@@ -106,5 +106,62 @@
         android:text="@string/reserveSpot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtFieldTypeTitle"
+        android:layout_width="95dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="בחר סוג מגרש:"
+        app:layout_constraintStart_toEndOf="@+id/btnFootball"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtFieldNamesTitle"
+        android:layout_width="107dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="בחר את המגרש:"
+        app:layout_constraintStart_toEndOf="@+id/btnFootball"
+        app:layout_constraintTop_toBottomOf="@+id/txtFieldTypeTitle" />
+
+    <Button
+        android:id="@+id/btnFootball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="21dp"
+        android:text="כדורגל"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
+        app:layout_constraintStart_toEndOf="@+id/btnBasketball" />
+
+    <Button
+        android:id="@+id/btnBasketball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="כדורסל"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
+        app:layout_constraintStart_toEndOf="@+id/btnGym" />
+
+    <Button
+        android:id="@+id/btnGym"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:text="חדר כושר"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerChooseField"
+        android:layout_width="282dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/dateTxt"
+        app:layout_constraintEnd_toStartOf="@+id/txtFieldNamesTitle"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

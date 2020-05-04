@@ -2,36 +2,26 @@ package com.myapp.fieldsbs;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
-public class FieldsActivityAdmin extends AppCompatActivity {
+public class AdminManageActivity extends AppCompatActivity {
 
 
     String key, id, type, date, fieldName, userName;
@@ -44,12 +34,12 @@ public class FieldsActivityAdmin extends AppCompatActivity {
     //ArrayList<ArrayList<String>> namesList;
 
 
-    @SuppressLint("SetTextI18n")
+    //@SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fields);
-
+        setContentView(R.layout.activity_admin_manage);
+        /*
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
         rootRef = FirebaseDatabase.getInstance().getReference();
         dateTxt = findViewById(R.id.dateTxt);
@@ -87,7 +77,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                 int thisDay = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        FieldsActivityAdmin.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        AdminManageFieldsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateListener, thisYear, thisMonth, thisDay);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -99,7 +89,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar cal = Calendar.getInstance();
                 if (year < cal.get(Calendar.YEAR) || (year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH)) || (year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH)) && day < cal.get(Calendar.DAY_OF_MONTH)){
-                    Toast.makeText(FieldsActivityAdmin.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminManageFieldsActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     month = month + 1;
@@ -124,7 +114,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FieldsActivityAdmin.this, FootballActivity.class));
+                startActivity(new Intent(AdminManageFieldsActivity.this, FootballActivity.class));
             }
         });
 
@@ -132,7 +122,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if (userSelect.getText().toString().equals("בחר שעות")){
-                    Toast.makeText(FieldsActivityAdmin.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminManageFieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -140,7 +130,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String check = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
                             if (check.equals("תפוס") || check.equals("מתקיים")) {
-                                Toast.makeText(FieldsActivityAdmin.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminManageFieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 fullAssign();
@@ -158,7 +148,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (userSelect.getText().toString().equals("בחר שעות")){
-                    Toast.makeText(FieldsActivityAdmin.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminManageFieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -167,7 +157,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                             String checkStatus = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
                             String checkType = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("type").getValue()).toString();
                             if (checkStatus.equals("תפוס")) {
-                                Toast.makeText(FieldsActivityAdmin.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminManageFieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                             }
                             else if (checkStatus.equals("פנוי")){
                                 assignPlayer();
@@ -177,7 +167,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                                     addPlayer();
                                 }
                                 else{
-                                    Toast.makeText(FieldsActivityAdmin.this, "בשעה הזאת משחקים במשחק אחר ממה שבחרת, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdminManageFieldsActivity.this, "בשעה הזאת משחקים במשחק אחר ממה שבחרת, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -188,7 +178,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                 }
             }
         });
-
+    */
     }
 
     public void checkEmptyDate(){
@@ -293,7 +283,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
         setView();
-        Toast.makeText(FieldsActivityAdmin.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AdminManageActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
     }
     public void addPlayer(){
 
@@ -304,7 +294,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
                 number ++;
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(number));
                 setView();
-                Toast.makeText(FieldsActivityAdmin.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminManageActivity.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -319,7 +309,7 @@ public class FieldsActivityAdmin extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("מלא");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
         setView();
-        Toast.makeText(FieldsActivityAdmin.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AdminManageActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
     }
 
     public void clearLists(){
