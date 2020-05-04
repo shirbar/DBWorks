@@ -17,7 +17,6 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
     public void backClick(View view){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
-        // Bar test
     }
 
 }
