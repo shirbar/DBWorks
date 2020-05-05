@@ -34,7 +34,7 @@
         android:layout_marginTop="29dp"
         android:layout_marginBottom="34dp"
         android:text="כדורגל"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField7"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
         app:layout_constraintStart_toEndOf="@+id/btnBasketball7"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -62,18 +62,18 @@
         android:text="בחר את המגרש:"
         app:layout_constraintBottom_toTopOf="@+id/dateView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinnerChooseField7" />
+        app:layout_constraintStart_toEndOf="@+id/spinnerChooseField" />
 
     <Spinner
-        android:id="@+id/spinnerChooseField7"
+        android:id="@+id/spinnerChooseField"
         android:layout_width="282dp"
         android:layout_height="34dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/dateTxt7"
+        app:layout_constraintBottom_toTopOf="@+id/dateTxtt"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/dateTxt7"
+        android:id="@+id/dateTxtt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="34dp"
         android:text="חדר כושר"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField7"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="34dp"
         android:text="כדורסל"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField7"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
         app:layout_constraintStart_toEndOf="@+id/btnGym7" />
 
     <TextView
