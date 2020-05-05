@@ -41,7 +41,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
     Button btnRemove;
     Spinner chooseFieldSpinner;
     DatabaseReference managementRef, fieldRef, rootRef;
-    ArrayList<String> idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
+    ArrayList<String> fieldsList, idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
     ListView myList;
 
     @Override
@@ -53,7 +53,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         keyList = new ArrayList<>();
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
-
+        fieldsList = new ArrayList<>();
 
 
         // REMOVE ALL?!
@@ -61,8 +61,6 @@ public class ManageFieldsActivity extends AppCompatActivity {
         idList = new ArrayList<>();
         hoursList = new ArrayList<>();
         statusList = new ArrayList<>();
-        typeList = new ArrayList<>();
-        nameList = new ArrayList<>();
         numofPlayersList = new ArrayList<>();
 
 
@@ -107,13 +105,13 @@ public class ManageFieldsActivity extends AppCompatActivity {
 
                             keyList.add(Objects.requireNonNull(ds.getKey()));
                             typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                            fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                         }
                     }
                 }
 
                 // Spinner initialize (fields select)
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, nameList);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, fieldsList);
                 //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 chooseFieldSpinner.setAdapter(spinnerArrayAdapter);
