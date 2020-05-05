@@ -38,10 +38,10 @@ public class ManageFieldsActivity extends AppCompatActivity {
     TextView dateTxt, lblScreen;
     DatePickerDialog.OnDateSetListener mDateListener;
     FirebaseAuth fAuth;
-    Button btnRemove;
+    Button btnRemove, btnFootball, btnBasketball, btnGym;
     Spinner chooseFieldSpinner;
     DatabaseReference managementRef, fieldRef, rootRef;
-    ArrayList<String> fieldsList, idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
+    ArrayList<String> fieldsList, filteredFieldsList, idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
     ListView myList;
 
     @Override
@@ -54,6 +54,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
         fieldsList = new ArrayList<>();
+        filteredFieldsList = new ArrayList<>();
 
 
         // REMOVE ALL?!
@@ -73,6 +74,10 @@ public class ManageFieldsActivity extends AppCompatActivity {
         key = "1";//findViewById(R.id.spinnerChooseField).toString();
 
         btnRemove = findViewById(R.id.btnRemove);
+        btnFootball = findViewById(R.id.btnFootball);
+        btnBasketball = findViewById(R.id.btnBasketball);
+        btnGym = findViewById(R.id.btnGym);
+
         chooseFieldSpinner = (Spinner) findViewById(R.id.spinnerChooseField);
         lblScreen = findViewById(R.id.lblScreen);
 
@@ -111,7 +116,8 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 }
 
                 // Spinner initialize (fields select)
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, fieldsList);
+                filteredFieldsList = fieldsList;
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
                 //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 chooseFieldSpinner.setAdapter(spinnerArrayAdapter);
@@ -121,6 +127,29 @@ public class ManageFieldsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        // Field filtering
+        btnFootball.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // TODO: filter to Football
+                filterFields("כדורגל");
+            }
+        });
+        btnBasketball.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // TODO: filter to Basketball
+                filterFields("כדורסל");
+            }
+        });
+        btnGym.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // TODO: filter to GYM
+                filterFields("כושר");
             }
         });
 
@@ -261,6 +290,23 @@ public class ManageFieldsActivity extends AppCompatActivity {
         numofPlayersList.clear();
     }
 
+    public void filterFields(String type)
+    {
+        // TODO: FILTER
+        filteredFieldsList = new ArrayList<>();
+        for (int currFieldId = 0; currFieldId < fieldsList.size(); currFieldId++){
+            // Check if this field the same type as requested
+            if(typeList.get(currFieldId).contains(type)) {
+                filteredFieldsList.add(fieldsList.get(currFieldId));
+            }
+        }
+
+        // Update the spinner optoins values
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
+        //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chooseFieldSpinner.setAdapter(spinnerArrayAdapter);
+    }
 
     public void checkEmptyDate(){
         //managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
