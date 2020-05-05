@@ -50,6 +50,20 @@ public class ManageFieldsActivity extends AppCompatActivity {
         keyList = new ArrayList<>();
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
+
+
+
+        // REMOVE ALL?!
+        showList = new ArrayList<>();
+        idList = new ArrayList<>();
+        hoursList = new ArrayList<>();
+        statusList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        nameList = new ArrayList<>();
+        numofPlayersList = new ArrayList<>();
+
+
+
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
         rootRef = FirebaseDatabase.getInstance().getReference();
         dateTxt = findViewById(R.id.dateTxtt);
@@ -171,7 +185,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 for (int i = 0; i < statusList.size(); i++){
                     if (statusList.get(i).equals("פנוי")){
                         System.out.println("available");
-                        showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
+                        //showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
                     }
                     else{
                         System.out.println("not available");
