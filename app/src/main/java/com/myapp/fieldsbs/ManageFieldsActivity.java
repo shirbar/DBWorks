@@ -11,7 +11,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -33,9 +35,10 @@ import java.util.Objects;
 public class ManageFieldsActivity extends AppCompatActivity {
 
     String id, key, date;
-    TextView dateTxt;
+    TextView dateTxt, lblScreen;
     DatePickerDialog.OnDateSetListener mDateListener;
     FirebaseAuth fAuth;
+    Button btnRemove;
     Spinner chooseFieldSpinner;
     DatabaseReference managementRef, fieldRef, rootRef;
     ArrayList<String> idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
@@ -71,7 +74,9 @@ public class ManageFieldsActivity extends AppCompatActivity {
         //id = "RvaYU2iMhXX76WrnMg55BkHE0g23";
         key = "1";//findViewById(R.id.spinnerChooseField).toString();
 
+        btnRemove = findViewById(R.id.btnRemove);
         chooseFieldSpinner = (Spinner) findViewById(R.id.spinnerChooseField);
+        lblScreen = findViewById(R.id.lblScreen);
 
         // Field picker
         id= fAuth.getUid();
@@ -154,6 +159,37 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 }
             }
         };
+
+        // Management related
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                view.setSelected(true);
+                lblScreen.setText(showList.get(position).substring(23,34));
+
+                //name = nameList.get(position);
+            }
+        });
+
+        btnRemove.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if (lblScreen.getText().toString().equals("בחר שעה")){
+                    Toast.makeText(ManageFieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            removeWholeField();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+        });
     }
 
 
@@ -190,7 +226,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
                     else{
                         System.out.println("not available");
                         showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + nameList.get(i));
-                        System.out.println(showList.get(i));
+                        //System.out.println(showList.get(i));
                     }
                 }
                 showView();
@@ -205,6 +241,16 @@ public class ManageFieldsActivity extends AppCompatActivity {
     public void showView(){
         ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
         myList.setAdapter(listAdapter);
+    }
+
+    public void removeWholeField(){
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("id").setValue("ריק");
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("creator").setValue("ריק");
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("status").setValue("פנוי");
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("numofPlayers").setValue("0");
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("type").setValue("ריק");
+        setView();
+        Toast.makeText(ManageFieldsActivity.this, "המגרש רוקן ממשתפים בהצלחה.", Toast.LENGTH_SHORT).show();
     }
 
     public void clearLists(){
