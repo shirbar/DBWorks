@@ -23,10 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="100dp"
-        android:text="@string/select_type_of_field_to_remove"
+        android:text="הסרת מגרשים"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -36,10 +37,73 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="104dp"
         android:onClick="backClick"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="95dp"
+        android:layout_height="34dp"
+        android:text="בחר סוג מגרש"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <Button
+        android:id="@+id/btnFootball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="37dp"
+        android:text="כדורגל"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/btnBasketball"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/btnBasketball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="כדורסל"
+        app:layout_constraintStart_toEndOf="@+id/btnGym"
+        tools:layout_editor_absoluteY="115dp" />
+
+    <Button
+        android:id="@+id/btnGym"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="43dp"
+        android:text="חדר כושר"
+        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="107dp"
+        android:layout_height="34dp"
+        android:text="בחר את המגרש"
+        tools:layout_editor_absoluteX="292dp"
+        tools:layout_editor_absoluteY="206dp" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="הסר מגרש"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        tools:layout_editor_absoluteX="150dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="257dp"
+        android:layout_height="34dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="206dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
