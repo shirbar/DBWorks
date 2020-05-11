@@ -90,30 +90,9 @@ public class ManageFieldsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    /*if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
-                            //do nothing
-                        }
-                        else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
-*/
-                            keyList.add(Objects.requireNonNull(ds.getKey()));
-                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
-                       // }
-                    //}
+                    keyList.add(Objects.requireNonNull(ds.getKey()));
+                    typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                    fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                 }
 
                 // Spinner initialize (fields select)
@@ -372,20 +351,6 @@ public class ManageFieldsActivity extends AppCompatActivity {
             }
         });
     }
-
-/*
-    public void soccerFieldsClick(View view){
-        startActivity(new Intent(getApplicationContext(), AdminManageActivity.class));
-    }
-
-    public void basketballFieldsClick(View view){
-        //startActivity(new Intent(getApplicationContext(), BasketballFieldsActivity.class));
-    }
-
-    public void gymFieldsClick(View view){
-        //startActivity(new Intent(getApplicationContext(), GymFieldsActivity.class));
-    }
-*/
 
     public void backClick(View view){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
