@@ -28,6 +28,24 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/btnGym"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="חדר כושר"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnBasketball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="כדורסל"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
+        app:layout_constraintStart_toEndOf="@+id/btnGym" />
+
+    <Button
         android:id="@+id/btnFootball"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,86 +54,75 @@
         android:text="כדורגל"
         app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
         app:layout_constraintStart_toEndOf="@+id/btnBasketball"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.166" />
 
     <TextView
         android:id="@+id/dateView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="256dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/date"
-        android:textSize="30sp"
+        android:layout_marginTop="209dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="72dp"
+        android:text=":תאריך"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dateTxt"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Spinner
+        android:id="@+id/spinnerChooseField"
+        android:layout_width="282dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/dateTxtt"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/txtFieldNamesTitle7"
         android:layout_width="107dp"
         android:layout_height="33dp"
         android:layout_marginStart="14dp"
-        android:layout_marginBottom="25dp"
-        android:text="בחר את המגרש:"
+        android:layout_marginBottom="16dp"
+        android:text=":מגרש"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/dateView7"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/spinnerChooseField" />
-
-    <Spinner
-        android:id="@+id/spinnerChooseField"
-        android:layout_width="282dp"
-        android:layout_height="34dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/dateTxtt"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/dateTxtt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="209dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="64dp"
         android:text="@string/selectDate"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toStartOf="@+id/dateView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnGym"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="34dp"
-        android:text="חדר כושר"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/txtFieldTypeTitle7"
-        android:layout_width="95dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginBottom="35dp"
-        android:text="בחר סוג מגרש:"
+        android:layout_width="105dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="36dp"
+        android:text=":סוג מגרש"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtFieldNamesTitle7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnFootball" />
-
-    <Button
-        android:id="@+id/btnBasketball"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="34dp"
-        android:text="כדורסל"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerChooseField"
-        app:layout_constraintStart_toEndOf="@+id/btnGym" />
 
     <TextView
         android:id="@+id/textView4"
@@ -134,22 +141,21 @@
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
         android:layout_marginBottom="8dp"
         android:onClick="backClick"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRemove" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="164dp"
         android:text="הסרה"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblScreen"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -157,7 +163,7 @@
         android:id="@+id/lblScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="28dp"
         android:text="בחר שעה"
         app:layout_constraintStart_toStartOf="parent"

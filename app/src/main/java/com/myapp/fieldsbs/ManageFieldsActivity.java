@@ -41,7 +41,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
     Button btnRemove, btnFootball, btnBasketball, btnGym;
     Spinner chooseFieldSpinner;
     DatabaseReference managementRef, fieldRef, rootRef;
-    ArrayList<String> fieldsList, filteredFieldsList, idList, keyList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
+    ArrayList<String> fieldsList, filteredFieldsList, idList, keyList, filteredKeysList, nameList, typeList, showList, hoursList, statusList, numofPlayersList;
     ListView myList;
 
     @Override
@@ -51,6 +51,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
 
         myList = findViewById(R.id.listView);
         keyList = new ArrayList<>();
+        filteredKeysList = new ArrayList<>();
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
         fieldsList = new ArrayList<>();
@@ -89,34 +90,14 @@ public class ManageFieldsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
-                            //do nothing
-                        }
-                        else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
-
-                            keyList.add(Objects.requireNonNull(ds.getKey()));
-                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
-                        }
-                    }
+                    keyList.add(Objects.requireNonNull(ds.getKey()));
+                    typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                    fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                 }
 
                 // Spinner initialize (fields select)
                 filteredFieldsList = fieldsList;
+                filteredKeysList = keyList;
                 ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
                 //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -163,6 +144,9 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 int thisMonth = cal.get(Calendar.MONTH);
                 int thisDay = cal.get(Calendar.DAY_OF_MONTH);
 
+                // TODO: TEST?
+                //key =
+
                 DatePickerDialog dialog = new DatePickerDialog(
                         ManageFieldsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateListener, thisYear, thisMonth, thisDay);
@@ -191,9 +175,12 @@ public class ManageFieldsActivity extends AppCompatActivity {
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                // TODO: make this really change the sleected field ID
+                // Update the field KEY
+                key = filteredKeysList.get(chooseFieldSpinner.getSelectedItemPosition());
+                Object test = chooseFieldSpinner.getSelectedItem();
                 view.setSelected(true);
                 lblScreen.setText(showList.get(position).substring(23,34));
-
                 //name = nameList.get(position);
             }
         });
@@ -223,13 +210,15 @@ public class ManageFieldsActivity extends AppCompatActivity {
 
     // Choosing field time
     public void setView(){
-        System.out.println("entering set view");
 
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clearLists();
-                System.out.println("inside set view");
+
+                //  update the current field key
+                key = filteredKeysList.get(chooseFieldSpinner.getSelectedItemPosition());
+
                 for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
@@ -277,7 +266,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("numofPlayers").setValue("0");
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("type").setValue("ריק");
         setView();
-        Toast.makeText(ManageFieldsActivity.this, "המגרש רוקן ממשתפים בהצלחה.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ManageFieldsActivity.this, "המגרש רוקן ממשתתפים בהצלחה.", Toast.LENGTH_SHORT).show();
     }
 
     public void clearLists(){
@@ -285,7 +274,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         idList.clear();
         hoursList.clear();
         statusList.clear();
-        typeList.clear();
+        //typeList.clear();
         nameList.clear();
         numofPlayersList.clear();
     }
@@ -294,10 +283,15 @@ public class ManageFieldsActivity extends AppCompatActivity {
     {
         // TODO: FILTER
         filteredFieldsList = new ArrayList<>();
+        filteredKeysList = new ArrayList<>();
         for (int currFieldId = 0; currFieldId < fieldsList.size(); currFieldId++){
             // Check if this field the same type as requested
-            if(typeList.get(currFieldId).contains(type)) {
-                filteredFieldsList.add(fieldsList.get(currFieldId));
+            if(currFieldId < typeList.size())
+            {
+                if(typeList.get(currFieldId).contains(type) || ((type=="כדורסל" || type=="כדורגל")&&typeList.get(currFieldId).contains("משולב"))) {
+                    filteredFieldsList.add(fieldsList.get(currFieldId));
+                    filteredKeysList.add(keyList.get(currFieldId));
+                }
             }
         }
 
@@ -357,20 +351,6 @@ public class ManageFieldsActivity extends AppCompatActivity {
             }
         });
     }
-
-/*
-    public void soccerFieldsClick(View view){
-        startActivity(new Intent(getApplicationContext(), AdminManageActivity.class));
-    }
-
-    public void basketballFieldsClick(View view){
-        //startActivity(new Intent(getApplicationContext(), BasketballFieldsActivity.class));
-    }
-
-    public void gymFieldsClick(View view){
-        //startActivity(new Intent(getApplicationContext(), GymFieldsActivity.class));
-    }
-*/
 
     public void backClick(View view){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
