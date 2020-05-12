@@ -156,7 +156,6 @@ public class FootballActivity extends AppCompatActivity {
             if (nameList.get(i).equals("")){
                 nameList.set(i, typeList.get(i));
                 showList.add("| שם:       " + typeList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
-
             }
             else if (lightList.get(i).equals("כן")){
                 showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
@@ -177,5 +176,4 @@ public class FootballActivity extends AppCompatActivity {
         startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
 
     }
-
 }

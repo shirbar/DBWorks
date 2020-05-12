@@ -21,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,20 +32,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class FieldsActivity extends AppCompatActivity {
 
-
-    String key, id, type, date, fieldName, userName;
+    String key, id, type, date, fieldName, userName, Userid;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
-    DatabaseReference managementRef, rootRef;
+    DatabaseReference managementRef, rootRef, usersRef;
     Button backBtn, fullAssignBtn, assignMyselfBtn;
     ListView myList;
     ArrayList<String> showList, idList, hoursList, statusList, typeList, numofPlayersList, nameList;
+    FirebaseAuth fAuth;
     //ArrayList<ArrayList<String>> namesList;
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -51,6 +54,7 @@ public class FieldsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fields);
 
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         rootRef = FirebaseDatabase.getInstance().getReference();
         dateTxt = findViewById(R.id.dateTxt);
         fieldTxt = findViewById(R.id.fieldName);
@@ -76,6 +80,11 @@ public class FieldsActivity extends AppCompatActivity {
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
         fieldTxt.setText( "שם המגרש: " + fieldName);
+
+
+        fAuth = FirebaseAuth.getInstance();
+        Userid = fAuth.getUid();
+
 
         dateTxt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -292,9 +301,31 @@ public class FieldsActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
-        setView();
-        Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+
+
+        //Shir changes:
+        HashMap <String, Object> Activities = new HashMap<>();
+        Activities.put("Field name",fieldName);
+        Activities.put("Field ID",id);
+        Activities.put("Type",type);
+        Activities.put("Date", date);
+        Activities.put("Hour",userSelect.getText().toString());
+        Activities.put("Activities","Activities");
+
+        rootRef.child("Users").child(Userid).child("Activities").updateChildren(Activities).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(FieldsActivity.this, "הפעילות נוספה בהצלחה", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FieldsActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+       setView();
     }
+
     public void addPlayer(){
 
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -322,7 +353,7 @@ public class FieldsActivity extends AppCompatActivity {
         Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
     }
 
-    public void clearLists(){
+    public void clearLists() {
         showList.clear();
         idList.clear();
         hoursList.clear();

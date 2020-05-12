@@ -1,4 +1,8 @@
 package com.myapp.fieldsbs;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class User {
     private String name;
@@ -7,7 +11,7 @@ public class User {
     private String phone;
     private String isAdmin;
 
-    User(String name, String email, String id, String phone, String isAdmin) {
+    User (String name, String email, String id, String phone, String isAdmin) {
         this.name = name;
         this.email = email;
         this.id = id;
@@ -15,13 +19,9 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public String getPhone() {
-        return phone;
-    }
+    public String getPhone() { return phone; }
 
     public String getIsAdmin() {
         return isAdmin;
@@ -31,8 +31,6 @@ public class User {
         return name;
     }
 
-    public String getId(){
-        return id;
-    }
+    public String getId() { return id; }
 
 }

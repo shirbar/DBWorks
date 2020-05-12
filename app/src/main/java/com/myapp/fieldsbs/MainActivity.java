@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button TurnirsBtn, AviliableBtn, logOutBtn;
+    private Button TurnirsBtn, AviliableBtn, logOutBtn, MyReserveBtn;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         TurnirsBtn = (Button)findViewById(R.id.TurnirsBtn);
         AviliableBtn = (Button)findViewById(R.id.AviliableBtn);
         logOutBtn = (Button)findViewById(R.id.logoutBtn);
+        MyReserveBtn = (Button)findViewById(R.id.MyReserveBtn);
 
 
         TurnirsBtn.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        MyReserveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reservations();
+            }
+        });
+
     }
 
     private void logOut() {
@@ -69,5 +77,10 @@ public class MainActivity extends AppCompatActivity {
     private void Turnir() {
         Intent i = new Intent(MainActivity.this,TurnirsActivity.class);
         startActivity(i);
+    }
+
+    private void Reservations() {
+            Intent i = new Intent(MainActivity.this, ReservationActivity.class);
+            startActivity(i);
     }
 }
