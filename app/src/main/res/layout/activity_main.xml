@@ -43,7 +43,7 @@
         android:layout_width="157dp"
         android:layout_height="112dp"
         android:fontFamily="sans-serif"
-        android:text="My Reservations"
+        android:text="My Activity"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#882446"
         android:textSize="24sp"

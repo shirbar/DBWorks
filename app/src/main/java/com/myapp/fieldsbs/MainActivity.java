@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         logOutBtn = (Button)findViewById(R.id.logoutBtn);
         MyReserveBtn = (Button)findViewById(R.id.MyReserveBtn);
 
-
         TurnirsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

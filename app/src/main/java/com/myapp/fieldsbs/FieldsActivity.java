@@ -79,7 +79,7 @@ public class FieldsActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
-        fieldTxt.setText( "שם המגרש: " + fieldName);
+        fieldTxt.setText("שם המגרש: " + fieldName);
 
 
         fAuth = FirebaseAuth.getInstance();
@@ -107,10 +107,9 @@ public class FieldsActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Calendar cal = Calendar.getInstance();
-                if (year < cal.get(Calendar.YEAR) || (year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH)) || (year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH)) && day < cal.get(Calendar.DAY_OF_MONTH)){
+                if (year < cal.get(Calendar.YEAR) || (year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH)) || (year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH)) && day < cal.get(Calendar.DAY_OF_MONTH)) {
                     Toast.makeText(FieldsActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     month = month + 1;
                     date = day + "-" + month + "-" + year;
                     dateTxt.setText(date);
@@ -122,7 +121,7 @@ public class FieldsActivity extends AppCompatActivity {
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 view.setSelected(true);
                 userSelect.setText(hoursList.get(position));
 
@@ -137,24 +136,23 @@ public class FieldsActivity extends AppCompatActivity {
             }
         });
 
-        fullAssignBtn.setOnClickListener(new View.OnClickListener(){
+        fullAssignBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                if (userSelect.getText().toString().equals("בחר שעות")){
+            public void onClick(View view) {
+                if (userSelect.getText().toString().equals("בחר שעות")) {
                     Toast.makeText(FieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String check = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
                             if (check.equals("תפוס") || check.equals("מתקיים")) {
                                 Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+                            } else {
                                 fullAssign();
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -166,10 +164,9 @@ public class FieldsActivity extends AppCompatActivity {
         assignMyselfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (userSelect.getText().toString().equals("בחר שעות")){
+                if (userSelect.getText().toString().equals("בחר שעות")) {
                     Toast.makeText(FieldsActivity.this, "בבקשה תבחר תאריך ואז שעה פנויה מתוך הרשימה.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -177,19 +174,17 @@ public class FieldsActivity extends AppCompatActivity {
                             String checkType = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("type").getValue()).toString();
                             if (checkStatus.equals("תפוס")) {
                                 Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
-                            }
-                            else if (checkStatus.equals("פנוי")){
+                            } else if (checkStatus.equals("פנוי")) {
                                 assignPlayer();
-                            }
-                            else{
-                                if (checkType.equals(type)){
+                            } else {
+                                if (checkType.equals(type)) {
                                     addPlayer();
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(FieldsActivity.this, "בשעה הזאת משחקים במשחק אחר ממה שבחרת, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -200,35 +195,32 @@ public class FieldsActivity extends AppCompatActivity {
 
     }
 
-    public void checkEmptyDate(){
+    public void checkEmptyDate() {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(key).hasChild(date)){
+                if (dataSnapshot.child(key).hasChild(date)) {
                     System.out.println("inside has child");
 
-                }
-                else{
+                } else {
                     System.out.println("it does not have childs");
                     //if its empty we will make the date in the database with empty hours.
-                    for (int i = 7; i < 24; i++){
-                        if (i < 9){
+                    for (int i = 7; i < 24; i++) {
+                        if (i < 9) {
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("type").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("creator").setValue("ריק");
                             //managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
-                        }
-                        else if (i == 9){
+                        } else if (i == 9) {
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("creator").setValue("ריק");
                             //managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
-                        }
-                        else{
+                        } else {
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
@@ -240,6 +232,7 @@ public class FieldsActivity extends AppCompatActivity {
                 }
                 setView();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -247,7 +240,7 @@ public class FieldsActivity extends AppCompatActivity {
     }
 
 
-    public void setView(){
+    public void setView() {
         System.out.println("entering set view");
 
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -255,7 +248,7 @@ public class FieldsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clearLists();
                 System.out.println("inside set view");
-                for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
                     numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
@@ -270,12 +263,11 @@ public class FieldsActivity extends AppCompatActivity {
                      */
 
                 }
-                for (int i = 0; i < statusList.size(); i++){
-                    if (statusList.get(i).equals("פנוי")){
+                for (int i = 0; i < statusList.size(); i++) {
+                    if (statusList.get(i).equals("פנוי")) {
                         System.out.println("available");
                         showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
-                    }
-                    else{
+                    } else {
                         System.out.println("not available");
                         showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + nameList.get(i));
                         System.out.println(showList.get(i));
@@ -290,67 +282,46 @@ public class FieldsActivity extends AppCompatActivity {
         });
     }
 
-    public void showView(){
+    public void showView() {
         ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
         myList.setAdapter(listAdapter);
     }
 
-    public void assignPlayer(){
+    public void assignPlayer() {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
 
-
-        //Shir changes:
-        HashMap <String, Object> Activities = new HashMap<>();
-        Activities.put("Field name",fieldName);
-        Activities.put("Field ID",id);
-        Activities.put("Type",type);
-        Activities.put("Date", date);
-        Activities.put("Hour",userSelect.getText().toString());
-        Activities.put("Activities","Activities");
-
-        rootRef.child("Users").child(Userid).child("Activities").updateChildren(Activities).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(FieldsActivity.this, "הפעילות נוספה בהצלחה", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(FieldsActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-       setView();
+        Assign_To_My_Activities();
     }
 
-    public void addPlayer(){
+    public void addPlayer() {
 
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int number = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").getValue()).toString());
-                number ++;
+                number++;
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(number));
-                setView();
-                Toast.makeText(FieldsActivity.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
+                Assign_To_My_Activities();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
 
-    public void fullAssign(){
+    public void fullAssign() {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("תפוס");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("מלא");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
-        setView();
-        Toast.makeText(FieldsActivity.this, "נרשמת בההצלחה.", Toast.LENGTH_SHORT).show();
+
+        Assign_To_My_Activities();
     }
 
     public void clearLists() {
@@ -361,5 +332,30 @@ public class FieldsActivity extends AppCompatActivity {
         typeList.clear();
         nameList.clear();
         numofPlayersList.clear();
+    }
+
+
+    private void Assign_To_My_Activities() {
+        HashMap<String, Object> Activity = new HashMap<>();
+
+        Activity.put("Field name", fieldName);
+        Activity.put("Field ID", key);
+        Activity.put("Type", type);
+        Activity.put("Date", date);
+        Activity.put("Hour", userSelect.getText().toString());
+
+        rootRef.child("Users").child(Userid).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(FieldsActivity.this, "הפעילות נוספה בהצלחה", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FieldsActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        setView();
+
     }
 }

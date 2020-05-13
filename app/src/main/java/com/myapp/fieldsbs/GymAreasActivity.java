@@ -21,6 +21,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,18 +32,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class GymAreasActivity extends AppCompatActivity {
 
 
-    String key, id, type, date, fieldName, userName;
+    String key, id, type, date, fieldName, userName, Userid;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
-    DatabaseReference managementRef, rootRef;
+    DatabaseReference managementRef, rootRef, usersRef;
     Button backBtn, startGroupTrainingBtn, assignPlayerBtn;
     ListView myList;
     ArrayList<String> showList, idList, hoursList, statusList, typeList, numofPlayersList, creatorList;
+    FirebaseAuth fAuth;
     //ArrayList<ArrayList<String>> namesList;
 
 
@@ -51,6 +56,7 @@ public class GymAreasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gym_areas);
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
         rootRef = FirebaseDatabase.getInstance().getReference();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         dateTxt = findViewById(R.id.dateTxt);
         fieldTxt = findViewById(R.id.fieldName);
         myList = findViewById(R.id.listView);
@@ -58,6 +64,9 @@ public class GymAreasActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         startGroupTrainingBtn = findViewById(R.id.fullAssignBtn);
         assignPlayerBtn = findViewById(R.id.assignMyselfBtn);
+
+        fAuth = FirebaseAuth.getInstance();
+        Userid = fAuth.getUid();
 
         showList = new ArrayList<>();
         idList = new ArrayList<>();
@@ -276,9 +285,35 @@ public class GymAreasActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
-        setView();
-        Toast.makeText(GymAreasActivity.this, "יצרת בההצלחה.", Toast.LENGTH_SHORT).show();
+
+        Assign_To_My_Activities();
+
     }
+
+    private void Assign_To_My_Activities() {
+        HashMap<String, Object> Activity = new HashMap<>();
+
+        Activity.put("Field name",fieldName);
+        Activity.put("Field ID",key);
+        Activity.put("Type",type);
+        Activity.put("Date", date);
+        Activity.put("Hour",userSelect.getText().toString());
+
+        rootRef.child("Users").child(Userid).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(GymAreasActivity.this, "הפעילות נוספה בהצלחה", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(GymAreasActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        setView();
+
+    }
+
     public void addPlayer(){
 
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -287,8 +322,7 @@ public class GymAreasActivity extends AppCompatActivity {
                 int number = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").getValue()).toString());
                 number ++;
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(number));
-                setView();
-                Toast.makeText(GymAreasActivity.this, "נוספת בההצלחה.", Toast.LENGTH_SHORT).show();
+                Assign_To_My_Activities();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -302,8 +336,9 @@ public class GymAreasActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue("אימון קבוצתי");
-        setView();
-        Toast.makeText(GymAreasActivity.this, "יצרת קבוצה בההצלחה.", Toast.LENGTH_SHORT).show();
+
+        Assign_To_My_Activities();
+
     }
 
     public void clearLists(){

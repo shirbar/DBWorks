@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ReservationActivity">
 
+    <Button
+        android:id="@+id/goBackBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listActivity"
+        app:layout_constraintVertical_bias="0.546" />
+
+    <TextView
+        android:id="@+id/HeadLine"
+        style="@android:style/Widget.DeviceDefault.TextView"
+        android:layout_width="162dp"
+        android:layout_height="37dp"
+        android:text="הפעילויות שלי"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/listActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnknownId" />
+
+    <ListView
+        android:id="@+id/listActivity"
+        android:layout_width="420dp"
+        android:layout_height="397dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-7dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
