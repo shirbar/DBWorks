@@ -171,6 +171,7 @@ public class FieldsActivity extends AppCompatActivity {
             }
         });
 
+        
         assignMyselfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
