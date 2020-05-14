@@ -28,7 +28,7 @@
     <string name="gymAreas">אזורי כושר</string>
     <string name="soccerFields">מגרשי כדורגל</string>
     <string name="basketballFields">מגרשי כדורסל</string>
-    <string name="selectDate">בחר תאריך</string>
+    <string name="selectDate">לחץ כאן לבחירה</string>
     <string name="date">תאריך:</string>
     <string name="reserveField">שריין מגרש</string>
     <string name="selectHours">בחר שעות</string>

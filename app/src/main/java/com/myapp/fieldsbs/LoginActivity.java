@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     database = FirebaseDatabase.getInstance();
                     userRef = database.getReference(USERS);
-                    userRef.addValueEventListener(new ValueEventListener() {
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String id= fAuth.getUid();
