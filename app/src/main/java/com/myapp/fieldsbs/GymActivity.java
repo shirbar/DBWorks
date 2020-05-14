@@ -124,6 +124,10 @@ public class GymActivity extends AppCompatActivity {
                     intent.putExtra("id", id);
                     intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
+
+
+
+
                     startActivity(intent);
                 }
             }

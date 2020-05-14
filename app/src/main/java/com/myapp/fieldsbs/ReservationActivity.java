@@ -27,38 +27,49 @@ import java.util.ArrayList;
 public class ReservationActivity extends AppCompatActivity {
 
     ListView ActivityList;
-    Button BackBtn;
+    Button BackBtn, RemoveBtn;
     DatabaseReference ActivityRef;
     FirebaseAuth fAtuth;
     String UserRef;
-    ArrayList<String> ShowList;
-    String date, fieldId, fieldname, hour, type;
+    ArrayList<String> ShowList, FieldIdList,DateList, HourList, ActivityIdList;
+    String date, fieldId, fieldname, hour, type, ActivityId;
+    int Position1=0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
-
         ActivityList = (findViewById(R.id.listActivity));
         BackBtn = (findViewById(R.id.goBackBtn2));
+        RemoveBtn = (findViewById(R.id.RemoveBtn));
+
         ShowList = new ArrayList<>();
+        FieldIdList = new ArrayList<>();
+        DateList = new ArrayList<>();
+        HourList = new ArrayList<>();
+        ActivityIdList = new ArrayList<>();
 
         fAtuth = FirebaseAuth.getInstance();
         UserRef = fAtuth.getUid();
-
         ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("Activities");
 
         ActivityRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ActivityId = ds.getKey().toString();
                     type = ds.child("Type").getValue().toString();
                     hour = ds.child("Hour").getValue().toString();
                     fieldname = ds.child("Field name").getValue().toString();
                     fieldId = ds.child("Field ID").getValue().toString();
                     date = ds.child("Date").getValue().toString();
-                    ShowList.add("|פעילות:       " + type + "\n| שם:   " + fieldname + "\n| מספר מגרש:  " + fieldId + ":תאריך| \n" + date + "\n| שעה:   " + hour);
+                    FieldIdList.add(fieldId);
+                    DateList.add(date);
+                    HourList.add(hour);
+                    ActivityIdList.add(ActivityId);
+
+                    ShowList.add("|פעילות:       " + type + "\n| שם:   " + fieldname + "\n| מספר מגרש:  " + fieldId + "\n |תאריך :" + date + "\n| שעה" + hour);
                 }
 
                 ListAdapter listAdapter = new ArrayAdapter<>(ReservationActivity.this, android.R.layout.simple_list_item_1, ShowList);
@@ -67,7 +78,7 @@ public class ReservationActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                
+
             }
 
         });
@@ -79,6 +90,37 @@ public class ReservationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+        ActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                view.setSelected(true);
+                date = DateList.get(position);
+                hour = HourList.get(position);
+                fieldId = FieldIdList.get(position);
+                Position1 = position;
+
+            }
+        });
+
+        RemoveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+                    public void onClick(View view) {
+                    DeleteActivity();
+            }
+        });
+    }
+
+    private void DeleteActivity() {
+        //Delete from user activity in fire base:
+        fAtuth = FirebaseAuth.getInstance();
+        UserRef = fAtuth.getUid();
+        ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("Activities");
+        ActivityRef.child(ActivityIdList.get(Position1)).removeValue();
+
+        //Delete from Mangment the place this user holds.
 
     }
 }

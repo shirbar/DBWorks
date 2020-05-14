@@ -14,8 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listActivity"
-        app:layout_constraintVertical_bias="0.546" />
+        app:layout_constraintTop_toBottomOf="@+id/RemoveBtn" />
 
     <TextView
         android:id="@+id/HeadLine"
@@ -24,18 +23,24 @@
         android:layout_height="37dp"
         android:text="הפעילויות שלי"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/listActivity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UnknownId" />
+        tools:ignore="MissingConstraints,UnknownId"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="70dp" />
 
     <ListView
         android:id="@+id/listActivity"
         android:layout_width="420dp"
         android:layout_height="397dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-7dp" />
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="177dp" />
+
+    <Button
+        android:id="@+id/RemoveBtn"
+        android:layout_width="136dp"
+        android:layout_height="39dp"
+        android:text="הסר פעילות"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="167dp"
+        tools:layout_editor_absoluteY="604dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
