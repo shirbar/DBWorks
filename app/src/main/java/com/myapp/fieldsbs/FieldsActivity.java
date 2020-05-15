@@ -38,13 +38,13 @@ import java.util.Objects;
 public class FieldsActivity extends AppCompatActivity {
 
     boolean today = false, alreadySigned = false;
-    String key, id, type, date, fieldName, userName, Userid;
+    String key, id, type, date, fieldName, userName, UserId;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
     DatabaseReference managementRef, usersRef;
     Button backBtn, fullAssignBtn, assignMyselfBtn;
     ListView myList;
-    ArrayList<String> showList, hoursList, statusList, typeList, numofPlayersList, nameList, usersList;
+    ArrayList<String> showList, hoursList, statusList, typeList, numOfPlayersList, creatorList, usersList;
     FirebaseAuth fAuth;
     //ArrayList<ArrayList<String>> namesList;
 
@@ -64,14 +64,17 @@ public class FieldsActivity extends AppCompatActivity {
         fullAssignBtn = findViewById(R.id.fullAssignBtn);
         assignMyselfBtn = findViewById(R.id.assignMyselfBtn);
 
+        fAuth = FirebaseAuth.getInstance();
+        UserId = fAuth.getUid();
+
         showList = new ArrayList<>();
         hoursList = new ArrayList<>();
         statusList = new ArrayList<>();
         typeList = new ArrayList<>();
-        nameList = new ArrayList<>();
-        numofPlayersList = new ArrayList<>();
+        creatorList = new ArrayList<>();
+        numOfPlayersList = new ArrayList<>();
         usersList = new ArrayList<>();
-        //namesList = new ArrayList<>();
+
 
         //getting the data from the previous intent with getStringExtra
         id = getIntent().getStringExtra("id");
@@ -80,10 +83,6 @@ public class FieldsActivity extends AppCompatActivity {
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
         fieldTxt.setText("שם המגרש: " + fieldName);
-
-
-        fAuth = FirebaseAuth.getInstance();
-        Userid = fAuth.getUid();
 
 
         dateTxt.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +133,6 @@ public class FieldsActivity extends AppCompatActivity {
                     view.setSelected(true);
                     userSelect.setText(hoursList.get(position));
                 }
-
             }
         });
 
@@ -171,7 +169,7 @@ public class FieldsActivity extends AppCompatActivity {
             }
         });
 
-        
+
         assignMyselfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,9 +183,11 @@ public class FieldsActivity extends AppCompatActivity {
                             String checkType = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("type").getValue()).toString();
                             if (checkStatus.equals("תפוס")) {
                                 Toast.makeText(FieldsActivity.this, "השעה הזאת כבר תפוסה, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
-                            } else if (checkStatus.equals("פנוי")) {
+                            }
+                            else if (checkStatus.equals("פנוי")) {
                                 assignPlayer();
-                            } else {
+                            }
+                            else {
                                 if (checkType.equals(type)) {
                                     for (DataSnapshot ds : dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("participantList").getChildren()) {
                                         if (Objects.equals(ds.getKey(), id)){
@@ -201,7 +201,8 @@ public class FieldsActivity extends AppCompatActivity {
                                         Toast.makeText(FieldsActivity.this, "כבר נרשמת למשחק בשעה הזאת.", Toast.LENGTH_SHORT).show();
                                         alreadySigned = false;
                                     }
-                                } else {
+                                }
+                                else {
                                     Toast.makeText(FieldsActivity.this, "בשעה הזאת משחקים במשחק אחר ממה שבחרת, בחר שעה אחרת.", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -263,9 +264,9 @@ public class FieldsActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
-                    numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
+                    numOfPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
-                    nameList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
+                    creatorList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
                     /*
                     int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     for (int i = 0; i < numberofPlayers; i++)
@@ -276,7 +277,7 @@ public class FieldsActivity extends AppCompatActivity {
                     if (statusList.get(i).equals("פנוי")) {
                         showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
                     } else {
-                        showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + nameList.get(i));
+                        showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numOfPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + creatorList.get(i));
                     }
                 }
                 showView();
@@ -303,7 +304,6 @@ public class FieldsActivity extends AppCompatActivity {
     }
 
     public void addPlayer() {
-
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -314,7 +314,6 @@ public class FieldsActivity extends AppCompatActivity {
 
                 Assign_To_My_Activities();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -336,8 +335,8 @@ public class FieldsActivity extends AppCompatActivity {
         hoursList.clear();
         statusList.clear();
         typeList.clear();
-        nameList.clear();
-        numofPlayersList.clear();
+        creatorList.clear();
+        numOfPlayersList.clear();
     }
 
 
@@ -350,7 +349,7 @@ public class FieldsActivity extends AppCompatActivity {
         Activity.put("Date", date);
         Activity.put("Hour", userSelect.getText().toString());
 
-        usersRef.child(Userid).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+        usersRef.child(UserId).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

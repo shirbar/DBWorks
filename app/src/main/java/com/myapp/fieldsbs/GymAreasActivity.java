@@ -37,14 +37,14 @@ import java.util.Objects;
 
 public class GymAreasActivity extends AppCompatActivity {
 
-
-    String key, id, type, date, fieldName, userName, Userid;
+    boolean today = false, alreadySigned = false;
+    String key, id, type, date, fieldName, userName, UserId;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
-    DatabaseReference managementRef, rootRef, usersRef;
+    DatabaseReference managementRef, usersRef;
     Button backBtn, startGroupTrainingBtn, assignPlayerBtn;
     ListView myList;
-    ArrayList<String> showList, idList, hoursList, statusList, typeList, numofPlayersList, creatorList;
+    ArrayList<String> showList, hoursList, statusList, typeList, numOfPlayersList, creatorList, usersList;
     FirebaseAuth fAuth;
     //ArrayList<ArrayList<String>> namesList;
 
@@ -55,7 +55,6 @@ public class GymAreasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym_areas);
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
-        rootRef = FirebaseDatabase.getInstance().getReference();
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         dateTxt = findViewById(R.id.dateTxt);
         fieldTxt = findViewById(R.id.fieldName);
@@ -66,16 +65,15 @@ public class GymAreasActivity extends AppCompatActivity {
         assignPlayerBtn = findViewById(R.id.assignMyselfBtn);
 
         fAuth = FirebaseAuth.getInstance();
-        Userid = fAuth.getUid();
+        UserId = fAuth.getUid();
 
         showList = new ArrayList<>();
-        idList = new ArrayList<>();
         hoursList = new ArrayList<>();
         statusList = new ArrayList<>();
         typeList = new ArrayList<>();
         creatorList = new ArrayList<>();
-        numofPlayersList = new ArrayList<>();
-        //namesList = new ArrayList<>();
+        numOfPlayersList = new ArrayList<>();
+        usersList = new ArrayList<>();
 
         //getting the data from the previous intent with getStringExtra
         id = getIntent().getStringExtra("id");
@@ -110,6 +108,7 @@ public class GymAreasActivity extends AppCompatActivity {
                     Toast.makeText(GymAreasActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    today = year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH) && day == cal.get(Calendar.DAY_OF_MONTH);
                     month = month + 1;
                     date = day + "-" + month + "-" + year;
                     dateTxt.setText(date);
@@ -123,9 +122,15 @@ public class GymAreasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
                 view.setSelected(true);
-                userSelect.setText(hoursList.get(position));
-
-                //name = namesList.get(position);
+                Calendar cal = Calendar.getInstance();
+                String hour_selected = hoursList.get(position).substring(0, 2);
+                if ((today) && (Integer.parseInt(hour_selected) < cal.get(Calendar.HOUR_OF_DAY)+3)){
+                    Toast.makeText(GymAreasActivity.this, "השעה המבוקשת כבר עברה.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    view.setSelected(true);
+                    userSelect.setText(hoursList.get(position));
+                }
             }
         });
 
@@ -173,15 +178,30 @@ public class GymAreasActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String checkStatus = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("status").getValue()).toString();
-                            String checkType = Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("type").getValue()).toString();
                             if (checkStatus.equals("פנוי")){
                                 assignPlayer();
                             }
-                            else{
-                                //here we can check if we have maximum players or not.
-                                    addPlayer();
+                            else {
+                                    for (DataSnapshot ds : dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("participantList").getChildren()) {
+                                        if (Objects.equals(ds.getKey(), id)){
+                                            alreadySigned = true;
+                                        }
+                                    }
+                                    if (!alreadySigned){
+                                        if (Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").getValue()).toString().equals("10")){
+                                            Toast.makeText(GymAreasActivity.this, "אינך יכול להצטרף מכיוון שמספר המשתתפים מקסימלי.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            addPlayer();
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(GymAreasActivity.this, "כבר נרשמת לאימון בשעה הזאת.", Toast.LENGTH_SHORT).show();
+                                        alreadySigned = false;
+                                    }
                                 }
-                        }
+                            }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -196,16 +216,10 @@ public class GymAreasActivity extends AppCompatActivity {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(key).hasChild(date)){
-                    System.out.println("inside has child");
-
-                }
-                else{
-                    System.out.println("it does not have childs");
+                if (!dataSnapshot.child(key).hasChild(date)) {
                     //if its empty we will make the date in the database with empty hours.
                     for (int i = 7; i < 24; i++){
                         if (i < 9){
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("type").setValue("ריק");
@@ -213,7 +227,6 @@ public class GymAreasActivity extends AppCompatActivity {
                             //managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
                         }
                         else if (i == 9){
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
@@ -221,7 +234,6 @@ public class GymAreasActivity extends AppCompatActivity {
                             //managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
                         }
                         else{
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
@@ -247,9 +259,8 @@ public class GymAreasActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
-                    numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
+                    numOfPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
-                    idList.add(Objects.requireNonNull(ds.child("id").getValue()).toString());
                     creatorList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
                     /*
                     int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
@@ -262,7 +273,7 @@ public class GymAreasActivity extends AppCompatActivity {
                         showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
                     }
                     else{
-                        showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + creatorList.get(i));
+                        showList.add("|שעות:                     " + hoursList.get(i) + "\n|זמינות:                   " + statusList.get(i) + "\n|מספר משתתפים: " + numOfPlayersList.get(i) + "/10" + "\n|סוג:                        " + typeList.get(i) + "\n|שם האחראי:         " + creatorList.get(i));
                         System.out.println(showList.get(i));
                     }
                 }
@@ -280,14 +291,50 @@ public class GymAreasActivity extends AppCompatActivity {
     }
 
     public void assignPlayer(){
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
+
+        Assign_To_My_Activities();
+    }
+
+    public void addPlayer(){
+        managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int playersNum = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").getValue()).toString());
+                playersNum ++;
+                managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(playersNum));
+                managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
+
+                Assign_To_My_Activities();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void fullAssign(){
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue("אימון קבוצתי");
+        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
 
         Assign_To_My_Activities();
 
+    }
+
+    public void clearLists(){
+        showList.clear();
+        hoursList.clear();
+        statusList.clear();
+        typeList.clear();
+        creatorList.clear();
+        numOfPlayersList.clear();
     }
 
     private void Assign_To_My_Activities() {
@@ -299,55 +346,16 @@ public class GymAreasActivity extends AppCompatActivity {
         Activity.put("Date", date);
         Activity.put("Hour",userSelect.getText().toString());
 
-        rootRef.child("Users").child(Userid).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+        usersRef.child(UserId).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(GymAreasActivity.this, "הפעילות נוספה בהצלחה", Toast.LENGTH_SHORT).show();
+                    setView();
                 } else {
                     Toast.makeText(GymAreasActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-        setView();
-
-    }
-
-    public void addPlayer(){
-
-        managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int number = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").getValue()).toString());
-                number ++;
-                managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(number));
-                Assign_To_My_Activities();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
-
-    public void fullAssign(){
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("id").setValue(id);
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue("1");
-        managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue("אימון קבוצתי");
-
-        Assign_To_My_Activities();
-
-    }
-
-    public void clearLists(){
-        showList.clear();
-        idList.clear();
-        hoursList.clear();
-        statusList.clear();
-        typeList.clear();
-        creatorList.clear();
-        numofPlayersList.clear();
     }
 }
