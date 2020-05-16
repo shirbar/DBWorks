@@ -7,42 +7,36 @@
     tools:context=".AviliableActivity">
 
     <Button
-        android:id="@+id/gymBtn"
-        android:layout_width="165dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="200dp"
-        android:text="@string/gymAreas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BasketballBtn"
-        tools:ignore="MissingConstraints" />
-
-    <Button
         android:id="@+id/footBtn"
-        android:layout_width="165dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/soccerFields"
-        app:layout_constraintBottom_toTopOf="@+id/BasketballBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BasketballBtn"
-        android:layout_width="165dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/basketballFields"
-        app:layout_constraintBottom_toTopOf="@+id/gymBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/footBtn" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+    <Button
+        android:id="@+id/gymBtn"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/gymAreas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/backBtn"
@@ -53,5 +47,41 @@
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:contentDescription="@string/soccerFields"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/football_img" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:contentDescription="@string/basketballFields"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@drawable/basketball_img" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:contentDescription="@string/gymAreas"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:srcCompat="@drawable/gym_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

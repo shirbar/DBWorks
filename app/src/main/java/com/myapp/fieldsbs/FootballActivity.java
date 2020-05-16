@@ -1,9 +1,12 @@
 package com.myapp.fieldsbs;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -112,9 +115,10 @@ public class FootballActivity extends AppCompatActivity {
         });
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
-                view.setSelected(true);
+                userSelect.setTextColor(getColor(R.color.userSelect_color));
                 userSelect.setText(nameList.get(position));
                 key = keyList.get(position);
                 name = nameList.get(position);
@@ -169,6 +173,7 @@ public class FootballActivity extends AppCompatActivity {
         }
         ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
         myList.setAdapter(listAdapter);
+
     }
 
     @Override

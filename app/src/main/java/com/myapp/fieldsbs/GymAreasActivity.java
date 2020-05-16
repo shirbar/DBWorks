@@ -119,6 +119,7 @@ public class GymAreasActivity extends AppCompatActivity {
 
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
                 view.setSelected(true);
@@ -128,7 +129,7 @@ public class GymAreasActivity extends AppCompatActivity {
                     Toast.makeText(GymAreasActivity.this, "השעה המבוקשת כבר עברה.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    view.setSelected(true);
+                    userSelect.setTextColor(getColor(R.color.userSelect_color));
                     userSelect.setText(hoursList.get(position));
                 }
             }

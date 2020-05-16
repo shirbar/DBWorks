@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".FieldsActivity">
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/manage_fields"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fields_img" />
+
     <TextView
         android:id="@+id/fieldName"
         android:layout_width="wrap_content"
@@ -13,23 +25,11 @@
         android:layout_marginStart="180dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="180dp"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        android:textColor="@color/default_color"
         android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dateTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/selectDate"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/dateView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,20 +39,37 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:layout_marginEnd="25dp"
+        android:background="@color/common_google_signin_btn_text_light_default"
         android:text="@string/date"
+        android:textColor="@color/default_color"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/dateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/common_google_signin_btn_text_light_default"
+        android:text="@string/selectDate"
+        android:textColor="@color/default_color"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/dateView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/listView"
-        android:layout_width="400dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="20dp"
+        android:background="@color/common_google_signin_btn_text_light_disabled"
         app:layout_constraintBottom_toTopOf="@+id/fullAssignBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
@@ -63,13 +80,11 @@
         android:id="@+id/fullAssignBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
         android:text="@string/reserveField"
         app:layout_constraintBottom_toTopOf="@+id/assignMyselfBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listView" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/backBtn"
@@ -88,7 +103,9 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="40dp"
+        android:background="@color/default_color"
         android:text="@string/selectHours"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

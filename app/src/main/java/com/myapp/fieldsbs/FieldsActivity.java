@@ -110,7 +110,7 @@ public class FieldsActivity extends AppCompatActivity {
                     Toast.makeText(FieldsActivity.this, "התאריך המבוקש כבר עבר.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    today = year == cal.get(Calendar.YEAR) && month < cal.get(Calendar.MONTH) && day == cal.get(Calendar.DAY_OF_MONTH);
+                    today = year == cal.get(Calendar.YEAR) && month == cal.get(Calendar.MONTH) && day == cal.get(Calendar.DAY_OF_MONTH);
                     month = month + 1;
                     date = day + "-" + month + "-" + year;
                     dateTxt.setText(date);
@@ -121,6 +121,7 @@ public class FieldsActivity extends AppCompatActivity {
 
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 view.setSelected(true);
@@ -130,7 +131,7 @@ public class FieldsActivity extends AppCompatActivity {
                     Toast.makeText(FieldsActivity.this, "השעה המבוקשת כבר עברה.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    view.setSelected(true);
+                    userSelect.setTextColor(getColor(R.color.userSelect_color));
                     userSelect.setText(hoursList.get(position));
                 }
             }
