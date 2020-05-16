@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     >
 
     <Button
@@ -12,7 +13,7 @@
         android:layout_height="112dp"
         android:fontFamily="sans-serif"
         android:textColor="#882446"
-        android:text="Turnirs And Trainings "
+        android:text="@string/turnirs_and_trainings"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
         android:layout_width="157dp"
         android:layout_height="112dp"
         android:fontFamily="sans-serif"
-        android:text="Aviliable And Close Fields"
+        android:text="@string/aviliable_and_close_fields"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#882446"
         android:textSize="24sp"
@@ -43,7 +44,7 @@
         android:layout_width="157dp"
         android:layout_height="112dp"
         android:fontFamily="sans-serif"
-        android:text="My Activity"
+        android:text="@string/my_activity"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#882446"
         android:textSize="24sp"
@@ -62,7 +63,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="sans-serif"
-        android:text="Log Out"
+        android:text="@string/logout"
         android:textColor="#5E1930"
         android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"

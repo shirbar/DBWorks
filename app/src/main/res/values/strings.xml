@@ -35,4 +35,7 @@
     <string name="joinTraining">הירשם לאימון</string>
     <string name="startGroupTraining">התחל אימון קבוצתי</string>
     <string name="reserveSpot">שריין מקום</string>
+    <string name="aviliable_and_close_fields">Aviliable And Close Fields</string>
+    <string name="my_activity">My Activity</string>
+    <string name="turnirs_and_trainings">Turnirs And Trainings</string>
 </resources>
