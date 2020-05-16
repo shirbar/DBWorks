@@ -9,17 +9,15 @@ import android.widget.Button;
 
 public class AviliableActivity extends AppCompatActivity {
 
-    private Button footballBtn, basketballBtn, GymBtn, backBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aviliable);
 
-        footballBtn = findViewById(R.id.footBtn);
-        basketballBtn = findViewById(R.id.BasketballBtn);
-        GymBtn = findViewById(R.id.gymBtn);
-        backBtn = findViewById(R.id.backBtn);
+        Button footballBtn = findViewById(R.id.btnFootball);
+        Button basketballBtn = findViewById(R.id.basketballBtn);
+        Button gymBtn = findViewById(R.id.gymBtn);
+        Button backBtn = findViewById(R.id.backBtn);
 
         footballBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +37,7 @@ public class AviliableActivity extends AppCompatActivity {
         });
 
 
-        GymBtn.setOnClickListener(new View.OnClickListener() {
+        gymBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i =  new Intent(AviliableActivity.this, GymActivity.class);

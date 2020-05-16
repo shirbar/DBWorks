@@ -82,4 +82,10 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, ReservationActivity.class);
             startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
 }
