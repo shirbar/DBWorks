@@ -1,9 +1,11 @@
 package com.myapp.fieldsbs;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,103 +32,160 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
     TextView userSelect;
     Button removeBtn, backBtn, footballBtn, basketballBtn, gymBtn;
-    DatabaseReference fieldRef;//, usersRef;
+    DatabaseReference fieldRef, rootRef;
     FirebaseAuth fAuth;
-    ListView myList;
-    ArrayList<String> keyList, nameList, typeList, lightList, neighborhoodList, streetList, showList;
-    String name, key;
+    ListView myList;//, chooseFieldViewlist;
+    Spinner mySpinner;
+    ArrayList<String> fieldsList, filteredFieldsList, keyList, filteredKeysList, nameList, typeList, showList;
+    String name, key, id;
+
+   // ArrayAdapter<String> showListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_fields);
-        myList = findViewById(R.id.listView);
 
-        backBtn = findViewById(R.id.goBackBtn);
+        myList = (ListView) findViewById(R.id.Hen_listView);
 
-        fAuth = FirebaseAuth.getInstance();
+        System.out.println("check - 1 !!!!!!");
 
         keyList = new ArrayList<>();
         nameList = new ArrayList<>();
         typeList = new ArrayList<>();
-        lightList = new ArrayList<>();
-        neighborhoodList = new ArrayList<>();
-        streetList = new ArrayList<>();
+        fieldsList = new ArrayList<>();
+        filteredFieldsList = new ArrayList<>();
+        filteredKeysList = new ArrayList<>();
         showList = new ArrayList<>();
 
+        //showListAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item);
 
+
+
+
+
+        System.out.println("check - 2 !!!!!!");
 /**/
+        rootRef =FirebaseDatabase.getInstance().getReference();
+        fAuth = FirebaseAuth.getInstance();
+        key = "1";
+
+        backBtn = findViewById(R.id.goBackBtn);
+        footballBtn = findViewById(R.id.btnFootball);
+        basketballBtn = findViewById(R.id.btnBasketball);
+        gymBtn = findViewById(R.id.btnGym);
+        removeBtn = findViewById(R.id.button13);
+
+        //mySpinner = (Spinner) findViewById(R.id.spinner2);
+
+        id = fAuth.getUid();
+
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         fieldRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פתוח ללא הגבלה")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
-                            || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")) {
-                            //do nothing
-                        } else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
-                                || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
-                                || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")) {
-
-                            keyList.add(Objects.requireNonNull(ds.getKey()));
-                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
-                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
-                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
-                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
-
-
-                        }
-                    }
+                    keyList.add(Objects.requireNonNull(ds.getKey()));
+                    typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                    fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
                 }
-                setView();
+                System.out.println("check - 3!!!!!!");
+
+                // Field filtering
+                filteredFieldsList = fieldsList;
+                filteredKeysList = keyList;
+                ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(RemoveFieldsActivity.this, android.R.layout.simple_list_item_1, filteredFieldsList);
+                //myList.setAdapter(showListAdapter);
+
+                System.out.println("check - 4 !!!!!!");
+                /*
+                // Spinner initialize (fields select)
+                filteredFieldsList = fieldsList;
+                filteredKeysList = keyList;
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(RemoveFieldsActivity.this, android.R.layout.simple_list_item_activated_1, filteredFieldsList);
+                //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setListViewResource(android.R.layout.simple_list_item_activated_1);
+                chooseFieldViewlist.setAdapter(spinnerArrayAdapter);
+                //setView();
+                spinnerArrayAdapter.setDropDownViewResource();
+   */
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
 
-        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        footballBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
-                view.setSelected(true);
-                userSelect.setText(nameList.get(position));
-                key = keyList.get(position);
-                name = nameList.get(position);
+            public void onClick(View view){
+                // TODO: filter to Football
+                filterFields("כדורגל");
             }
         });
 
+        basketballBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // TODO: filter to Basketball
+                filterFields("כדורסל");
+            }
+        });
+
+        gymBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // TODO: filter to GYM
+                filterFields("כושר");
+            }
+        });
+
+
+
+
+
+
+        System.out.println("check - 5 !!!!!!");
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                key = filteredKeysList.get(position);
+                view.setSelected(true);
+                userSelect.setText(nameList.get(position));
+                name = nameList.get(position);
+                userSelect.setText(showList.get(position).substring(23,34));
+            }
+        });
+        System.out.println("check - 6  !!!!!!");
         removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (userSelect.getText().toString().equals("בחר מגרש")){
                     Toast.makeText(RemoveFieldsActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
-
+                    System.out.println("check - 6.5 !!!!!!");
                 }
                 else{
-                    Intent intent = new Intent(getBaseContext(), RemoveFieldsActivity.class);
-                    intent.putExtra("key", key);
-                    intent.putExtra("type", "כדורגל");
-
-                    startActivity(intent);
+                    fieldRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            fieldRef.child(key).child("Activity").setValue("לא פעיל");
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                    System.out.println("check - 6.85  !!!!!!");
                 }
             }
         });
 
-
+        System.out.println("check - 7 !!!!!!");
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,9 +199,6 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
 
 
-
-
-
     public void backClick (View view){
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
     }
@@ -149,23 +206,25 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
 
     void setView(){
-        for (int i = 0; i < nameList.size(); i++){
-            if (nameList.get(i).equals("")){
-                nameList.set(i, typeList.get(i));
-                showList.add("| שם:       " + typeList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
-            }
-            else if (lightList.get(i).equals("כן")){
-                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
-            }
-            else if (lightList.get(i).equals("לא") || lightList.get(i).equals("")){
-                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "אין תאורה");
-            }
-            else{
-                showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + lightList.get(i));
+        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, filteredFieldsList);
+        myList.setAdapter(listAdapter);
+    }
+    public void filterFields(String type)
+    {
+        // TODO: FILTER
+        filteredFieldsList = new ArrayList<>();
+        filteredKeysList = new ArrayList<>();
+        for (int currFieldId = 0; currFieldId < fieldsList.size(); currFieldId++){
+            // Check if this field the same type as requested
+            if(currFieldId < typeList.size())
+            {
+                if(typeList.get(currFieldId).contains(type) || ((type=="כדורסל" || type=="כדורגל")&&typeList.get(currFieldId).contains("משולב"))) {
+                    filteredFieldsList.add(fieldsList.get(currFieldId));
+                    filteredKeysList.add(keyList.get(currFieldId));
+                }
             }
         }
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
-        myList.setAdapter(listAdapter);
+        setView();
     }
 
 
