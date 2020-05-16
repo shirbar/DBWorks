@@ -65,10 +65,9 @@
         android:id="@+id/btnGym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="65dp"
         android:text="חדר כושר"
-        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintBottom_toTopOf="@+id/Hen_listView"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -91,11 +90,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listView"
-        android:layout_width="409dp"
-        android:layout_height="380dp"
-        android:layout_marginBottom="74dp"
+    <ListView
+        android:id="@+id/Hen_listView"
+        android:layout_width="413dp"
+        android:layout_height="358dp"
+        android:layout_marginBottom="66dp"
         app:layout_constraintBottom_toTopOf="@+id/fieldName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
