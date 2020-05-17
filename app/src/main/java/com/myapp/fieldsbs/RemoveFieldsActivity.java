@@ -47,6 +47,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_remove_fields);
 
         myList = (ListView) findViewById(R.id.Hen_listView);
+        userSelect = findViewById(R.id.textView3);
 
         System.out.println("check - 1 !!!!!!");
 
@@ -68,7 +69,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 /**/
         rootRef =FirebaseDatabase.getInstance().getReference();
         fAuth = FirebaseAuth.getInstance();
-        key = "1";
+        key = "0";
 
         backBtn = findViewById(R.id.goBackBtn);
         footballBtn = findViewById(R.id.btnFootball);
@@ -78,7 +79,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
         //mySpinner = (Spinner) findViewById(R.id.spinner2);
 
-        id = fAuth.getUid();
+        //id = fAuth.getUid();
 
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         fieldRef.addValueEventListener(new ValueEventListener() {
@@ -89,13 +90,16 @@ public class RemoveFieldsActivity extends AppCompatActivity {
                     keyList.add(Objects.requireNonNull(ds.getKey()));
                     typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
                     fieldsList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+
+
                 }
                 System.out.println("check - 3!!!!!!");
 
                 // Field filtering
                 filteredFieldsList = fieldsList;
                 filteredKeysList = keyList;
-                ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(RemoveFieldsActivity.this, android.R.layout.simple_list_item_1, filteredFieldsList);
+
+                //ArrayAdapter<String> listViewAdapter = new ArrayAdapter<>(RemoveFieldsActivity.this, android.R.layout.simple_list_item_1, filteredFieldsList);
                 //myList.setAdapter(showListAdapter);
 
                 System.out.println("check - 4 !!!!!!");
@@ -156,17 +160,19 @@ public class RemoveFieldsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
                 key = filteredKeysList.get(position);
+                userSelect.setTextColor(getColor(R.color.userSelect_color));
+                name = fieldsList.get(position);
+                userSelect.setText(name);//fieldsList.get(position));
                 view.setSelected(true);
-                userSelect.setText(nameList.get(position));
-                name = nameList.get(position);
-                userSelect.setText(showList.get(position).substring(23,34));
             }
         });
+
         System.out.println("check - 6  !!!!!!");
+
         removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (userSelect.getText().toString().equals("בחר מגרש")){
+                if (userSelect.getText().toString().equals("בחר את המגרש")){
                     Toast.makeText(RemoveFieldsActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
                     System.out.println("check - 6.5 !!!!!!");
                 }

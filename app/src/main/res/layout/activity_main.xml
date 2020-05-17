@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
+    android:id="@+id/mainLayout"
     >
 
     <Button
@@ -65,7 +65,7 @@
         android:fontFamily="sans-serif"
         android:text="@string/logout"
         android:textColor="#5E1930"
-        android:textSize="8sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />

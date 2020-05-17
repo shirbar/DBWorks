@@ -138,6 +138,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(LoginActivity.this, "You cannot go back.", Toast.LENGTH_SHORT).show();
+    }
 
 
 
