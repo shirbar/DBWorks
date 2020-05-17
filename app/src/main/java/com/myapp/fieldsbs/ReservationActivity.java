@@ -28,7 +28,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     ListView ActivityList;
     Button BackBtn, RemoveBtn;
-    DatabaseReference ActivityRef;
+    DatabaseReference ActivityRef, ManagmentRef;
     FirebaseAuth fAtuth;
     String UserRef;
     ArrayList<String> ShowList, FieldIdList,DateList, HourList, ActivityIdList;
@@ -120,7 +120,9 @@ public class ReservationActivity extends AppCompatActivity {
         ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("Activities");
         ActivityRef.child(ActivityIdList.get(Position1)).removeValue();
 
-        //Delete from Mangment the place this user holds.
-
+        //Delete from Managment the place this user holds.
+        ManagmentRef = FirebaseDatabase.getInstance().getReference().child("Management").child(fieldId).child(date).child(hour);
+        ManagmentRef.child("participantList").child(UserRef).removeValue();
+       //number of players change
     }
 }
