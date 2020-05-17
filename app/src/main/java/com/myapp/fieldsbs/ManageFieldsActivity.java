@@ -222,9 +222,14 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
-                    numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
+                    if(ds.child("numofPlayers").getValue().toString() != "0"){
+                        numofPlayersList.add(Objects.requireNonNull("1"));
+                    }
+                    else{
+                        numofPlayersList.add(Objects.requireNonNull("0"));
+                    }
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
-                    idList.add(Objects.requireNonNull(ds.child("id").getValue()).toString());
+                    //idList.add(Objects.requireNonNull(ds.child("id").getValue()).toString());
                     nameList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
 
                     //int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
