@@ -171,7 +171,7 @@ public class FootballActivity extends AppCompatActivity {
                 showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + lightList.get(i));
             }
         }
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
+        ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
 
     }

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -54,4 +55,12 @@ public class LoginActivityTest {
         pressBack();
         onView(withId(R.id.loginLayout)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void test_does_not_have_an_account_text_navigate_properly() {
+        ActivityScenario.launch(LoginActivity.class);
+        onView(withId(R.id.registerTxt)).perform(click());
+        onView(withId(R.id.registerLayout)).check(matches(isDisplayed()));
+    }
+
 }

@@ -43,8 +43,6 @@ public class AviliableActivityTest {
         onView(withId(R.id.mainLayout)).check(matches(isDisplayed()));
     }
 
-
-
     @Test
     public void test_footballButton_navigate_properly() {
         ActivityScenario.launch(AviliableActivity.class);
@@ -65,5 +63,4 @@ public class AviliableActivityTest {
         onView(withId(R.id.gymBtn)).perform(click());
         onView(withId(R.id.gymLayout)).check(matches(isDisplayed()));
     }
-
 }

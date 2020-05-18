@@ -44,8 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
         fAuth = FirebaseAuth.getInstance();
         InitializeFields();
 
@@ -53,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         mEmail.addTextChangedListener(mEmailValidator);
         mPasswordValidator = new PasswordValidator();
         mPassword.addTextChangedListener(mPasswordValidator);
-
-
     }
 
     private void InitializeFields() {
@@ -64,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         registerTxt = findViewById(R.id.registerTxt);
         progressBar = findViewById(R.id.progressBar);
     }
-
 
     public void registerPageClick(View view){
         Intent intent = new Intent(this, RegisterActivity.class);

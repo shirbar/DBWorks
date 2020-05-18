@@ -12,9 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="100dp"
-        android:text="הסרת מגרשים"
+        android:text="@string/remove_fields"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:onClick="backClick"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,72 +34,72 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="95dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="10dp"
-        android:text="בחר סוג מגרש"
+        android:text="@string/select_type_of_field"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnFootball"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/btnFootball"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="כדורגל"
-        app:layout_constraintStart_toEndOf="@+id/btnBasketball"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/football"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/btnBasketball"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="כדורסל"
-        app:layout_constraintStart_toEndOf="@+id/btnGym"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/basketball"
+        app:layout_constraintEnd_toStartOf="@+id/btnFootball"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/btnGym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="115dp"
-        android:text="חדר כושר"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/gym_area"
+        app:layout_constraintEnd_toStartOf="@+id/btnBasketball"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/button13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="40dp"
-        android:text="הסר מגרש"
+        android:layout_marginBottom="30dp"
+        android:text="@string/remove_field"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ListView
         android:id="@+id/Hen_listView"
-        android:layout_width="413dp"
-        android:layout_height="358dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFootball" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="101dp"
-        android:layout_height="27dp"
-        android:layout_marginBottom="50dp"
-        android:text="בחר את המגרש"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp"
+        android:text="@string/selectAfield"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button13"
         app:layout_constraintStart_toEndOf="@+id/goBackBtn" />

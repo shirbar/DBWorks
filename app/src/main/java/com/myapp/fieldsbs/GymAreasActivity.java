@@ -287,7 +287,7 @@ public class GymAreasActivity extends AppCompatActivity {
     }
 
     public void showView(){
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, showList);
+        ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
     }
 
