@@ -7,41 +7,65 @@
     tools:context=".ReservationActivity"
     android:id="@+id/reservationLayout">
 
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/my_activity"
+        android:scaleType="centerCrop"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/football_background_img" />
+
     <Button
         android:id="@+id/goBackBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RemoveBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/HeadLine"
         style="@android:style/Widget.DeviceDefault.TextView"
-        android:layout_width="162dp"
-        android:layout_height="37dp"
-        android:text="הפעילויות שלי"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/my_activities"
         android:textSize="24sp"
-        tools:ignore="MissingConstraints,UnknownId"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints,UnknownId" />
 
     <ListView
         android:id="@+id/listActivity"
-        android:layout_width="420dp"
-        android:layout_height="397dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="177dp" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/RemoveBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HeadLine"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/RemoveBtn"
-        android:layout_width="136dp"
-        android:layout_height="39dp"
-        android:text="הסר פעילות"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="167dp"
-        tools:layout_editor_absoluteY="604dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/remove_activity"
+        app:layout_constraintBottom_toTopOf="@+id/goBackBtn2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

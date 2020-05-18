@@ -204,7 +204,7 @@ public class ReservationActivity extends AppCompatActivity {
                     ShowList.add("|פעילות:       " + type + "\n| שם:   " + fieldname + "\n| מספר מגרש:  " + fieldId + "\n |תאריך :" + date + "\n| שעה" + hour);
                 }
 
-                ListAdapter listAdapter = new ArrayAdapter<>(ReservationActivity.this, R.layout.support_simple_spinner_dropdown_item, ShowList);
+                ListAdapter listAdapter = new ArrayAdapter<>(ReservationActivity.this, R.layout.customize_viewlist, ShowList);
                 ActivityList.setAdapter(listAdapter);
             }
 

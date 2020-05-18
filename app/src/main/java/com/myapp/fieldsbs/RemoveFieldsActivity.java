@@ -192,13 +192,13 @@ public class RemoveFieldsActivity extends AppCompatActivity {
 
 
     void setView(){
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, filteredFieldsList);
+        ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, filteredFieldsList);
         myList.setAdapter(listAdapter);
     }
 
     void setEmptyView(){
         ArrayList<String> emptyList = new ArrayList<>();
-        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, emptyList);
+        ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, emptyList);
         myList.setAdapter(listAdapter);
     }
 
