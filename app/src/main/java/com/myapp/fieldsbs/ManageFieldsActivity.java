@@ -265,7 +265,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
     }
 
     public void removeWholeField(){
-        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("id").setValue("ריק");
+        managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("participantList").setValue(null);
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("creator").setValue("ריק");
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("status").setValue("פנוי");
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("numofPlayers").setValue("0");
@@ -320,6 +320,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 else{
                     System.out.println("it does not have childs");
                     //if its empty we will make the date in the database with empty hours.
+                    // Delete all this - not needed - but make sure
                     for (int i = 7; i < 24; i++){
                         if (i < 9){
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("id").setValue("ריק");
