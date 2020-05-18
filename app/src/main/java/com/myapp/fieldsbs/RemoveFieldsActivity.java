@@ -35,9 +35,9 @@ public class RemoveFieldsActivity extends AppCompatActivity {
     Button removeBtn, backBtn, footballBtn, basketballBtn, gymBtn;
     DatabaseReference fieldRef, rootRef;
     FirebaseAuth fAuth;
-    ListView myList;//, chooseFieldViewlist;
+    ListView myList;
     ArrayList<String> fieldsList, filteredFieldsList, keyList, filteredKeysList, typeList;
-    String name, key, id, selectedType;
+    String name, key, selectedType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +47,16 @@ public class RemoveFieldsActivity extends AppCompatActivity {
         myList = findViewById(R.id.Hen_listView);
         userSelect = findViewById(R.id.textView3);
 
-        System.out.println("check - 1 !!!!!!");
 
         keyList = new ArrayList<>();
         typeList = new ArrayList<>();
         fieldsList = new ArrayList<>();
         filteredFieldsList = new ArrayList<>();
         filteredKeysList = new ArrayList<>();
-        //showListAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item);
 
 
-        System.out.println("check - 2 !!!!!!");
+
+
         /**/
         rootRef =FirebaseDatabase.getInstance().getReference();
         fAuth = FirebaseAuth.getInstance();
@@ -70,9 +69,6 @@ public class RemoveFieldsActivity extends AppCompatActivity {
         removeBtn = findViewById(R.id.button13);
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
 
-        //mySpinner = (Spinner) findViewById(R.id.spinner2);
-
-        //id = fAuth.getUid();
 
         getFields();
 
@@ -81,7 +77,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 selectedType = "כדורגל";
-                userSelect.setText("");
+                userSelect.setText("בחר את המגרש");
                 filterFields("כדורגל");
             }
         });
@@ -90,7 +86,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 selectedType = "כדורסל";
-                userSelect.setText("");
+                userSelect.setText("בחר את המגרש");
                 filterFields("כדורסל");
             }
         });
@@ -99,13 +95,12 @@ public class RemoveFieldsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 selectedType = "כושר";
-                userSelect.setText("");
+                userSelect.setText("בחר את המגרש");
                 filterFields("כושר");
             }
         });
 
 
-        System.out.println("check - 5 !!!!!!");
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -113,19 +108,17 @@ public class RemoveFieldsActivity extends AppCompatActivity {
                 key = filteredKeysList.get(position);
                 userSelect.setTextColor(getColor(R.color.userSelect_color));
                 name = filteredFieldsList.get(position);
-                userSelect.setText(name);//fieldsList.get(position));
+                userSelect.setText(name);
                 view.setSelected(true);
             }
         });
 
-        System.out.println("check - 6  !!!!!!");
 
         removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (userSelect.getText().toString().equals("בחר את המגרש")){
                     Toast.makeText(RemoveFieldsActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
-                    System.out.println("check - 6.5 !!!!!!");
                 }
                 else{
                     fieldRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -134,7 +127,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
                             fieldRef.child(key).child("Activity").setValue("לא פעיל");
                             setEmptyView();
                             getFields();
-                            userSelect.setText("");
+                            userSelect.setText("בחר את המגרש");
                             Toast.makeText(RemoveFieldsActivity.this, "המגרש הפך ללא פעיל.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -146,7 +139,6 @@ public class RemoveFieldsActivity extends AppCompatActivity {
             }
         });
 
-        System.out.println("check - 7 !!!!!!");
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
