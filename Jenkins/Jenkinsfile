@@ -1,7 +1,4 @@
 pipeline {
-    RED='\033[0;31m'
-    CYAN='\e[36m'
-    BLUE='\e[34m'
     agent{
         docker {
             image 'windsekirun/jenkins-android-docker:1.1.1'
@@ -15,21 +12,21 @@ pipeline {
             steps{
                 echo "starting pre build stage"
                 sh "chmod +x ./gradlew"
-                echo -e "${RED}grant permission gradle.${RED}"
+                echo -e "grant permission gradle."
             }
         }
         stage('Compiling stage:') {
             steps {
-                echo -e "${BLUE}starting pre build stage.${BLUE}"
+                echo -e "starting pre build stage."
                 sh './gradlew compileDebugSources'
-                echo -e "${RED}compiling succeed.${RED}"
+                echo -e "compiling succeed."
             }
         }
         stage('Unit test stage:') {
             steps {
-                 echo -e "${BLUE}starting the unit tests stage.${BLUE}"
+                 echo -e "starting the unit tests stage."
                 sh './gradlew testDebugUnitTest testDebugUnitTest' 
-                echo -e "${RED}unitTesting succeed.${RED}"
+                echo -e "unitTesting succeed."
             }
         }
         stage('Build APK') {
@@ -40,12 +37,12 @@ pipeline {
     }
         stage('Finished'){
             steps {
-                echo -e "${CYAN}Jenkins tests on the Git project finished running succesfully!${CYAN}'
+                echo -e "Jenkins tests on the Git project finished running succesfully!'
             }
         }
         stage('Email notification stage:') {
            steps{
-               echo -e "${YELLOW}email notification stage.${YELLOW}'
+               echo -e "email notification stage.'
                     }
                     post {
                         success {
@@ -60,7 +57,7 @@ pipeline {
          }
         stage('Verifing file') {
            steps{
-                echo -e "${YELLOW}verifing file.${YELLOW}"
+                echo -e "verifing file."
                     }
                     post {
                         success {
