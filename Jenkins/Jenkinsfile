@@ -57,14 +57,16 @@ pipeline {
          }
         stage('Verifing file') {
            steps{
-                echo "verifing file."
-                def exist = fileExists 'Jenkinsfile'
-                if (exist){
-                    echo "yes"
-                }
-                else{
-                    echo "no"
-                }
+               script{
+                    echo "verifing file."
+                    def exist = fileExists 'Jenkinsfile'
+                    if (exist){
+                        echo "yes"
+                    }
+                    else{
+                        echo "no"
+                    }
+               }
             } 
         }
     }
