@@ -12,21 +12,21 @@ pipeline {
             steps{
                 echo "starting pre build stage"
                 sh "chmod +x ./gradlew"
-                echo -e "grant permission gradle."
+                echo "grant permission gradle."
             }
         }
         stage('Compiling stage:') {
             steps {
-                echo -e "starting pre build stage."
+                echo "starting pre build stage."
                 sh './gradlew compileDebugSources'
-                echo -e "compiling succeed."
+                echo "compiling succeed."
             }
         }
         stage('Unit test stage:') {
             steps {
-                 echo -e "starting the unit tests stage."
+                echo "starting the unit tests stage."
                 sh './gradlew testDebugUnitTest testDebugUnitTest' 
-                echo -e "unitTesting succeed."
+                echo "unitTesting succeed."
             }
         }
         stage('Build APK') {
@@ -37,12 +37,12 @@ pipeline {
     }
         stage('Finished'){
             steps {
-                echo -e "Jenkins tests on the Git project finished running succesfully!'
+                echo "Jenkins tests on the Git project finished running succesfully!'
             }
         }
         stage('Email notification stage:') {
            steps{
-               echo -e "email notification stage.'
+               echo "email notification stage.'
                     }
                     post {
                         success {
@@ -57,7 +57,7 @@ pipeline {
          }
         stage('Verifing file') {
            steps{
-                echo -e "verifing file."
+                echo "verifing file."
                     }
                     post {
                         success {
