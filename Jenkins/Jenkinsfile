@@ -11,20 +11,23 @@ pipeline {
     stages{
         stage("Pre build stage:") {
             steps{
+                echo -e "${BLUE}starting pre build stage${BLUE}"
                 sh "chmod +x ./gradlew"
-                echo "grant permission gradle."
+                echo -e "${GREEN}grant permission gradle.${GREEN}"
             }
         }
         stage('Compiling stage:') {
             steps {
+                echo -e "${BLUE}starting pre build stage.${BLUE}"
                 sh './gradlew compileDebugSources'
-                echo "compiling succeed."
+                echo -e "${GREEN}compiling succeed.${GREEN}"
             }
         }
-        stage('Unit test') {
+        stage('Unit test stage:') {
             steps {
+                 echo -e "${BLUE}starting the unit tests stage.${BLUE}"
                 sh './gradlew testDebugUnitTest testDebugUnitTest' 
-                echo "unitTesting succeed."
+                echo -e "${GREEN}unitTesting succeed.${GREEN}"
             }
         }
         stage('Build APK') {
@@ -35,8 +38,44 @@ pipeline {
     }
         stage('Finished'){
             steps {
-                echo 'Jenkins tests on the Git project finished running succesfully!'
+                echo -e "${CYAN}Jenkins tests on the Git project finished running succesfully!${CYAN}'
             }
         }
-    }
+        stage('Email notification stage:') {
+           steps{
+               echo -e "${YELLOW}email notification stage.${YELLOW}'
+                    }
+                    post {
+                        success {
+                        mail to: 'kfir.rn@gmail.com', subject: 'Build ', body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                        }
+                    }
+                }
+            }
+                    post {
+                        failure {
+                        mail to: 'kfir.rn@gmail.com', subject: 'Something went wrong, build.', body: "${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+         }
+        stage('Verifing file') {
+           steps{
+                echo -e "${YELLOW}verifing file.${YELLOW}"
+                    }
+                    post {
+                        success {
+                            def exist = fileExists 'Jenkinsfile'
+                            if (exist){
+                                echo "yes"
+                            }
+                            else{
+                                echo "no"
+                            }
+                        }
+                    }
+                }
+            }
+                    post {
+                        failure {
+                        eccho "build failed"
+                        }      
+        }
 }
