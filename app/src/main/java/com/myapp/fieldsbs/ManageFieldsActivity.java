@@ -270,6 +270,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("status").setValue("פנוי");
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("numofPlayers").setValue("0");
         managementRef.child(key).child(date).child(lblScreen.getText().toString()).child("type").setValue("ריק");
+        
         setView();
         Toast.makeText(ManageFieldsActivity.this, "המגרש רוקן ממשתתפים בהצלחה.", Toast.LENGTH_SHORT).show();
     }
