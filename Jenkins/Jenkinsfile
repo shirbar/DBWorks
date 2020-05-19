@@ -45,35 +45,33 @@ pipeline {
             }
         }
         
-        stage('Verifing file') {
+        stage('Measurment - Verifing working space file') {
             steps{
-               echo "verifing file."
+               echo "verifing working space file."
                script{                   
                     def exist = fileExists '/var/jenkins_home/workspace/Team_12/Git_pipeline_Team-12'
                     if (exist){
-                        echo "yes"
-                        echo "${pwd}"
-                        echo "${WORKSPACE}"
-
+                        echo "the file exist."                        
+                        echo "the working space is: ${WORKSPACE}"
                     }
                     else{
-                        echo "no"
-                        sh 'mkdir kfir'
-                        //dir(kfir)
-                        echo "${WORKSPACE}"
-                        echo "${pwd}"
+                        echo "the file does not exist."
+                        echo "the working space is: ${WORKSPACE}"
                     }
                 }
             }
         }
 
-        stage('Email notification stage:') {
+        stage('Measurment - Email notification stage:') {
            steps{
                echo "email notification stage."
             }
             post {
                 success {
-                mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                }
+                failed {
+                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
                 }
             }
         }
