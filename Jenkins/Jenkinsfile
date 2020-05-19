@@ -15,6 +15,7 @@ pipeline {
                 echo "grant permission gradle."
             }
         }
+        
         stage('Compiling stage:') {
             steps {
                 echo "starting pre build stage."
@@ -22,6 +23,7 @@ pipeline {
                 echo "compiling succeed."
             }
         }
+        
         stage('Unit test stage:') {
             steps {
                 echo "starting the unit tests stage."
@@ -29,36 +31,22 @@ pipeline {
                 echo "unitTesting succeed."
             }
         }
+        
         stage('Build APK') {
           steps {
             sh './gradlew assembleDebug'
             //archiveArtifacts '**/*.apk'
             }
         }
+        
         stage('Finished'){
             steps {
                 echo "Jenkins tests on the Git project finished running succesfully!"
             }
         }
-        stage('Email notification stage:') {
-           steps{
-               echo "email notification stage."
-            }
-            post {
-                success {
-                mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                }
-            }
-        }
-    }
-            post {
-                failure {
-                mail to: "kfir.rn@gmail.com", subject: "Something went wrong, build.", body: "${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-                }
-            }
-
+        
         stage('Verifing file') {
-           steps{
+            steps{
                echo "verifing file."
                script{                   
                     def exist = fileExists 'Jenkinsfile'
@@ -69,7 +57,19 @@ pipeline {
                         echo "no"
                     }
                 }
-        } 
+            }
+        }
+
+        stage('Email notification stage:') {
+           steps{
+               echo "email notification stage."
+            }
+            post {
+                success {
+                mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                }
+            }
+        }
     }
 }
 
