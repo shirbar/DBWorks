@@ -49,7 +49,7 @@ pipeline {
             steps{
                echo "verifing file."
                script{                   
-                    def exist = fileExists 'Jenkinsfile'
+                    def exist = fileExists '\root\build.gradle'
                     if (exist){
                         echo "yes"
                     }
