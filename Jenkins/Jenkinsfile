@@ -56,10 +56,10 @@ pipeline {
                     }
                     else{
                         echo "no"
-                        sh "mkdir -p output"
-                        sh "cd .."
+                        sh 'mkdir kfir'
+                        //dir(kfir)
+                        echo "${WORKSPACE}"
                         echo "${pwd}"
-                        //echo "$pwd"
                     }
                 }
             }
