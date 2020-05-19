@@ -37,23 +37,23 @@ pipeline {
     }
         stage('Finished'){
             steps {
-                echo "Jenkins tests on the Git project finished running succesfully!'
+                echo "Jenkins tests on the Git project finished running succesfully!"
             }
         }
         stage('Email notification stage:') {
            steps{
-               echo "email notification stage.'
+               echo "email notification stage."
                     }
                     post {
                         success {
-                        mail to: 'kfir.rn@gmail.com', subject: 'Build ', body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                        mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                         }
                     }
                 }
             }
                     post {
                         failure {
-                        mail to: 'kfir.rn@gmail.com', subject: 'Something went wrong, build.', body: "${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                        mail to: "kfir.rn@gmail.com", subject: "Something went wrong, build.", body: "${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
          }
         stage('Verifing file') {
            steps{
