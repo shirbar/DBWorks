@@ -70,7 +70,7 @@ pipeline {
                 success {
                     mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                 }
-                failed {
+                failure {
                     mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
                 }
             }
