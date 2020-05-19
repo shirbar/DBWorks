@@ -56,7 +56,8 @@ pipeline {
                     }
                     else{
                         echo "no"
-                        cd ".."
+                        sh "mkdir -p output"
+                        sh "cd .."
                         echo "${pwd}"
                         //echo "$pwd"
                     }
