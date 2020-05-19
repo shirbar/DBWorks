@@ -11,7 +11,7 @@ pipeline {
     stages{
         stage("Pre build stage:") {
             steps{
-                echo -e "${BLUE}starting pre build stage${BLUE}"
+                echo "starting pre build stage"
                 sh "chmod +x ./gradlew"
                 echo -e "${GREEN}grant permission gradle.${GREEN}"
             }
