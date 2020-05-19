@@ -49,10 +49,12 @@ pipeline {
             steps{
                echo "verifing file."
                script{                   
-                    def exist = fileExists '\root\build.gradle'
+                    def exist = fileExists '/var/jenkins_home/workspace/Team_12/Git_pipeline_Team-12'
                     if (exist){
                         echo "yes"
                         echo "${pwd}"
+                        echo "${WORKSPACE}"
+
                     }
                     else{
                         echo "no"
