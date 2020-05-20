@@ -14,7 +14,7 @@ pipeline {
                 dir('subDir'){
                     checkout scm
                     script{
-                        def exist1 = fileExists 'build.gradle'
+                        def gradeCheck = fileExists 'builddddd.gradle'
                         if (exist1){
                             echo "yes"
                             echo "the pwd is: ${PWD}"
