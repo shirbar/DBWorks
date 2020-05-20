@@ -91,7 +91,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     // Check if the field is open for registration at all
-                    if(ds.child("Activity").getValue().toString().contains("פתוח"))
+                    if(ds.child("Activity").getValue().toString().contains("פתוח") || ds.child("Activity").getValue().toString().equals(""))
                     {
                         keyList.add(Objects.requireNonNull(ds.getKey()));
                         typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
