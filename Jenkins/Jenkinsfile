@@ -55,7 +55,7 @@ pipeline {
             }
         }
 
-        stage('Measurment - Email notification stage:') {
+        stage('Measurment - Email notification stage') {
            steps{
                echo "email notification stage."
             }
@@ -66,9 +66,13 @@ pipeline {
             }
         }
     }
-    post {
-        failure {
-            mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+    stage('Measurment - build status check') {
+        steps{
+            post {
+                failure {
+                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                }
+            }
         }
     }
 }
