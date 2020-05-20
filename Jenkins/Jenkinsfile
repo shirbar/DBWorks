@@ -21,7 +21,7 @@ pipeline {
                         def gradlePropertiesCheck = fileExists 'gradle.properties'
                         
                         if (buildGradeCheck && gradlewCheck && gradlewBatCheck && settingsGradleCheck && gradlePropertiesCheck){
-                            echo "success - all of the gradle files are in place."
+                            echo "success - all of the gradle files exist."
                         }
                         else{
                             echo "error - some of the gradle files are missing."
@@ -80,10 +80,10 @@ pipeline {
             post {
                 success {
                     echo "sending mail with a successful notification."
-                    //mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    //mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    //mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    //mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                 }
             }
         }
@@ -92,10 +92,10 @@ pipeline {
     post {
         failure {
             echo "sending mail with a failure notification."
-            //mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            //mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            //mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            //mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
+            mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
         }
     }
 }
