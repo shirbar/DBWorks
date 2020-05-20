@@ -8,36 +8,6 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages{
-        stage("Pre build stage:") {
-            steps{
-                echo "starting pre build stage"
-                sh "chmod +x ./gradlew"
-                echo "grant permission gradle."
-            }
-        }
-        
-        stage('Compiling stage:') {
-            steps {
-                echo "starting pre build stage."
-                sh './gradlew compileDebugSources'
-                echo "compiling succeed."
-            }
-        }
-        
-        stage('Unit test stage:') {
-            steps {
-                echo "starting the unit tests stage."
-                sh './gradlew testDebugUnitTest testDebugUnitTest' 
-                echo "unitTesting succeed."
-            }
-        }
-
-        stage('Finished'){
-            steps {
-                echo "Jenkins tests on the Git project finished running succesfully!"
-            }
-        }
-        
         stage('Measurment - Verifing working space file') {
             steps{
                echo "verifing working space file."
@@ -54,8 +24,38 @@ pipeline {
                 }
             }
         }
+        
+        stage("Pre build") {
+            steps{
+                echo "starting pre build stage"
+                sh "chmod +x ./gradlew"
+                echo "grant permission gradle."
+            }
+        }
+        
+        stage('Compiling') {
+            steps {
+                echo "starting pre build stage."
+                sh './gradlew compileDebugSources'
+                echo "compiling succeed."
+            }
+        }
+        
+        stage('Unit test') {
+            steps {
+                echo "starting the unit tests stage."
+                sh './gradlew testDebugUnitTest testDebugUnitTest' 
+                echo "unitTesting succeed."
+            }
+        }
 
-        stage('Measurment - Email notification stage') {
+        stage('Finished'){
+            steps {
+                echo "Jenkins tests on the Git project finished running succesfully!"
+            }
+        }
+
+        stage('Measurment - Email notification') {
            steps{
                echo "email notification stage."
             }
@@ -67,7 +67,7 @@ pipeline {
         }
     }
     
-    post ('Measurment - build status check') {
+    post {
         failure {
             mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
         }
