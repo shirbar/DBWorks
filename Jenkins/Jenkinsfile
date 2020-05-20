@@ -15,7 +15,7 @@ pipeline {
                     checkout scm
                     script{
                         def gradeCheck = fileExists 'builddddd.gradle'
-                        if (exist1){
+                        if (gradeCheck){
                             echo "yes"
                             echo "the pwd is: ${PWD}"
                             echo "the working space is: ${WORKSPACE}"
