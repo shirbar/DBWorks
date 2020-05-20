@@ -62,6 +62,9 @@ pipeline {
             post {
                 success {
                     mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                 }
             }
         }
@@ -70,6 +73,9 @@ pipeline {
     post {
         failure {
             mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
         }
     }
 }
