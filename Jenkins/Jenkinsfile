@@ -66,11 +66,13 @@ pipeline {
             }
         }
     }
-    stage('Measurment - build status check') {
-        steps{
-            post {
-                failure {
-                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+    stages{
+        stage('Measurment - build status check') {
+            steps{
+                post {
+                    failure {
+                        mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                    }
                 }
             }
         }
