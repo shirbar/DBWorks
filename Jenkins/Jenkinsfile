@@ -19,7 +19,7 @@ pipeline {
                         echo "the pwd is: ${PWD}"
                     }
                     else{
-                        echo "no
+                        echo "no"
                         echo "the pwd is: ${PWD}"
                     }
                 }
