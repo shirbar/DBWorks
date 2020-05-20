@@ -17,10 +17,14 @@ pipeline {
                     if (exist1){
                         echo "yes"
                         echo "the pwd is: ${PWD}"
+                        echo "the working space is: ${WORKSPACE}"
+
                     }
                     else{
                         echo "no"
                         echo "the pwd is: ${PWD}"
+                        echo "the working space is: ${WORKSPACE}"
+
                     }
                 }
                 script{                   
