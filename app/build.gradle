@@ -44,8 +44,16 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
 
-}
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+    }
 
+}
 
 tasks.withType(Test) {
     testLogging {
@@ -55,14 +63,3 @@ tasks.withType(Test) {
     }
 }
 
-/*
-android.testOptions.unitTests.all {
-    // Configure whether failing tests should fail the build
-    ignoreFailures false
-
-    testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-    }
-}
-
- */

@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -66,7 +63,7 @@ public class RemoveFieldsActivity extends AppCompatActivity {
         footballBtn = findViewById(R.id.btnFootball);
         basketballBtn = findViewById(R.id.btnBasketball);
         gymBtn = findViewById(R.id.btnGym);
-        removeBtn = findViewById(R.id.button13);
+        removeBtn = findViewById(R.id.removeSingleFieldBtn);
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
 
 

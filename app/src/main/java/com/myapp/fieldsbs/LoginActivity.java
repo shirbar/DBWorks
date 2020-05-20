@@ -28,6 +28,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmail, mPassword;
+    boolean loginStatus;
     Button loginBtn;
     TextView registerTxt;
     private EmailValidator mEmailValidator;
@@ -89,8 +90,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-
-
                     database = FirebaseDatabase.getInstance();
                     userRef = database.getReference(USERS);
                     userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,9 +102,11 @@ public class LoginActivity extends AppCompatActivity {
                             for(DataSnapshot ds : dataSnapshot.getChildren()) {
                                 if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
                                     if(Objects.requireNonNull(ds.child("isAdmin").getValue()).toString().equals("true")) {
+                                        loginStatus = true;
                                         redirectAdmin();
                                     }
                                     else{
+                                        loginStatus = true;
                                         redirectUser();
                                     }
                                 }
@@ -117,10 +118,11 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
 
-                } else {
+                }
+                else {
                     Toast.makeText(LoginActivity.this, "Error! " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
-
+                    loginStatus = false;
                 }
             }
         });
@@ -137,7 +139,4 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         Toast.makeText(LoginActivity.this, "You cannot go back.", Toast.LENGTH_SHORT).show();
     }
-
-
-
 }
