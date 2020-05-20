@@ -8,28 +8,28 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages{
-        stage('Measurment - Verifing git repository exists') {
+        stage('Measurment - Verifing existence of gradle files inside git and Jenkins files') {
             steps{
                 echo "verifing git repository"
                 dir('subDir'){
                     checkout scm
                     script{
-                        def gradeCheck = fileExists 'builddddd.gradle'
-                        if (gradeCheck){
-                            echo "yes"
-                            echo "the pwd is: ${PWD}"
-                            echo "the working space is: ${WORKSPACE}"
-
+                        def buildGradeCheck = fileExists 'build.gradle'
+                        def gradlewCheck = fileExists 'gradlew'
+                        def gradlewBatCheck = fileExists 'gradlew.bat'
+                        def settingsGradleCheck = fileExists 'settings.gradle'
+                        def gradlePropertiesCheck = fileExists 'gradle.properties'
+                        
+                        if (buildGradeCheck && gradlewCheck && gradlewBatCheck && settingsGradleCheck && gradlePropertiesCheck){
+                            echo "success - all of the gradle files are in place."
                         }
                         else{
-                            echo "no"
-                            echo "the pwd is: ${PWD}"
-                            echo "the working space is: ${WORKSPACE}"
-
+                            echo "error - some of the gradle files are missing."
                         }   
                     }
                 }
                 script{ 
+                    echo "verifing jenkins files"
                     def exist = fileExists '/var/jenkins_home/workspace/Team_12/Git_pipeline_Team-12'
                     if (exist){
                         echo "the file exist."                        
