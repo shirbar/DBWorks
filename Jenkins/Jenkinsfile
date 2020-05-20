@@ -8,10 +8,22 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages{
-        stage('Measurment - Verifing working space file') {
+        stage('Measurment - Verifing git repository exists') {
             steps{
-               echo "verifing working space file."
-               script{                   
+                echo "verifing git repository"
+                dir('subDir'){
+                    checkout scm
+                    def exist1 = fileExists 'build.gradle'
+                    if (exist1){
+                        echo "yes"
+                        echo "the pwd is: ${PWD}"
+                    }
+                    else{
+                        echo "no
+                        echo "the pwd is: ${PWD}"
+                    }
+                }
+                script{                   
                     def exist = fileExists '/var/jenkins_home/workspace/Team_12/Git_pipeline_Team-12'
                     if (exist){
                         echo "the file exist."                        
@@ -61,10 +73,11 @@ pipeline {
             }
             post {
                 success {
-                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
-                    mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    echo "sending mail with a successful notification."
+                    //mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    //mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    //mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
+                    //mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                 }
             }
         }
@@ -72,10 +85,11 @@ pipeline {
     
     post {
         failure {
-            mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
+            echo "sending mail with a failure notification."
+            //mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            //mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            //mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+            //mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
         }
     }
 }
