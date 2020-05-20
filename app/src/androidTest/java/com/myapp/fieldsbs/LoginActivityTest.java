@@ -26,7 +26,6 @@ public class LoginActivityTest {
     @Test
     public void test_titleAndSubtitle_visible() {
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.title_txt)).check(matches(isDisplayed()));
         onView(withId(R.id.subTitle_txt)).check(matches(isDisplayed()));
     }
 
@@ -39,7 +38,7 @@ public class LoginActivityTest {
     @Test
     public void test_title_displayed() {
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.title_txt)).check(matches(withText(R.string.sport_fields_management)));
+        onView(withId(R.id.subTitle_txt)).check(matches(withText(R.string.loginPage)));
     }
 
     @Test
@@ -62,5 +61,4 @@ public class LoginActivityTest {
         onView(withId(R.id.registerTxt)).perform(click());
         onView(withId(R.id.registerLayout)).check(matches(isDisplayed()));
     }
-
 }
