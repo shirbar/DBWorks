@@ -91,7 +91,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     // Check if the field is open for registration at all
-                    if(ds.child("Activity").getValue().toString().contains("פתוח") || ds.child("Activity").getValue().toString().equals(""))
+                    if(ds.child("Activity").getValue().toString().contains("פתוח") || ds.child("Activity").getValue().toString().contains("פעיל") || ds.child("Activity").getValue().toString().equals(""))
                     {
                         keyList.add(Objects.requireNonNull(ds.getKey()));
                         typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
@@ -119,21 +119,21 @@ public class ManageFieldsActivity extends AppCompatActivity {
         btnFootball.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // TODO: filter to Football
+                // filter to Football
                 filterFields("כדורגל");
             }
         });
         btnBasketball.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // TODO: filter to Basketball
+                // filter to Basketball
                 filterFields("כדורסל");
             }
         });
         btnGym.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // TODO: filter to GYM
+                // filter to GYM
                 filterFields("כושר");
             }
         });
@@ -179,7 +179,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
-                // TODO: make this really change the sleected field ID
+                // #TODO3 make this really change the sleected field ID
                 // Update the field KEY
                 key = filteredKeysList.get(chooseFieldSpinner.getSelectedItemPosition());
                 Object test = chooseFieldSpinner.getSelectedItem();
@@ -226,8 +226,10 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.child(key).child(date).getChildren()) {
                     hoursList.add(Objects.requireNonNull(ds.getKey()));
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
+
+                    // Update num of participients on list
                     if(ds.child("numofPlayers").getValue().toString() != "0"){
-                        numofPlayersList.add(Objects.requireNonNull("1"));
+                        numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue().toString()));
                     }
                     else{
                         numofPlayersList.add(Objects.requireNonNull("0"));
@@ -245,15 +247,19 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 }
                 for (int i = 0; i < statusList.size(); i++){
                     if (statusList.get(i).equals("פנוי")){
-                        System.out.println("available");
                         //showList.add("|שעות:  " + hoursList.get(i) + "\n|זמינות: " + statusList.get(i));
                     }
                     else{
-                        System.out.println("not available");
                         showList.add("|שעות:                 " + hoursList.get(i) + "\n|זמינות:               " + statusList.get(i) + "\n|מספר שחקנים: " + numofPlayersList.get(i) + "\n|סוג:                    " + typeList.get(i) + "\n|שם האחראי:    " + nameList.get(i));
-                        //System.out.println(showList.get(i));
                     }
                 }
+
+                // Display no show message - if theres no reservations for the requested date
+                if (showList.size() == 0)
+                {
+                    showList.add("לא קיימים שריונים למגרש בתאריך הנדרש");
+                }
+
                 showView();
             }
 
@@ -291,7 +297,6 @@ public class ManageFieldsActivity extends AppCompatActivity {
 
     public void filterFields(String type)
     {
-        // TODO: FILTER
         filteredFieldsList = new ArrayList<>();
         filteredKeysList = new ArrayList<>();
         for (int currFieldId = 0; currFieldId < fieldsList.size(); currFieldId++){
@@ -317,44 +322,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Choosing field time
-                if (dataSnapshot.child(key).hasChild(date)){
-                    System.out.println("inside has child");
-
-                }
-                else{
-                    System.out.println("it does not have childs");
-                    //if its empty we will make the date in the database with empty hours.
-                    // Delete all this - not needed - but make sure
-                    for (int i = 7; i < 24; i++){
-                        if (i < 9){
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("id").setValue("ריק");
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("status").setValue("פנוי");
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("numofPlayers").setValue("0");
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("type").setValue("ריק");
-                            managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
-                        }
-                        else if (i == 9){
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
-                            managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
-                        }
-                        else{
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("id").setValue("ריק");
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
-                            managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
-                        }
-                    }
-                }
-
-                // SET?!
+                // Set new view based on date change
                 setView();
             }
             @Override
