@@ -16,10 +16,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -28,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mFullName, mEmail, mPassword, mPhone;
     Button registerBtn;
     TextView loginTxt;
+    boolean registerStatusForTest;
     ProgressBar progressBar;
     DatabaseReference myDbRef;
     FirebaseAuth fireBaseAuth;
@@ -86,8 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void addUser() {
-        String email = mEmail.getText().toString().trim();
-        String password = mPassword.getText().toString().trim();
 
         if (!mFullNameValidator.isValid()){
             mFullName.setError("Full Name is not valid. (must contain of letters ONLY and at least 3 characters)");
@@ -108,28 +103,46 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    progressBar.setVisibility(View.GONE);
-                    String fullName = mFullName.getText().toString().trim();
-                    String phone = mPhone.getText().toString().trim();
-                    String email = mEmail.getText().toString().trim();
-                    String id= fireBaseAuth.getUid();
-                    User user= new User (fullName, email, id, phone, "false");
-                    assert id != null;
-                    myDbRef.child(id).setValue(user);
-                    Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                }
-                else{
-                    Toast.makeText(RegisterActivity.this, "Error! " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
+        String fullName = mFullName.getText().toString().trim();
+        String phone = mPhone.getText().toString().trim();
+        String email = mEmail.getText().toString().trim();
+        String password = mPassword.getText().toString().trim();
 
+        registerAction(email, password, fullName, phone, false);
+    }
+
+    public boolean registerAction(final String email, String password, final String fullName, final String phone, boolean flag){
+        registerStatusForTest = false;
+        if (!flag) {
+            fireBaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        String id = fireBaseAuth.getUid();
+                        progressBar.setVisibility(View.GONE);
+                        User user = new User(fullName, email, id, phone, "false");
+                        assert id != null;
+                        myDbRef.child(id).setValue(user);
+                        Toast.makeText(RegisterActivity.this, "המשתמש נוצר בהצלחה", Toast.LENGTH_SHORT).show();
+                        registerStatusForTest = true;
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "קיימת שגיאה:  " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        registerStatusForTest = false;
+                    }
+                }
+            });
+        }
+        else{
+            if (EmailValidator.isValidEmail(email) && PasswordValidator.isValidPassword(password) && FullNameValidator.isValidFullName(fullName) && PhoneValidator.isValidPhone(phone)) {
+                registerStatusForTest = true;
+            }
+            else{
+                registerStatusForTest = false;
+            }
+        }
+        return registerStatusForTest;
     }
 
 }

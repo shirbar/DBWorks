@@ -24,7 +24,7 @@ public class ConnectionToFirebaseTest {
     @Test
     public void test_user_successful_connection(){
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.email)).perform(replaceText("kfir@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.email)).perform(replaceText("kfir@gmail.com"));
         onView(withId(R.id.password)).perform(replaceText("123456"));
         onView(withId(R.id.loginBtn)).perform(click());
         try {
@@ -38,7 +38,7 @@ public class ConnectionToFirebaseTest {
     @Test
     public void test_user_failed_connection(){
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.email)).perform(replaceText("kfir@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.email)).perform(replaceText("kfir@gmail.com"));
         onView(withId(R.id.password)).perform(replaceText("56156156"));
         onView(withId(R.id.loginBtn)).perform(click());
         try {
@@ -52,7 +52,7 @@ public class ConnectionToFirebaseTest {
     @Test
     public void test_admin_successful_connection(){
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.email)).perform(replaceText("admin@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.email)).perform(replaceText("admin@gmail.com"));
         onView(withId(R.id.password)).perform(replaceText("123456"));
         onView(withId(R.id.loginBtn)).perform(click());
         try {
@@ -66,7 +66,7 @@ public class ConnectionToFirebaseTest {
     @Test
     public void test_admin_failed_connection(){
         ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.email)).perform(replaceText("admin@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.email)).perform(replaceText("admin@gmail.com"));
         onView(withId(R.id.password)).perform(replaceText("7879898"));
         onView(withId(R.id.loginBtn)).perform(click());
         try {
