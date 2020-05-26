@@ -33,7 +33,7 @@
     <string name="joinTraining">הירשם לאימון</string>
     <string name="startGroupTraining">התחל אימון קבוצתי</string>
     <string name="reserveSpot">שריין מקום</string>
-    <string name="search_fields">חיפוש מגרשים</string>
+    <string name="search_fields">חיפוש מגרשים כללי</string>
     <string name="my_activity">הפעילויות שלי</string>
     <string name="turnirs_and_trainings">טורנירים ואימונים</string>
     <string name="my_activities">הפעילויות שלי</string>
@@ -44,4 +44,5 @@
     <string name="select_type_of_field">בחר סוג מגרש</string>
     <string name="remove_field">הסר מגרש</string>
     <string name="gym_area">אזור כושר</string>
+    <string name="search_fields_by_address">חיפוש מגרשים לפי כתובת</string>
 </resources>

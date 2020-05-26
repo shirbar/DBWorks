@@ -1,45 +1,32 @@
 package com.myapp.fieldsbs;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button TurnirsBtn, AviliableBtn, logOutBtn, MyReserveBtn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+        Button turnirsBtn = findViewById(R.id.TurnirsBtn);
+        Button aviliableBtn = findViewById(R.id.AviliableBtn);
+        Button logOutBtn = findViewById(R.id.logoutBtn);
+        Button myReserveBtn = findViewById(R.id.MyReserveBtn);
+        Button searchAddressBtn = findViewById(R.id.searchAddressBtn);
 
-        TurnirsBtn = (Button)findViewById(R.id.TurnirsBtn);
-        AviliableBtn = (Button)findViewById(R.id.AviliableBtn);
-        logOutBtn = (Button)findViewById(R.id.logoutBtn);
-        MyReserveBtn = (Button)findViewById(R.id.MyReserveBtn);
-
-        TurnirsBtn.setOnClickListener(new View.OnClickListener() {
+        turnirsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Turnir();
             }
         });
 
-        AviliableBtn.setOnClickListener(new View.OnClickListener() {
+        aviliableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             aviliable();
@@ -53,10 +40,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MyReserveBtn.setOnClickListener(new View.OnClickListener() {
+        myReserveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Reservations();
+            }
+        });
+
+        searchAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addressSearch();
             }
         });
 
@@ -69,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void aviliable() {
         Intent i = new Intent(MainActivity.this,AviliableActivity.class);
+        i.putExtra("command", "available");
         startActivity(i);
     }
 
@@ -81,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
     private void Reservations() {
             Intent i = new Intent(MainActivity.this, ReservationActivity.class);
             startActivity(i);
+    }
+
+    private void addressSearch() {
+        Intent i = new Intent(MainActivity.this, AviliableActivity.class);
+        i.putExtra("command", "address");
+        startActivity(i);
     }
 
     @Override
