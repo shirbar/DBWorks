@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void aviliable() {
         Intent i = new Intent(MainActivity.this,AviliableActivity.class);
-        i.putExtra("command", "available");
+        i.putExtra("command", "normal");
         startActivity(i);
     }
 
@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addressSearch() {
-        Intent i = new Intent(MainActivity.this, AviliableActivity.class);
-        i.putExtra("command", "address");
+        Intent i = new Intent(MainActivity.this, AddressSelectActivity.class);
         startActivity(i);
     }
 
