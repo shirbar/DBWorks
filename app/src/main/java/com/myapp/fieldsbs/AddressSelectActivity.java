@@ -28,7 +28,7 @@ public class AddressSelectActivity extends AppCompatActivity {
 
 
     DatabaseReference addressRef;
-    ArrayList<String> neighborhoodList;
+    ArrayList<String> neighborhoodList, badPlacesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +39,51 @@ public class AddressSelectActivity extends AppCompatActivity {
         Button backBtn = findViewById(R.id.backBtn2);
         final Spinner addressSpinner = findViewById(R.id.addressSpinner);
         neighborhoodList = new ArrayList<>();
+        badPlacesList = new ArrayList<>();
+        badPlacesList.add("א. תעשיה");
+        badPlacesList.add("יער רמות");
+        badPlacesList.add("נווה מנחם - עמק שרה");
+        badPlacesList.add("מ. אזרחי");
+        badPlacesList.add("ב - קריית גנים");
+        badPlacesList.add("רמות - קריית הייטק");
+        badPlacesList.add("עמק שרה");
+        badPlacesList.add("כלניות");
 
         addressRef = FirebaseDatabase.getInstance().getReference().child("Streets");
         addressRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (!ds.child("neighborhood").getValue().toString().equals("") && !neighborhoodList.contains(ds.child("neighborhood").getValue().toString())) {
-                        neighborhoodList.add(ds.child("neighborhood").getValue().toString());
+                    if (!Objects.requireNonNull(ds.child("neighborhood").getValue()).toString().equals("") && !badPlacesList.contains(Objects.requireNonNull(ds.child("neighborhood").getValue()).toString()) && !neighborhoodList.contains(Objects.requireNonNull(ds.child("neighborhood").getValue()).toString())) {
+                        neighborhoodList.add(Objects.requireNonNull(ds.child("neighborhood").getValue()).toString());
                     }
                 }
+                neighborhoodList.add("חצרים");
+                neighborhoodList.add("נאות אילן");
+                neighborhoodList.add("נאות לון");
+                neighborhoodList.add("נחל בקע");
 
-                //still need to edit the above to get read of unappropriated places to live in.
+                Collections.sort(neighborhoodList, String.CASE_INSENSITIVE_ORDER);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(AddressSelectActivity.this, R.layout.customize_viewlist, neighborhoodList);
+                spinnerArrayAdapter.setDropDownViewResource(R.layout.customize_viewlist);
+                addressSpinner.setAdapter(spinnerArrayAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+/*
+
+        addressRef = FirebaseDatabase.getInstance().getReference().child("Fields");
+        addressRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (!ds.child("neighborho").getValue().toString().equals("") && !neighborhoodList.contains(ds.child("neighborho").getValue().toString())) {
+                        neighborhoodList.add(ds.child("neighborho").getValue().toString());
+                    }
+                }
 
                 Collections.sort(neighborhoodList, String.CASE_INSENSITIVE_ORDER);
                 ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(AddressSelectActivity.this, R.layout.customize_viewlist, neighborhoodList);
@@ -67,6 +99,7 @@ public class AddressSelectActivity extends AppCompatActivity {
         });
 
 
+ */
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +120,4 @@ public class AddressSelectActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 }
