@@ -29,7 +29,7 @@ public class FootballActivity extends AppCompatActivity {
     Button nextBtn, backBtn;
     DatabaseReference fieldRef, usersRef;
     FirebaseAuth fAuth;
-    String id, key, name, userName;
+    String id, key, name, userName, command, neighborhood;
     ArrayList<String> keyList, nameList, typeList, lightList, neighborhoodList, streetList, showList;
     ListView myList;
 
@@ -55,6 +55,10 @@ public class FootballActivity extends AppCompatActivity {
         id= fAuth.getUid();
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        //get the type of the command (normal, or by address)
+        command = getIntent().getStringExtra("command");
+        neighborhood = getIntent().getStringExtra("neighborhood");
+
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,29 +78,42 @@ public class FootballActivity extends AppCompatActivity {
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
-                            //do nothing
-                        }
-                        else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
-                        || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
-                        || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
-
-                            keyList.add(Objects.requireNonNull(ds.getKey()));
-                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
-                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
-                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
-                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
-
-
+                        if (!Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
+                                && !Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
+                                && !Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")) {
+                            if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורגל")
+                                    || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קטרגל")
+                                    || Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("קט רגל")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורגל")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("אצטדיון")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מיני פיץ")
+                                    || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("קט רגל")){
+                                if (command.equals("address")){
+                                    AddressHelper helper = new AddressHelper();
+                                    helper.setValues();
+                                    ArrayList<String> myNeighborhoods = helper.dictionary.get(neighborhood);
+                                    for (int i = 0; i < myNeighborhoods.size(); i++){
+                                        if (Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals(myNeighborhoods.get(i))) {
+                                            keyList.add(Objects.requireNonNull(ds.getKey()));
+                                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
+                                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
+                                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+                                        }
+                                    }
+                                }
+                                else{
+                                    keyList.add(Objects.requireNonNull(ds.getKey()));
+                                    typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                                    nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                                    neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
+                                    streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
+                                    lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+                                }
+                            }
                         }
                     }
                 }
@@ -125,7 +142,6 @@ public class FootballActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (userSelect.getText().toString().equals("בחר מגרש")){
                     Toast.makeText(FootballActivity.this, "בבקשה תבחר מגרש מתוך הרשימה.", Toast.LENGTH_SHORT).show();
-
                 }
                 else{
                     Intent intent = new Intent(getBaseContext(), FieldsActivity.class);
@@ -134,6 +150,8 @@ public class FootballActivity extends AppCompatActivity {
                     intent.putExtra("id", id);
                     intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
+                    intent.putExtra("command", command);
+                    intent.putExtra("neighborhood", neighborhood);
                     startActivity(intent);
                 }
             }
@@ -142,12 +160,15 @@ public class FootballActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), AviliableActivity.class);
+                Intent intent = new Intent(FootballActivity.this, AviliableActivity.class);
+                intent.putExtra("command", command);
+                if (command.equals("address"))
+                    intent.putExtra("neighborhood", neighborhood);
+                else
+                    intent.putExtra("neighborhood", "none");
                 startActivity(intent);
             }
         });
-
-
     }
 
     void setView(){
@@ -168,12 +189,16 @@ public class FootballActivity extends AppCompatActivity {
         }
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
-
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(FootballActivity.this, AviliableActivity.class));
-
+        Intent intent = new Intent(FootballActivity.this, AviliableActivity.class);
+        intent.putExtra("command", command);
+        if (command.equals("address"))
+            intent.putExtra("neighborhood", neighborhood);
+        else
+            intent.putExtra("neighborhood", "none");
+        startActivity(intent);
     }
 }

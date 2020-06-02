@@ -38,7 +38,7 @@ import java.util.Objects;
 public class GymAreasActivity extends AppCompatActivity {
 
     boolean today = false, alreadySigned = false;
-    String key, id, type, date, fieldName, userName, UserId;
+    String key, id, type, date, fieldName, userName, UserId, command, neighborhood;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
     DatabaseReference managementRef, usersRef;
@@ -81,6 +81,8 @@ public class GymAreasActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
+        command = getIntent().getStringExtra("command");
+        neighborhood = getIntent().getStringExtra("neighborhood");
         fieldTxt.setText( "שם האזור: " + fieldName);
 
         dateTxt.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +140,13 @@ public class GymAreasActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(GymAreasActivity.this, GymActivity.class));
+                Intent intent = new Intent(GymAreasActivity.this, GymActivity.class);
+                intent.putExtra("command", command);
+                if (command.equals("address"))
+                    intent.putExtra("neighborhood", neighborhood);
+                else
+                    intent.putExtra("neighborhood", "none");
+                startActivity(intent);
             }
         });
 
@@ -275,7 +283,6 @@ public class GymAreasActivity extends AppCompatActivity {
                     }
                     else{
                         showList.add("|שעות:                     " + hoursList.get(i) + "\n|זמינות:                   " + statusList.get(i) + "\n|מספר משתתפים: " + numOfPlayersList.get(i) + "/10" + "\n|סוג:                        " + typeList.get(i) + "\n|שם האחראי:         " + creatorList.get(i));
-                        System.out.println(showList.get(i));
                     }
                 }
                 showView();

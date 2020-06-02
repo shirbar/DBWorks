@@ -3,6 +3,7 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -45,6 +46,7 @@ public class AdminMainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         userRef = database.getReference(USERS);
         userRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {

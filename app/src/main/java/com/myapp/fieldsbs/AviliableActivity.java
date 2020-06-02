@@ -21,19 +21,15 @@ public class AviliableActivity extends AppCompatActivity {
 
         //getting the data from the previous intent with getStringExtra
         final String command = getIntent().getStringExtra("command");
-        String neighborhood = "";
-        assert command != null;
-        if (command.equals("address"))
-            neighborhood = getIntent().getStringExtra("neighborhood");
+        final String neighborhood = getIntent().getStringExtra("neighborhood");
 
-        final String finalNeighborhood = neighborhood;
         footballBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("doing football");
                 Intent i =  new Intent(AviliableActivity.this, FootballActivity.class);
                 i.putExtra("command", command);
-                i.putExtra("neighborhood", finalNeighborhood);
+                i.putExtra("neighborhood", neighborhood);
                 startActivity(i);
             }
         });
@@ -43,7 +39,7 @@ public class AviliableActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i =  new Intent(AviliableActivity.this, BasketballActivity.class);
                 i.putExtra("command", command);
-                i.putExtra("neighborhood", finalNeighborhood);
+                i.putExtra("neighborhood", neighborhood);
                 startActivity(i);
             }
         });
@@ -54,7 +50,7 @@ public class AviliableActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i =  new Intent(AviliableActivity.this, GymActivity.class);
                 i.putExtra("command", command);
-                i.putExtra("neighborhood", finalNeighborhood);
+                i.putExtra("neighborhood", neighborhood);
                 startActivity(i);
             }
         });

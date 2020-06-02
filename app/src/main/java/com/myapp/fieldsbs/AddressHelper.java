@@ -1,9 +1,7 @@
 package com.myapp.fieldsbs;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 public class AddressHelper {
@@ -127,11 +125,5 @@ public class AddressHelper {
         dictionary.put("עיר עתיקה", Old_City);
         dictionary.put("קרית יהודית", Kiryat_Yehudit);
         dictionary.put("רמות", Ramot);
-    }
-
-    ArrayList<String> getCloseNeighborhood(String neigh){
-        ArrayList<String> neighList;
-        neighList = dictionary.get(neigh);
-        return neighList;
     }
 }

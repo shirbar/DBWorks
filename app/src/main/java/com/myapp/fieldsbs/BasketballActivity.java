@@ -3,9 +3,7 @@ package com.myapp.fieldsbs;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,14 +14,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -33,7 +29,7 @@ public class BasketballActivity extends AppCompatActivity {
     Button nextBtn, backBtn;
     DatabaseReference fieldRef, usersRef;
     FirebaseAuth fAuth;
-    String id, key, name, userName;
+    String id, key, name, userName, command, neighborhood;
     ArrayList<String> keyList, nameList, typeList, lightList, neighborhoodList, streetList, showList;
     ListView myList;
 
@@ -47,6 +43,10 @@ public class BasketballActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextBtn);
         backBtn = findViewById(R.id.goBackBtn);
         fAuth = FirebaseAuth.getInstance();
+
+        //get the type of the command (normal, or by address)
+        command = getIntent().getStringExtra("command");
+        neighborhood = getIntent().getStringExtra("neighborhood");
 
         keyList = new ArrayList<>();
         nameList = new ArrayList<>();
@@ -78,22 +78,36 @@ public class BasketballActivity extends AppCompatActivity {
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("פעיל")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("כן")
                     || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals("")) {
-                        if (Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
-                                || Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")){
-                            //do nothing
-                        }
-                        else if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורסל")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורסל")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
-                        || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")){
-
-                            keyList.add(Objects.requireNonNull(ds.getKey()));
-                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
-                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
-                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
-                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
-                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+                        if (!Objects.requireNonNull(ds.child("Type").getValue()).toString().equals("")
+                                && !Objects.requireNonNull(ds.child("street").getValue()).toString().equals("")
+                                && !Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals("")) {
+                            if (Objects.requireNonNull(ds.child("SportType").getValue()).toString().contains("כדורסל")
+                            || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("כדורסל")
+                            || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("ספורט משולב")
+                            || Objects.requireNonNull(ds.child("Type").getValue()).toString().contains("מגרש משולב")) {
+                                if (command.equals("address")) {
+                                    AddressHelper helper = new AddressHelper();
+                                    helper.setValues();
+                                    ArrayList<String> myNeighborhoods = helper.dictionary.get(neighborhood);
+                                    for (int i = 0; i < myNeighborhoods.size(); i++) {
+                                        if (Objects.requireNonNull(ds.child("neighborho").getValue()).toString().equals(myNeighborhoods.get(i))) {
+                                            keyList.add(Objects.requireNonNull(ds.getKey()));
+                                            typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                                            nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                                            neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
+                                            streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
+                                            lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+                                        }
+                                    }
+                                } else {
+                                    keyList.add(Objects.requireNonNull(ds.getKey()));
+                                    typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
+                                    nameList.add(Objects.requireNonNull(ds.child("Name").getValue()).toString());
+                                    neighborhoodList.add(Objects.requireNonNull(ds.child("neighborho").getValue()).toString());
+                                    streetList.add(Objects.requireNonNull(ds.child("street").getValue()).toString());
+                                    lightList.add(Objects.requireNonNull(ds.child("lighting").getValue()).toString());
+                                }
+                            }
                         }
                     }
                 }
@@ -130,6 +144,8 @@ public class BasketballActivity extends AppCompatActivity {
                     intent.putExtra("id", id);
                     intent.putExtra("fieldName", name);
                     intent.putExtra("userName", userName);
+                    intent.putExtra("command", command);
+                    intent.putExtra("neighborhood", neighborhood);
                     startActivity(intent);
                 }
             }
@@ -138,7 +154,12 @@ public class BasketballActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), AviliableActivity.class);
+                Intent intent = new Intent(BasketballActivity.this, AviliableActivity.class);
+                intent.putExtra("command", command);
+                if (command.equals("address"))
+                    intent.putExtra("neighborhood", neighborhood);
+                else
+                    intent.putExtra("neighborhood", "none");
                 startActivity(intent);
             }
         });
@@ -169,8 +190,13 @@ public class BasketballActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(BasketballActivity.this, AviliableActivity.class));
-
+        Intent intent = new Intent(BasketballActivity.this, AviliableActivity.class);
+        intent.putExtra("command", command);
+        if (command.equals("address"))
+            intent.putExtra("neighborhood", neighborhood);
+        else
+            intent.putExtra("neighborhood", "none");
+        startActivity(intent);
     }
 
 }

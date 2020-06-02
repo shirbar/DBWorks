@@ -38,7 +38,7 @@ import java.util.Objects;
 public class FieldsActivity extends AppCompatActivity {
 
     boolean today = false, alreadySigned = false;
-    String key, id, type, date, fieldName, userName, UserId;
+    String key, id, type, date, fieldName, userName, UserId, command, neighborhood;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
     DatabaseReference managementRef, usersRef;
@@ -82,6 +82,8 @@ public class FieldsActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         fieldName = getIntent().getStringExtra("fieldName");
         userName = getIntent().getStringExtra("userName");
+        command = getIntent().getStringExtra("command");
+        neighborhood = getIntent().getStringExtra("neighborhood");
         fieldTxt.setText("שם המגרש: " + fieldName);
 
 
@@ -140,7 +142,17 @@ public class FieldsActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FieldsActivity.this, FootballActivity.class));
+                Intent intent;
+                if (type.equals("כדורגל"))
+                    intent = new Intent(FieldsActivity.this, FootballActivity.class);
+                else
+                    intent = new Intent(FieldsActivity.this, BasketballActivity.class);
+                intent.putExtra("command", command);
+                if (command.equals("address"))
+                    intent.putExtra("neighborhood", neighborhood);
+                else
+                    intent.putExtra("neighborhood", "none");
+                startActivity(intent);
             }
         });
 
@@ -161,7 +173,6 @@ public class FieldsActivity extends AppCompatActivity {
                                 fullAssign();
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -208,7 +219,6 @@ public class FieldsActivity extends AppCompatActivity {
                                 }
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -231,19 +241,16 @@ public class FieldsActivity extends AppCompatActivity {
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("type").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child("0" + i + ":00-0" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
                         } else if (i == 9) {
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
                             managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child("0" + i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
                         } else {
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("status").setValue("פנוי");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("numofPlayers").setValue("0");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("type").setValue("ריק");
                             managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("creator").setValue("ריק");
-                            //managementRef.child(key).child(date).child(i + ":00-" + (i + 1) + ":00").child("namesList").child("0").setValue("ריק");
                         }
                     }
                 }
@@ -268,11 +275,7 @@ public class FieldsActivity extends AppCompatActivity {
                     numOfPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
                     creatorList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
-                    /*
-                    int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
-                    for (int i = 0; i < numberofPlayers; i++)
-                        namesList[j].add(Objects.requireNonNull(ds.child("namesList").child(String.valueOf(i)).getValue()).toString());
-                     */
+
                 }
                 for (int i = 0; i < statusList.size(); i++) {
                     if (statusList.get(i).equals("פנוי")) {

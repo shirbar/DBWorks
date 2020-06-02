@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private void aviliable() {
         Intent i = new Intent(MainActivity.this,AviliableActivity.class);
         i.putExtra("command", "normal");
+        i.putExtra("neighborhood", "none");
         startActivity(i);
     }
 

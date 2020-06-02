@@ -79,7 +79,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         btnBasketball = findViewById(R.id.btnBasketball);
         btnGym = findViewById(R.id.btnGym);
 
-        chooseFieldSpinner = (Spinner) findViewById(R.id.spinnerChooseField);
+        chooseFieldSpinner = findViewById(R.id.spinnerChooseField);
         lblScreen = findViewById(R.id.lblScreen);
 
         // Field picker
@@ -91,7 +91,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     // Check if the field is open for registration at all
-                    if(ds.child("Activity").getValue().toString().contains("פתוח") || ds.child("Activity").getValue().toString().contains("פעיל") || ds.child("Activity").getValue().toString().equals(""))
+                    if(Objects.requireNonNull(ds.child("Activity").getValue()).toString().contains("פתוח") || Objects.requireNonNull(ds.child("Activity").getValue()).toString().contains("פעיל") || Objects.requireNonNull(ds.child("Activity").getValue()).toString().equals(""))
                     {
                         keyList.add(Objects.requireNonNull(ds.getKey()));
                         typeList.add(Objects.requireNonNull(ds.child("Type").getValue()).toString());
@@ -102,7 +102,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 // Spinner initialize (fields select)
                 filteredFieldsList = fieldsList;
                 filteredKeysList = keyList;
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
+                ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
                 //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 chooseFieldSpinner.setAdapter(spinnerArrayAdapter);
@@ -182,7 +182,6 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 // #TODO3 make this really change the sleected field ID
                 // Update the field KEY
                 key = filteredKeysList.get(chooseFieldSpinner.getSelectedItemPosition());
-                Object test = chooseFieldSpinner.getSelectedItem();
                 view.setSelected(true);
                 lblScreen.setText(showList.get(position).substring(23,34));
                 //name = nameList.get(position);
@@ -228,8 +227,8 @@ public class ManageFieldsActivity extends AppCompatActivity {
                     statusList.add(Objects.requireNonNull(ds.child("status").getValue()).toString());
 
                     // Update num of participients on list
-                    if(ds.child("numofPlayers").getValue().toString() != "0"){
-                        numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue().toString()));
+                    if(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString() != "0"){
+                        numofPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     }
                     else{
                         numofPlayersList.add(Objects.requireNonNull("0"));
@@ -303,7 +302,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
             // Check if this field the same type as requested
             if(currFieldId < typeList.size())
             {
-                if(typeList.get(currFieldId).contains(type) || ((type=="כדורסל" || type=="כדורגל")&&typeList.get(currFieldId).contains("משולב"))) {
+                if(typeList.get(currFieldId).contains(type) || ((type.equals("כדורסל") || type.equals("כדורגל"))&&typeList.get(currFieldId).contains("משולב"))) {
                     filteredFieldsList.add(fieldsList.get(currFieldId));
                     filteredKeysList.add(keyList.get(currFieldId));
                 }
@@ -311,7 +310,7 @@ public class ManageFieldsActivity extends AppCompatActivity {
         }
 
         // Update the spinner optoins values
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
+        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(ManageFieldsActivity.this, android.R.layout.simple_spinner_item, filteredFieldsList);
         //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseFieldSpinner.setAdapter(spinnerArrayAdapter);

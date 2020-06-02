@@ -73,8 +73,10 @@ public class AddressSelectActivity extends AppCompatActivity {
 
             }
         });
-/*
 
+
+        //to see all of the neighborhoods of the fields.
+/*
         addressRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         addressRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -97,14 +99,11 @@ public class AddressSelectActivity extends AppCompatActivity {
 
             }
         });
-
-
  */
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String neighborhood = neighborhoodList.get(addressSpinner.getSelectedItemPosition());
-                System.out.println(neighborhood);
                 Intent i = new Intent(AddressSelectActivity.this, AviliableActivity.class);
                 i.putExtra("command", "address");
                 i.putExtra("neighborhood", neighborhood);
