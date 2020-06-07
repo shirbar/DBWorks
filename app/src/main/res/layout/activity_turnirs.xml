@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".TurnirsActivity"
+android:id="@+id/turnirsLayout">
+
+<ImageView
+    android:id="@+id/imageView12"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TurnirsActivity"
-    android:id="@+id/turnirsLayout">
+    android:contentDescription="@string/my_activity"
+    android:scaleType="centerCrop"
+    android:scrollbarAlwaysDrawHorizontalTrack="false"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/football_background_img" />
+
+<Button
+    android:id="@+id/goBackBtn2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:text="@string/back"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/HeadLine"
+        style="@android:style/Widget.DeviceDefault.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="100dp"
+        android:text="אימוני הכושר שלי"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints,UnknownId" />
+
+<ListView
+    android:id="@+id/listActivity"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    app:layout_constraintBottom_toTopOf="@+id/RemoveBtn"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/HeadLine"
+    tools:ignore="MissingConstraints" />
+
+<Button
+    android:id="@+id/RemoveBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="100dp"
+    android:layout_marginEnd="100dp"
+    android:layout_marginBottom="20dp"
+    android:text="@string/remove_activity"
+    app:layout_constraintBottom_toTopOf="@+id/goBackBtn2"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
