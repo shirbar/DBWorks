@@ -42,25 +42,4 @@ public class AviliableActivityTest {
         onView(withId(R.id.backBtn)).perform(click());
         onView(withId(R.id.mainLayout)).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void test_footballButton_navigate_properly() {
-        ActivityScenario.launch(AviliableActivity.class);
-        onView(withId(R.id.btnFootball)).perform(click());
-        onView(withId(R.id.footballLayout)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void test_basketballButton_navigate_properly() {
-        ActivityScenario.launch(AviliableActivity.class);
-        onView(withId(R.id.basketballBtn)).perform(click());
-        onView(withId(R.id.basketballLayout)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void test_gymButton_navigate_properly() {
-        ActivityScenario.launch(AviliableActivity.class);
-        onView(withId(R.id.gymBtn)).perform(click());
-        onView(withId(R.id.gymLayout)).check(matches(isDisplayed()));
-    }
 }

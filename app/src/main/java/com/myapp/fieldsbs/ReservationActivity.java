@@ -29,7 +29,7 @@ public class ReservationActivity extends AppCompatActivity {
     String UserRef, userName;
     ArrayList<String> ShowList, FieldIdList,DateList, HourList, ActivityIdList;
     String date, fieldId, fieldname, hour, type, ActivityId;
-    int Position1=-1;
+    int Position1 = -1;
 
 
     @Override
@@ -69,7 +69,8 @@ public class ReservationActivity extends AppCompatActivity {
                 date = DateList.get(position);
                 hour = HourList.get(position);
                 fieldId = FieldIdList.get(position);
-                Position1 = position;
+                if (fieldId != null)
+                    Position1 = position;
 
             }
         });
