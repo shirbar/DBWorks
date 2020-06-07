@@ -305,7 +305,7 @@ public class GymAreasActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue(type);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
 
-        Assign_To_My_Activities();
+        Assign_To_My_Trainings();
     }
 
     public void addPlayer(){
@@ -317,7 +317,7 @@ public class GymAreasActivity extends AppCompatActivity {
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("numofPlayers").setValue(String.valueOf(playersNum));
                 managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
 
-                Assign_To_My_Activities();
+                Assign_To_My_Trainings();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -332,7 +332,7 @@ public class GymAreasActivity extends AppCompatActivity {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("type").setValue("אימון קבוצתי");
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("participantList").child(id).child("name").setValue(userName);
 
-        Assign_To_My_Activities();
+        Assign_To_My_Trainings();
 
     }
 
@@ -345,7 +345,7 @@ public class GymAreasActivity extends AppCompatActivity {
         numOfPlayersList.clear();
     }
 
-    private void Assign_To_My_Activities() {
+    private void Assign_To_My_Trainings() {
         HashMap<String, Object> Activity = new HashMap<>();
 
         Activity.put("Field name",fieldName);
@@ -354,7 +354,7 @@ public class GymAreasActivity extends AppCompatActivity {
         Activity.put("Date", date);
         Activity.put("Hour",userSelect.getText().toString());
 
-        usersRef.child(UserId).child("Activities").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+        usersRef.child(UserId).child("fitnessWorkouts").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
