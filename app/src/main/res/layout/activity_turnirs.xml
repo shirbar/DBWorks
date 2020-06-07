@@ -7,16 +7,16 @@ android:layout_height="match_parent"
 tools:context=".TurnirsActivity"
 android:id="@+id/turnirsLayout">
 
-<ImageView
-    android:id="@+id/imageView12"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:contentDescription="@string/my_activity"
-    android:scaleType="centerCrop"
-    android:scrollbarAlwaysDrawHorizontalTrack="false"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:srcCompat="@drawable/football_background_img" />
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/my_activity"
+        android:scaleType="centerCrop"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gym_img" />
 
 <Button
     android:id="@+id/goBackBtn2"
