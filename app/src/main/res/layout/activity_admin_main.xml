@@ -5,7 +5,7 @@
     android:id="@+id/adminMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/Settings"
+    android:background="@drawable/adminbg"
     tools:context=".AdminMainActivity">
 
     <TextView
