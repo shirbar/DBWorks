@@ -100,7 +100,7 @@ public class TurnirsActivity extends AppCompatActivity {
         //Delete from user activity in fire base:
         fAtuth = FirebaseAuth.getInstance();
         UserRef = fAtuth.getUid();
-        ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("Activities");
+        ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("FitnessWorkouts");
         ActivityRef.child(ActivityIdList.get(Position1)).removeValue();
 
         //Delete from Management the place this user holds.
@@ -114,41 +114,9 @@ public class TurnirsActivity extends AppCompatActivity {
                 String numOfPlayers = Objects.requireNonNull(dataSnapshot.child("numofPlayers").getValue()).toString();
                 String type = Objects.requireNonNull(dataSnapshot.child("type").getValue()).toString();
 
-                //if it's football or basketball field
-                if (type.equals("כדורגל") || type.equals("כדורסל"))
+                // Make sure it's a gym field
+                if(!type.equals("כדורגל") && !type.equals("כדורסל"))
                 {
-                    //if it's full (that person reserved the whole field)
-                    if (numOfPlayers.equals("מלא")){
-                        managementRef.child("creator").setValue("ריק");
-                        managementRef.child("numofPlayers").setValue("0");
-                        managementRef.child("status").setValue("פנוי");
-                        managementRef.child("type").setValue("ריק");
-                    }
-                    //if he's the only one that assigned to this field
-                    else if (numOfPlayers.equals("1")){
-                        managementRef.child("creator").setValue("ריק");
-                        managementRef.child("numofPlayers").setValue("0");
-                        managementRef.child("status").setValue("פנוי");
-                        managementRef.child("type").setValue("ריק");
-                    }
-                    //if there are more people assigned to this field.
-                    else{
-                        int newPlayersNumber = Integer.parseInt(numOfPlayers) - 1;
-                        managementRef.child("numofPlayers").setValue(String.valueOf(newPlayersNumber));
-                        String creator = Objects.requireNonNull(dataSnapshot.child("creator").getValue()).toString();
-                        //if its the same person as the creator
-                        if (creator.equals(userName)){
-                            String newCreator;
-                            for (DataSnapshot data : dataSnapshot.child("participantList").getChildren()){
-                                newCreator = Objects.requireNonNull(data.child("name").getValue()).toString();
-                                managementRef.child("creator").setValue(newCreator);
-                                break;
-                            }
-                        }
-                    }
-                }
-                //if it's a gym field
-                else{
                     //if he is the owner of the group field
                     if (type.equals("אימון קבוצתי")){
                         managementRef.child("participantList").removeValue();
@@ -179,8 +147,10 @@ public class TurnirsActivity extends AppCompatActivity {
                             }
                         }
                     }
+
+                    // Display UI update badge  for the user
+                    Toast.makeText(TurnirsActivity.this, "הפעילות נמחקה בהצלחה.", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(TurnirsActivity.this, "הפעילות נמחקה בהצלחה.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
