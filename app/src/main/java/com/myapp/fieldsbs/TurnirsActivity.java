@@ -51,7 +51,7 @@ public class TurnirsActivity extends AppCompatActivity {
 
         fAtuth = FirebaseAuth.getInstance();
         UserRef = fAtuth.getUid();
-        ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("Activities");
+        ActivityRef = FirebaseDatabase.getInstance().getReference().child("Users").child(UserRef).child("FitnessWorkouts");
         getUserName();
 
         setView();

@@ -358,7 +358,7 @@ public class GymAreasActivity extends AppCompatActivity {
         Activity.put("Date", date);
         Activity.put("Hour",userSelect.getText().toString());
 
-        usersRef.child(UserId).child("fitnessWorkouts").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
+        usersRef.child(UserId).child("FitnessWorkouts").push().setValue(Activity).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
