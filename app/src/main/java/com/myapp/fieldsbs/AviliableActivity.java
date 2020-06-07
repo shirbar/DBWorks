@@ -26,7 +26,6 @@ public class AviliableActivity extends AppCompatActivity {
         footballBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("doing football");
                 Intent i =  new Intent(AviliableActivity.this, FootballActivity.class);
                 i.putExtra("command", command);
                 i.putExtra("neighborhood", neighborhood);

@@ -41,7 +41,7 @@ public class GymAreasActivity extends AppCompatActivity {
     String key, id, type, date, fieldName, userName, UserId, command, neighborhood;
     TextView dateTxt, fieldTxt, userSelect;
     DatePickerDialog.OnDateSetListener mDateListener;
-    DatabaseReference managementRef, usersRef;
+    DatabaseReference managementRef, usersRef, measurementRef;
     Button backBtn, startGroupTrainingBtn, assignPlayerBtn;
     ListView myList;
     ArrayList<String> showList, hoursList, statusList, typeList, numOfPlayersList, creatorList, usersList;
@@ -56,6 +56,7 @@ public class GymAreasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gym_areas);
         managementRef = FirebaseDatabase.getInstance().getReference().child("Management");
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        measurementRef = FirebaseDatabase.getInstance().getReference().child("AddressMeasurement");
         dateTxt = findViewById(R.id.dateTxt);
         fieldTxt = findViewById(R.id.fieldName);
         myList = findViewById(R.id.listView);
@@ -346,6 +347,9 @@ public class GymAreasActivity extends AppCompatActivity {
     }
 
     private void Assign_To_My_Trainings() {
+        if (command.equals("address"))
+            neighborhoodMeasurement(neighborhood);
+
         HashMap<String, Object> Activity = new HashMap<>();
 
         Activity.put("Field name",fieldName);
@@ -363,6 +367,25 @@ public class GymAreasActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(GymAreasActivity.this, "הפעילות לא התווספה בהצלחה- אנא נסה שנית", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void neighborhoodMeasurement(final String neigh){
+        measurementRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild(neigh)){
+                    measurementRef.child(neigh).setValue("1");
+                }
+                else{
+                    String old_value = Objects.requireNonNull(dataSnapshot.child(neigh).getValue()).toString();
+                    String new_value = String.valueOf(Integer.parseInt(old_value) + 1);
+                    measurementRef.child(neigh).setValue(new_value);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
