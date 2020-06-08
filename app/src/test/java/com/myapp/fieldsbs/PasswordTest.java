@@ -1,14 +1,10 @@
 package com.myapp.fieldsbs;
 
-
 import org.junit.Test;
-
 
 import static org.junit.Assert.*;
 
-
-public class PasswordValidatorTest {
-
+public class PasswordTest {
 
     @Test
     public void passwordValidator_NumberAndLettersCheck_ReturnsTrue() {
@@ -44,6 +40,5 @@ public class PasswordValidatorTest {
     public void emailValidator_EmptyPasswordCheck_ReturnsFalse() {
         assertFalse(PasswordValidator.isValidPassword(""));
     }
-
 
 }
