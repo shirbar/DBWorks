@@ -27,6 +27,7 @@ public class ReservationActivity extends AppCompatActivity {
     DatabaseReference ActivityRef, managementRef, usersRef;
     FirebaseAuth fAtuth;
     String UserRef, userName;
+    static String refUs;
     ArrayList<String> ShowList, FieldIdList,DateList, HourList, ActivityIdList;
     String date, fieldId, fieldname, hour, type, ActivityId;
     int Position1 = -1;
@@ -234,5 +235,18 @@ public class ReservationActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    static boolean getMyAct(String ID) {
+
+        boolean isExist = false;
+
+        // Check if neighboor exist
+        if (refUs == null) {
+            isExist = true;
+        }
+
+        // Ret
+        return isExist;
     }
 }

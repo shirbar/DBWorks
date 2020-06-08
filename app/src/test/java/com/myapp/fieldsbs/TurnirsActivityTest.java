@@ -7,19 +7,22 @@ import static org.junit.Assert.*;
 public class TurnirsActivityTest {
 
     @Test
-    public void onCreate() {
-        //assertTrue(TurnirsActivity.XX("Kfir123456"));
+    public void getMyTurninsAndTrainings() {
+        assertTrue(TurnirsActivity.getMyAct("TestUser1"));
     }
 
     @Test
-    public void deleteActivity() {
+    public void deleteExistedActivity() {
+        assertTrue(TurnirsActivity.getMyAct("TestUser2"));
     }
 
     @Test
-    public void setView() {
+    public void deleteUnExistedActivity() {
+        assertTrue(TurnirsActivity.getMyAct("TestUser3"));
     }
 
     @Test
-    public void clearLists() {
+    public void testClearTurninrsLists() {
+        assertTrue(TurnirsActivity.getMyAct("TestUser4"));
     }
 }
