@@ -134,6 +134,7 @@ public class FootballActivity extends AppCompatActivity {
                 userSelect.setText(nameList.get(position));
                 key = keyList.get(position);
                 name = nameList.get(position);
+                
             }
         });
 
