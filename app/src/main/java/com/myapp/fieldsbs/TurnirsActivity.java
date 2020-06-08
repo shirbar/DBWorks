@@ -95,6 +95,7 @@ public class TurnirsActivity extends AppCompatActivity {
         });
     }
 
+    //delete the activity 
     private void DeleteActivity() {
 
         //Delete from user activity in fire base:
