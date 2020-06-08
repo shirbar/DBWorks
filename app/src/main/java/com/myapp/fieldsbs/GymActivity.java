@@ -69,6 +69,7 @@ public class GymActivity extends AppCompatActivity {
             }
         });
 
+
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -164,6 +165,7 @@ public class GymActivity extends AppCompatActivity {
         });
     }
 
+
     void setView(){
         for (int i = 0; i < nameList.size(); i++){
             if (nameList.get(i).equals("")){
@@ -184,6 +186,7 @@ public class GymActivity extends AppCompatActivity {
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
     }
+
 
     @Override
     public void onBackPressed() {

@@ -231,8 +231,6 @@ public class FieldsActivity extends AppCompatActivity {
 
     }
 
-
-
     public void checkEmptyDate() {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -267,10 +265,6 @@ public class FieldsActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     public void setView() {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -303,7 +297,6 @@ public class FieldsActivity extends AppCompatActivity {
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
     }
-
 
     public void assignPlayer() {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
@@ -354,7 +347,6 @@ public class FieldsActivity extends AppCompatActivity {
         numOfPlayersList.clear();
     }
 
-    
     private void Assign_To_My_Activities() {
         if (command.equals("address"))
             neighborhoodMeasurement(neighborhood);
