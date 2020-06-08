@@ -69,6 +69,7 @@ public class BasketballActivity extends AppCompatActivity {
             }
         });
 
+
         fieldRef = FirebaseDatabase.getInstance().getReference().child("Fields");
         fieldRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -120,6 +121,7 @@ public class BasketballActivity extends AppCompatActivity {
             }
         });
 
+
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -170,7 +172,6 @@ public class BasketballActivity extends AppCompatActivity {
             if (nameList.get(i).equals("")){
                 nameList.set(i, typeList.get(i));
                 showList.add("| שם:       " + typeList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
-
             }
             else if (lightList.get(i).equals("כן")){
                 showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + "קיימת תאורה");
@@ -185,8 +186,6 @@ public class BasketballActivity extends AppCompatActivity {
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
     }
-
-
 
     @Override
     public void onBackPressed() {

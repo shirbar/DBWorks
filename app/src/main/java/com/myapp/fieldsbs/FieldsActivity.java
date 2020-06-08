@@ -46,7 +46,6 @@ public class FieldsActivity extends AppCompatActivity {
     ListView myList;
     ArrayList<String> showList, hoursList, statusList, typeList, numOfPlayersList, creatorList, usersList;
     FirebaseAuth fAuth;
-    //ArrayList<ArrayList<String>> namesList;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -232,6 +231,8 @@ public class FieldsActivity extends AppCompatActivity {
 
     }
 
+
+
     public void checkEmptyDate() {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -267,6 +268,9 @@ public class FieldsActivity extends AppCompatActivity {
     }
 
 
+
+
+
     public void setView() {
         managementRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -300,6 +304,7 @@ public class FieldsActivity extends AppCompatActivity {
         myList.setAdapter(listAdapter);
     }
 
+
     public void assignPlayer() {
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("creator").setValue(userName);
         managementRef.child(key).child(date).child(userSelect.getText().toString()).child("status").setValue("מתקיים");
@@ -328,6 +333,7 @@ public class FieldsActivity extends AppCompatActivity {
         });
     }
 
+
     public void fullAssign() {
         System.out.println("doing full");
 
@@ -348,6 +354,7 @@ public class FieldsActivity extends AppCompatActivity {
         numOfPlayersList.clear();
     }
 
+    
     private void Assign_To_My_Activities() {
         if (command.equals("address"))
             neighborhoodMeasurement(neighborhood);
