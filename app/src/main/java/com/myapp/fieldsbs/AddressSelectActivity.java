@@ -100,6 +100,7 @@ public class AddressSelectActivity extends AppCompatActivity {
             }
         });
  */
+
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,5 +119,29 @@ public class AddressSelectActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    static boolean getNeighboors(String testi) {
+        ArrayList<String> neighbrs = new ArrayList<>();
+        neighbrs.add("א");
+        neighbrs.add("ב");
+        neighbrs.add("יא");
+        neighbrs.add("נאות לון");
+        neighbrs.add("רמות");
+        neighbrs.add("עומר");
+
+        boolean isExist;
+
+        // Check if neighboor exist
+        if (neighbrs.contains(testi)) {
+            isExist = true;
+        }
+        else{
+            // Means neighboor not found
+            isExist = false;
+        }
+
+        // Ret
+        return isExist;
     }
 }
