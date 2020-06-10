@@ -85,17 +85,18 @@ pipeline {
                     mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                     mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
                 }
+                 failure {
+                    echo "sending mail with a failure notification."
+                    mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                    mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                    mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
+                    mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
+                }
+                always{
+                  sh 'cp -r app/build/test-results $WORKSPACE/test-results'
+                  junit(keepLongStdio: true, testResults: '**/test-results/**/**.xml')
+                }
             }
-        }
-    }
-    
-    post {
-        failure {
-            echo "sending mail with a failure notification."
-            mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
-            mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
         }
     }
 }
