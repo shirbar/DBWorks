@@ -13,9 +13,9 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/basketballFields"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/basketball_background_img"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="18dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/basketball_background_img" />
 
     <Button
         android:id="@+id/nextBtn"

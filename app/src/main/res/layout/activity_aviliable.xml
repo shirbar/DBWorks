@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="0dp"
         android:contentDescription="@string/basketballFields"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="0dp"
         android:contentDescription="@string/footballFields"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
@@ -34,7 +34,7 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="0dp"
         android:contentDescription="@string/gymAreas"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
         android:id="@+id/btnFootball"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
         android:text="@string/footballFields"
         app:layout_constraintEnd_toEndOf="parent"
