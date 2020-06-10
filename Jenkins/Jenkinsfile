@@ -73,11 +73,15 @@ pipeline {
             }
         }
 
-        stage('Measurment - Email notification') {
+        stage('Measurment - Tests Table View') {
            steps{
-               echo "email notification stage."
+               echo "tests table view."
             }
             post {
+                always{
+                  sh 'cp -r app/build/test-results $WORKSPACE/test-results'
+                  junit(keepLongStdio: true, testResults: '**/test-results/**/**.xml')
+                }
                 success {
                     echo "sending mail with a successful notification."
                     mail to: "kfir.rn@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} successfully worked; ${env.BUILD_URL}"
@@ -91,10 +95,6 @@ pipeline {
                     mail to: "shirbar1066@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
                     mail to: "hendahan110@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"
                     mail to: "barpg2802@gmail.com", subject: "Build ", body: "Build ${env.BUILD_NUMBER} failed; ${env.BUILD_URL}"            
-                }
-                always{
-                  sh 'cp -r app/build/test-results $WORKSPACE/test-results'
-                  junit(keepLongStdio: true, testResults: '**/test-results/**/**.xml')
                 }
             }
         }
