@@ -45,6 +45,6 @@
     <string name="select_type_of_field">בחר סוג מגרש</string>
     <string name="remove_field">הסר מגרש</string>
     <string name="gym_area">אזור כושר</string>
-    <string name="search_fields_by_address">חיפוש מגרשים לפי כתובת</string>
+    <string name="search_fields_by_neighborhood">חיפוש מגרשים לפי שכונה</string>
     <string name="select_neighborhood">בחר שכונה</string>
 </resources>
