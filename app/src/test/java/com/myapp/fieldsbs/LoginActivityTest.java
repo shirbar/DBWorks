@@ -27,4 +27,18 @@ public class LoginActivityTest {
         assertFalse(result);
     }
 
+    @Test
+    public void loginAction_invalid_email() {
+        LoginActivity myObject = new LoginActivity();
+        boolean result = myObject.loginAction("asdasdasd", "1321915", true);
+        assertFalse(result);
+    }
+
+    @Test
+    public void loginAction_invalid_password() {
+        LoginActivity myObject = new LoginActivity();
+        boolean result = myObject.loginAction("kfir@gmail.com", "12", true);
+        assertFalse(result);
+    }
+
 }

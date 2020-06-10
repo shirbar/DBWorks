@@ -32,7 +32,7 @@ public class RegisterActivityTest {
         boolean result = myObject.registerAction("kfir@gmail.com", "123", "kfir", "0512351651", true);
         assertFalse(result);
     }
-/*
+
     @Test
     public void registerAction_invalid_email() {
         RegisterActivity myObject = new RegisterActivity();
@@ -53,5 +53,5 @@ public class RegisterActivityTest {
         boolean result = myObject.registerAction("kfir@gmail.com", "123456", "k", "0512345515", true);
         assertFalse(result);
     }
-    */
+
 }
