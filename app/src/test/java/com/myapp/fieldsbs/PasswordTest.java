@@ -41,4 +41,9 @@ public class PasswordTest {
         assertFalse(PasswordValidator.isValidPassword(""));
     }
 
+    @Test
+    public void emailValidator_FiveLettersCheck_ReturnsFalse() {
+        assertFalse(PasswordValidator.isValidPassword("ABCDE"));
+    }
+
 }

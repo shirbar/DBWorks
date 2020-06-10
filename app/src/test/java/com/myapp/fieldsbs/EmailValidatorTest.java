@@ -35,4 +35,25 @@ public class EmailValidatorTest {
     public void emailValidator_WithExtraCharactersCheck_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("test@@gmail.com"));
     }
+/*
+    @Test
+    public void emailValidator_EndingWithDot_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("test@gmail."));
+    }
+
+    @Test
+    public void emailValidator_WithTwoDots_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("test@gmail..com"));
+    }
+
+    @Test
+    public void emailValidator_UkDomainCheck_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("test@gmail.co.uk"));
+    }
+
+    @Test
+    public void emailValidator_OrgDomainCheck_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("test@gmail.org"));
+    }
+*/
 }

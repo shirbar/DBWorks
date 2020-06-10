@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class FullNameValidatorTest {
-/*
+
     @Test
     public void fullNameValidator_FirstAndLastNameCheck_ReturnsTrue() {
         assertTrue(FullNameValidator.isValidFullName("Moshe Moshe"));
@@ -36,5 +36,9 @@ public class FullNameValidatorTest {
         assertFalse(FullNameValidator.isValidFullName("mo"));
     }
 
- */
+    @Test
+    public void fullNameValidator_LettersWithDigitsCheck_ReturnsFalse() {
+        assertFalse(FullNameValidator.isValidFullName("Arth3r Mosh3e"));
+    }
+
 }
