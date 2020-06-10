@@ -35,7 +35,7 @@ public class EmailValidatorTest {
     public void emailValidator_WithExtraCharactersCheck_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("test@@gmail.com"));
     }
-/*
+
     @Test
     public void emailValidator_EndingWithDot_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("test@gmail."));
@@ -55,5 +55,5 @@ public class EmailValidatorTest {
     public void emailValidator_OrgDomainCheck_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("test@gmail.org"));
     }
-*/
+
 }

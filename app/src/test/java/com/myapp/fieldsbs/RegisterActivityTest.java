@@ -25,4 +25,33 @@ public class RegisterActivityTest {
         boolean result = myObject.registerAction("kfir@@gmail.com", "12345678", "kfir", "0512351", true);
         assertFalse(result);
     }
+
+    @Test
+    public void registerAction_short_password() {
+        RegisterActivity myObject = new RegisterActivity();
+        boolean result = myObject.registerAction("kfir@gmail.com", "123", "kfir", "0512351651", true);
+        assertFalse(result);
+    }
+/*
+    @Test
+    public void registerAction_invalid_email() {
+        RegisterActivity myObject = new RegisterActivity();
+        boolean result = myObject.registerAction("kfir@gmail", "123456", "kfir", "0512345451", true);
+        assertFalse(result);
+    }
+
+    @Test
+    public void registerAction_invalid_phone_number() {
+        RegisterActivity myObject = new RegisterActivity();
+        boolean result = myObject.registerAction("kfir@gmail.com", "123456", "kfir", "0503", true);
+        assertFalse(result);
+    }
+
+    @Test
+    public void registerAction_invalid_full_name() {
+        RegisterActivity myObject = new RegisterActivity();
+        boolean result = myObject.registerAction("kfir@gmail.com", "123456", "k", "0512345515", true);
+        assertFalse(result);
+    }
+    */
 }
