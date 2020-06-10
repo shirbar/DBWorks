@@ -47,13 +47,13 @@ public class EmailValidatorTest {
     }
 
     @Test
-    public void emailValidator_UkDomainCheck_ReturnsFalse() {
-        assertFalse(EmailValidator.isValidEmail("test@gmail.co.uk"));
+    public void emailValidator_UkDomainCheck_ReturnsTrue() {
+        assertTrue(EmailValidator.isValidEmail("test@gmail.co.uk"));
     }
 
     @Test
-    public void emailValidator_OrgDomainCheck_ReturnsFalse() {
-        assertFalse(EmailValidator.isValidEmail("test@gmail.org"));
+    public void emailValidator_OrgDomainCheck_ReturnsTrue() {
+        assertTrue(EmailValidator.isValidEmail("test@gmail.org"));
     }
 
 }
