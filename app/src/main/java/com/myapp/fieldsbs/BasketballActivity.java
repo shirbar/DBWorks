@@ -126,10 +126,17 @@ public class BasketballActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
-                userSelect.setTextColor(getColor(R.color.userSelect_color));
-                userSelect.setText(nameList.get(position));
-                key = keyList.get(position);
-                name = nameList.get(position);
+                String show = showList.get(position).substring(0, 18);
+                if (show.contains("לא קיימים"))
+                {
+                    userSelect.setText("בחר מגרש");
+                }
+                else {
+                    userSelect.setTextColor(getColor(R.color.userSelect_color));
+                    userSelect.setText(nameList.get(position));
+                    key = keyList.get(position);
+                    name = nameList.get(position);
+                }
             }
         });
 
@@ -183,6 +190,12 @@ public class BasketballActivity extends AppCompatActivity {
                 showList.add("| שם:       " + nameList.get(i) + "\n| תיאור:   " + typeList.get(i) + "\n| שכונה:  " + neighborhoodList.get(i) + "\n| רחוב:    " + streetList.get(i) + "\n| תאורה: " + lightList.get(i));
             }
         }
+
+        if (showList.size() == 0)
+        {
+            showList.add("לא קיימים מגרשי כדורסל בשכונה הזאת.");
+        }
+
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.customize_viewlist, showList);
         myList.setAdapter(listAdapter);
     }

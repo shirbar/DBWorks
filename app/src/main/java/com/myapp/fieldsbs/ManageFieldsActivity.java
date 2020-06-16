@@ -183,7 +183,11 @@ public class ManageFieldsActivity extends AppCompatActivity {
                 // Update the field KEY
                 key = filteredKeysList.get(chooseFieldSpinner.getSelectedItemPosition());
                 view.setSelected(true);
-                lblScreen.setText(showList.get(position).substring(23,34));
+                String show = showList.get(position).substring(23,34);
+                if (show.contains("בתאריך"))
+                    lblScreen.setText("בחר שעה");
+                else
+                    lblScreen.setText(show);
                 //name = nameList.get(position);
             }
         });

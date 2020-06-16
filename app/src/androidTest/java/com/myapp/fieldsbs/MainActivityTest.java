@@ -25,7 +25,7 @@ public class MainActivityTest {
     public void test_AviliableBtn_TurnirsBtn_MyReserveBtn_visibility() {
         ActivityScenario.launch(MainActivity.class);
         onView(withId(R.id.AviliableBtn)).check(matches(withText(R.string.search_fields)));
-        onView(withId(R.id.TurnirsBtn)).check(matches(withText(R.string.turnirs_and_trainings)));
+        onView(withId(R.id.TurnirsBtn)).check(matches(withText(R.string.trainings)));
         onView(withId(R.id.MyReserveBtn)).check(matches(withText(R.string.my_activity)));
     }
 

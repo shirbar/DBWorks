@@ -272,11 +272,7 @@ public class GymAreasActivity extends AppCompatActivity {
                     numOfPlayersList.add(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
                     typeList.add(Objects.requireNonNull(ds.child("type").getValue()).toString());
                     creatorList.add(Objects.requireNonNull(ds.child("creator").getValue()).toString());
-                    /*
-                    int numberofPlayers = Integer.valueOf(Objects.requireNonNull(ds.child("numofPlayers").getValue()).toString());
-                    for (int i = 0; i < numberofPlayers; i++)
-                        namesList[j].add(Objects.requireNonNull(ds.child("namesList").child(String.valueOf(i)).getValue()).toString());
-                     */
+
                 }
                 for (int i = 0; i < statusList.size(); i++){
                     if (statusList.get(i).equals("פנוי")){

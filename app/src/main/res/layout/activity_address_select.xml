@@ -7,6 +7,16 @@
     tools:context=".AddressSelectActivity"
     android:id="@+id/addressLayout">
 
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/select_neighborhood"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/neighborhood_fields" />
+
     <Button
         android:id="@+id/backBtn2"
         android:layout_width="wrap_content"
@@ -55,4 +65,5 @@
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 String id= fAuth.getUid();
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, "Logged in Successfully.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "התחברת בהצלחה.", Toast.LENGTH_SHORT).show();
                                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                                     if (Objects.requireNonNull(ds.child("id").getValue()).toString().equals(id)){
                                         if(Objects.requireNonNull(ds.child("isAdmin").getValue()).toString().equals("true")) {

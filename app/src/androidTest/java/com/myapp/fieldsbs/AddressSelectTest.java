@@ -7,6 +7,8 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -15,6 +17,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.anything;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class AddressSelectTest {
@@ -184,7 +187,7 @@ public class AddressSelectTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.listView)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listView)).atPosition(0).perform(click());
         onView(withId(R.id.nextBtn)).perform(click());
         onView(withId(R.id.gymAreasLayout)).check(matches(isDisplayed()));
         try {
